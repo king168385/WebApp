@@ -1,4 +1,4 @@
-package com.spring.learn.bean;
+package com.lean.Spring.bean;
 
 public interface FortuneService {
 
