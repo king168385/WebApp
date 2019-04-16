@@ -10,7 +10,7 @@ import com.lean.Spring.mvc.validation.CourseCode;
 
 
 
-public class Customer {
+public class Member {
 
 	private String firstName;
 	

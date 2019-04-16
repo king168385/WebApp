@@ -15,7 +15,11 @@
 
 <br><br>
 
-<a href="customer/showForm">Customer form</a>
+<a href="member/showForm">member form</a>
+
+<br><br>
+
+<a href="customer/list">Customer form</a>
 
 
 </body>

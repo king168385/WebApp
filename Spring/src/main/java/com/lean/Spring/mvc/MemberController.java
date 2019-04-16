@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/customer")
-public class CustomerController {
+@RequestMapping("/member")
+public class MemberController {
 
 	// add an initbinder ... to convert trim input strings
 	// remove leading and trailing whitespace
@@ -31,23 +31,23 @@ public class CustomerController {
 	@RequestMapping("/showForm")
 	public String showForm(Model theModel) {
 		
-		theModel.addAttribute("customer", new Customer());
+		theModel.addAttribute("member", new Member());
 		
-		return "customer-form";
+		return "member-form";
 	}
 	
 	@RequestMapping("/processForm")
 	public String processForm(
-			@Valid @ModelAttribute("customer") Customer theCustomer,
+			@Valid @ModelAttribute("member") Member themember,
 			BindingResult theBindingResult) {
 		
-		System.out.println("Last name: |" + theCustomer.getLastName() + "|");
+		System.out.println("Last name: |" + themember.getLastName() + "|");
 		
 		if (theBindingResult.hasErrors()) {
-			return "customer-form";
+			return "member-form";
 		}
 		else {
-			return "customer-confirmation";
+			return "member-confirmation";
 		}
 	}
 }
