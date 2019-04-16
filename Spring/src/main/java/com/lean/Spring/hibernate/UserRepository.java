@@ -1,6 +1,8 @@
 package com.lean.Spring.hibernate;
 
-public class UserRepository
+import org.springframework.data.repository.Repository;
+
+public interface UserRepository extends Repository<User, Long>
 {
 
 }
