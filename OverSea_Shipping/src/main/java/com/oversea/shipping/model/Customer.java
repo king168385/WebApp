@@ -27,6 +27,17 @@ public class Customer {
 	@Column(name="email")
 	private String email;
 	
+	@Column(name="phone")
+	private String phone;
+	
+	@Column(name="address")
+	private String address;
+	
+	@Column(name="province")
+	private String province;
+	
+	@Column(name="postCode")
+	private String postCode;
 		
 	// define constructors
 	
@@ -34,19 +45,34 @@ public class Customer {
 		
 	}
 	
-	public Customer(int id, String firstName, String lastName, String email) {
+
+	public Customer(int id, String firstName, String lastName, String email, String phone, String address,
+			String province, String postCode) {
+		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.province = province;
+		this.postCode = postCode;
 	}
 
 
-	public Customer(String firstName, String lastName, String email) {
+	public Customer(String firstName, String lastName, String email, String phone, String address, String province,
+			String postCode) {
+		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.province = province;
+		this.postCode = postCode;
 	}
+
+
 
 	// define getter/setter
 	
@@ -83,6 +109,38 @@ public class Customer {
 	}
 
 	// define tostring
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
 
 	@Override
 	public String toString() {
