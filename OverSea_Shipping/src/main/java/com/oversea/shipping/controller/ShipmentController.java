@@ -1,4 +1,4 @@
-package com.oversea.shipping.controller;
+ package com.oversea.shipping.controller;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class ShipmentController {
 	}
 	
 	@GetMapping("/showFormForAdd")
-	public String showFormForAdd(Model theModel) {
+	public String showFormForAdd(@RequestParam("shipDate_Id") int shipDate_Id, Model theModel) {
 		
 		// create model attribute to bind form data
 		Shipment theshipment = new Shipment();

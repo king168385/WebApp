@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>Save customer</title>
+</head>
+
+<body>
+
+	<div class="container">
+	
+		<h3>添加船期</h3>
+		<form action="#" th:action="@{/shipments/save}"
+						 th:object="${shipment}" method="POST">
+						 
+			<input type="text" th:field="*{trackingNumber}"
+									class="form-control mb-4 col-4" placeholder="货运单号">
+			
+		
+			<input type="text" th:field="*{trackingNumber}"
+									class="form-control mb-4 col-4" placeholder="货运单号">
+							
+			<input type="text" th:field="*{weight}"
+									class="form-control mb-4 col-4" placeholder="Weight in KG">
+				
+			<input type="text" th:field="*{height}"
+									class="form-control mb-4 col-4" placeholder="Height in cm">
+				
+			<input type="text" th:field="*{length}"
+									class="form-control mb-4 col-4" placeholder="Length in cm">
+				
+			<button type="submit" class="btn btn-info col-2">保存</button>
+						
+		</form>
+	
+		<hr>
+		<a th:href="@{/shipdate/list}">返回船期列表</a>
+		
+	</div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+

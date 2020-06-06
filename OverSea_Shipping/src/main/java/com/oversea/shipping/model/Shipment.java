@@ -12,12 +12,16 @@ import javax.persistence.Table;
 @Table(name="shipment")
 public class Shipment {
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
+	@ManyToOne(cascade = { CascadeType.REFRESH })
+	@JoinColumn(name = "ship_date_id")
+	private ShipDate shipDate;
+	
 	@Id
-	@Column(name="trackingNumber")
+	@Column(name="trackingNumber", unique=true, nullable = false)
 	private String trackingNumber;
 	
 	@Column(name="weight")
@@ -41,20 +45,7 @@ public class Shipment {
 	@Column(name="unit")
 	private double unit;
 
-	public Shipment(Customer customer, String trackingNumber, double weight, double height, double length, double width,
-			double shipping_price, double unit_price, double unit) {
-		super();
-		this.customer = customer;
-		this.trackingNumber = trackingNumber;
-		this.weight = weight;
-		this.height = height;
-		this.length = length;
-		this.width = width;
-		this.shipping_price = shipping_price;
-		this.unit_price = unit_price;
-		this.unit = unit;
-	}
-
+	
 	public Shipment() {
 		// TODO Auto-generated constructor stub
 	}
@@ -129,6 +120,14 @@ public class Shipment {
 
 	public void setUnit(double unit) {
 		this.unit = unit;
+	}
+
+	public ShipDate getShipDate() {
+		return shipDate;
+	}
+
+	public void setShipDate(ShipDate shipDate) {
+		this.shipDate = shipDate;
 	}
 	
 	
