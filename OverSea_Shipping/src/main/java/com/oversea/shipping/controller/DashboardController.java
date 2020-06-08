@@ -23,19 +23,19 @@ public class DashboardController {
 	@GetMapping("/login")
 	public String loadupLogin(Model theModel) {
 		
-		return "dashboard/login";
+		return "dashboard/login/login";
 	}
 	
 	@PostMapping("/login")
 	public String login(Model theModel) {
 		
-		return "dashboard/index";
+		return "dashboard/dashboard";
 	}
 	
 	@GetMapping("/forgot-password")
 	public String loadupForgotPassword(Model theModel) {
 
-		return "dashboard/forgot-password";
+		return "dashboard/login/forgot-password";
 	}
 
 }

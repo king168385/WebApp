@@ -26,14 +26,34 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">添加船期</h1>
           </div>
 
           <!-- Content Row -->
-          <div class="row">
+
+<form action="#" th:action="@{/shipdate/save}"
+						 th:object="${shipDate}" method="POST">
+		
+			<!-- Add hidden form field to handle update -->
+			<input type="hidden" th:field="*{id}" />
+			
+			<input type="date" th:field="*{shippingDate}"
+					class="form-control mb-4 col-4" placeholder="Ship Date">
+
+			<input type="date" th:field="*{cutOffDate}"
+					class="form-control mb-4 col-4" placeholder="Cutoff Date">
+
+			<input type="text" th:field="*{destination}"
+					class="form-control mb-4 col-4" placeholder="目的地">
+					
+			激活<input type="checkbox" th:field="*{active}"
+					class="form-control mb-4 col-4">
+				
+			<button type="submit" class="btn btn-info col-2">保存</button>
+						
+		</form>
 
 
-          </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -65,3 +85,12 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+

@@ -30,7 +30,7 @@ public class HomeController {
 		// add to the spring model
 		theModel.addAttribute("shipDate", theshipdate);
 				
-		return "home/home";
+		return "site/home";
 	}
 }
 

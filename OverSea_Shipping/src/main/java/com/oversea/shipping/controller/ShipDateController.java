@@ -34,7 +34,7 @@ public class ShipDateController {
 		// add to the spring model
 		theModel.addAttribute("shipDate", theshipdate);
 		
-		return "shipdate/list-shipDate";
+		return "dashboard/shipdate/list-shipDate";
 	}
 	
 	@GetMapping("/showFormForAdd")
@@ -45,7 +45,7 @@ public class ShipDateController {
 		
 		theModel.addAttribute("shipDate", theshipDate);
 		
-		return "shipdate/shipDate-form";
+		return "dashboard/shipdate/shipDate-form";
 	}
 
 	@GetMapping("/showFormForUpdate")
@@ -59,7 +59,7 @@ public class ShipDateController {
 		theModel.addAttribute("shipDate", theshipDate);
 		
 		// send over to our form
-		return "shipdate/shipDate-form";			
+		return "dashboard/shipdate/shipDate-form";			
 	}
 	
 	
