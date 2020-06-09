@@ -20,7 +20,7 @@
 	<hr>
 	
 	<!-- Add a button -->
-	<a th:href="@{/customers/showFormForAdd}"
+	<a th:href="@{/customers/add}"
 		class="btn btn-primary btn-sm mb-3">
 		Add customer
 	</a>
@@ -45,7 +45,7 @@
 				
 				<td>
 					<!-- Add "update" button/link -->
-					<a th:href="@{/customers/showFormForUpdate(customerId=${tempcustomer.id})}"
+					<a th:href="@{/customers/update(customerId=${tempcustomer.id})}"
 					   class="btn btn-info btn-sm">
 						Update
 					</a>

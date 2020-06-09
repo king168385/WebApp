@@ -19,6 +19,12 @@ public class DashboardController {
 	}
 	
 	// add mapping for "/list"
+	
+	@GetMapping()
+	public String loadupDashboard(Model theModel) {
+		
+		return "dashboard/dashboard";
+	}
 
 	@GetMapping("/login")
 	public String loadupLogin(Model theModel) {

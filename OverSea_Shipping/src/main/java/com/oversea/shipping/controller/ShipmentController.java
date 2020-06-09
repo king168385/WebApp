@@ -2,6 +2,7 @@
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,18 +11,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
+import com.oversea.shipping.service.CustomerService;
+import com.oversea.shipping.service.ShipDateService;
 import com.oversea.shipping.service.ShipmentService;
 
 @Controller
 @RequestMapping("/shipments")
 public class ShipmentController {
 
+	@Autowired
+	private ShipDateService shipDateService;
+	
+	@Autowired
 	private ShipmentService shipmentService;
 	
-	public ShipmentController(ShipmentService theshipmentservice) {
-		shipmentService = theshipmentservice;
-	}
+	@Autowired
+	private CustomerService customerService;
 	
 	// add mapping for "/list"
 
@@ -34,38 +42,87 @@ public class ShipmentController {
 		// add to the spring model
 		theModel.addAttribute("shipments", theshipments);
 		
-		return "shipments/list-shipments";
+		return "dashboard/shipments/list-shipments";
 	}
 	
-	@GetMapping("/showFormForAdd")
-	public String showFormForAdd(@RequestParam("shipDate_Id") int shipDate_Id, Model theModel) {
+	@GetMapping("/mylist")
+	public String myListshipments(Model theModel) {
+		
+		// get shipments from db
+		List<Shipment> theshipments = shipmentService.findAll();
+		
+		// add to the spring model
+		theModel.addAttribute("shipments", theshipments);
+		
+		return "dashboard/shipments/list-shipments";
+	}
+	
+	@GetMapping("/add")
+	public String showFormForAdd(Model theModel) {
 		
 		// create model attribute to bind form data
 		Shipment theshipment = new Shipment();
-		
+				
+		// get shipdate from db
+		List<ShipDate> shipDateList = shipDateService.findAll();
+				
 		theModel.addAttribute("shipment", theshipment);
+		theModel.addAttribute("shipDateList", shipDateList);
 		
-		return "shipments/shipment-form";
+		return "dashboard/shipments/shipment-form";
+	}
+	
+	@GetMapping("/addWithDate")
+	public String showFormForAdd(@RequestParam("shipDate_Id") Integer shipDate_Id, Model theModel) {
+		
+		// create model attribute to bind form data
+		Shipment theshipment = new Shipment();
+				
+		if(shipDate_Id != null) {
+			ShipDate shipDate = shipDateService.findById(shipDate_Id);
+			theshipment.setShipDate(shipDate);
+		}
+
+		// get shipdate from db
+		List<ShipDate> shipDateList = shipDateService.findAll();
+				
+		theModel.addAttribute("shipment", theshipment);
+		theModel.addAttribute("shipDateList", shipDateList);
+		
+		return "dashboard/shipments/shipment-form";
 	}
 
-	@GetMapping("/showFormForUpdate")
-	public String showFormForUpdate(@RequestParam("shipmentId") int theId,
+	@GetMapping("/update")
+	public String showFormForUpdate(@RequestParam("trackingNumber") String trackingNumber,
 									Model theModel) {
 		
 		// get the shipment from the service
-		Shipment theshipment = shipmentService.findById(theId);
+		Shipment theshipment = shipmentService.findByTrackingNumber(trackingNumber);
+		
+		List<ShipDate> shipDateList = shipDateService.findAll();
 		
 		// set shipment as a model attribute to pre-populate the form
 		theModel.addAttribute("shipment", theshipment);
+		theModel.addAttribute("shipDateList", shipDateList);
 		
 		// send over to our form
-		return "shipments/shipment-form";			
+		return "dashboard/shipments/shipment-form";			
 	}
 	
 	
 	@PostMapping("/save")
 	public String saveshipment(@ModelAttribute("shipment") Shipment theshipment) {
 		
+		if(theshipment.getCustomer().getId() == 0) {
+			Customer customer = customerService.findByEmail(theshipment.getCustomer().getEmail());
+			
+			if(customer == null) {
+				customerService.save(theshipment.getCustomer());
+			}else {
+				theshipment.setCustomer(customer);
+			}
+		}
+
 		// save the shipment
 		shipmentService.save(theshipment);
 		
@@ -75,10 +132,10 @@ public class ShipmentController {
 	
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam("shipmentId") int theId) {
+	public String delete(@RequestParam("trackingNumber") String trackingNumber) {
 		
 		// delete the shipment
-		shipmentService.deleteById(theId);
+		shipmentService.deleteByTrackingNumber(trackingNumber);
 		
 		// redirect to /shipments/list
 		return "redirect:/shipments/list";

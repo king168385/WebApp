@@ -38,6 +38,11 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return thecustomer;
 	}
+	
+	public Customer findByEmail(String email) {
+		Customer thecustomer = customerRepository.findByEmail(email);
+		return thecustomer;
+	}
 
 	public void save(Customer thecustomer) {
 		customerRepository.save(thecustomer);

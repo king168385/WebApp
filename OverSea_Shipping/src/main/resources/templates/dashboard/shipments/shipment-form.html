@@ -1,52 +1,172 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<div th:insert="dashboard/fragment/general :: head"></div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<body id="page-top">
 
-	<title>Save customer</title>
-</head>
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-<body>
+		<!-- sidebar -->
+		<div th:insert="dashboard/fragment/general :: sidebar"></div>
 
-	<div class="container">
-	
-		<h3>添加船期</h3>
-		<form action="#" th:action="@{/shipments/save}"
-						 th:object="${shipment}" method="POST">
-						 
-			<input type="text" th:field="*{trackingNumber}"
-									class="form-control mb-4 col-4" placeholder="货运单号">
-			
-		
-			<input type="text" th:field="*{trackingNumber}"
-									class="form-control mb-4 col-4" placeholder="货运单号">
-							
-			<input type="text" th:field="*{weight}"
-									class="form-control mb-4 col-4" placeholder="Weight in KG">
-				
-			<input type="text" th:field="*{height}"
-									class="form-control mb-4 col-4" placeholder="Height in cm">
-				
-			<input type="text" th:field="*{length}"
-									class="form-control mb-4 col-4" placeholder="Length in cm">
-				
-			<button type="submit" class="btn btn-info col-2">保存</button>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<div th:insert="dashboard/fragment/general :: topbar"></div>
+				<!-- End of Topbar -->
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">添加运货单</h1>
+					</div>
+
+					<!-- Content Row -->
+
+					<form action="#" th:action="@{/shipments/save}"
+						th:object="${shipment}" method="POST">
+
+						<div class="form-group row">
+							<label for="shippingDate" class="col-sm-1 col-form-label">海运日期</label>
+							<div class="col-sm-11">
+								<select class="form-control  mb-2 col-2" id="shippingDate"
+									th:field="${shipment.shipDate.id}">
+									<option th:each="shipDate : ${shipDateList}"
+										th:value="${shipDate.id}" th:text="${shipDate.shippingDate}"></option>
+								</select>
+							</div>
+						</div>
 						
-		</form>
-	
-		<hr>
-		<a th:href="@{/shipdate/list}">返回船期列表</a>
-		
+						<div class="form-group row">
+							<label for="email" class="col-sm-1 col-form-label">邮箱</label>
+							<div class="col-sm-11">
+								<input type="email" class="form-control  mb-3 col-3"
+									id="email" th:field="*{customer.email}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="phone" class="col-sm-1 col-form-label">电话</label>
+							<div class="col-sm-11">
+								<input type="tel" class="form-control  mb-2 col-2"
+									id="phone" th:field="*{customer.phone}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="wechat" class="col-sm-1 col-form-label">微信名称</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="wechat" th:field="*{customer.wechatId}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="trackingNumber" class="col-sm-1 col-form-label">货运单号</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="trackingNumber" th:field="*{trackingNumber}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="description" class="col-sm-1 col-form-label">货物描述</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="description" th:field="*{description}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="weight" class="col-sm-1 col-form-label">重量（公斤）</label>
+							<div class="col-sm-11">
+								<input type="number" class="form-control  mb-2 col-2" id="weight"
+									th:field="*{weight}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="length" class="col-sm-1 col-form-label">长度（厘米）</label>
+							<div class="col-sm-11">
+								<input type="number" class="form-control  mb-2 col-2" id="length"
+									th:field="*{length}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="width" class="col-sm-1 col-form-label">宽度（厘米）</label>
+							<div class="col-sm-11">
+								<input type="number" class="form-control  mb-2 col-2" id="width"
+									th:field="*{width}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="height" class="col-sm-1 col-form-label">高度（厘米）</label>
+							<div class="col-sm-11">
+								<input type="number" class="form-control  mb-2 col-2" id="height"
+									th:field="*{height}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="deliveryMethod" class="col-sm-1 col-form-label">提货方式</label>
+							<div class="col-sm-11">
+								<select class="form-control  mb-2 col-2"
+									th:field="*{deliveryMethod}">
+									<option value=""></option>
+									<option th:value="'PickUp'" th:text="自取"></option>
+									<option th:value="'Delivery'" th:text="送货"></option>
+								</select>
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-info mb-2">保存</button>
+
+					</form>
+
+
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<div th:insert="dashboard/fragment/general :: footer"></div>
+
+
+		</div>
+		<!-- End of Content Wrapper -->
+
 	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div th:insert="dashboard/fragment/general :: logout-modal"></div>
+
+	<!-- Script -->
+	<div th:insert="dashboard/fragment/general :: script"></div>
+
 </body>
 
 </html>
+
 
 
 

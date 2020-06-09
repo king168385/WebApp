@@ -5,83 +5,104 @@
 
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-	<!-- sidebar -->
-    <div th:insert="dashboard/fragment/general :: sidebar"></div>
+		<!-- sidebar -->
+		<div th:insert="dashboard/fragment/general :: sidebar"></div>
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+			<!-- Main Content -->
+			<div id="content">
 
-        <!-- Topbar -->
-        <div th:insert="dashboard/fragment/general :: topbar"></div>
-        <!-- End of Topbar -->
+				<!-- Topbar -->
+				<div th:insert="dashboard/fragment/general :: topbar"></div>
+				<!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">添加船期</h1>
-          </div>
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">添加船期</h1>
+					</div>
 
-          <!-- Content Row -->
+					<!-- Content Row -->
 
-<form action="#" th:action="@{/shipdate/save}"
-						 th:object="${shipDate}" method="POST">
-		
-			<!-- Add hidden form field to handle update -->
-			<input type="hidden" th:field="*{id}" />
-			
-			<input type="date" th:field="*{shippingDate}"
-					class="form-control mb-4 col-4" placeholder="Ship Date">
+					<form action="#" th:action="@{/shipdate/save}"
+						th:object="${shipDate}" method="POST">
 
-			<input type="date" th:field="*{cutOffDate}"
-					class="form-control mb-4 col-4" placeholder="Cutoff Date">
+						<!-- Add hidden form field to handle update -->
+						<input type="hidden" th:field="*{id}" />
 
-			<input type="text" th:field="*{destination}"
-					class="form-control mb-4 col-4" placeholder="目的地">
-					
-			激活<input type="checkbox" th:field="*{active}"
-					class="form-control mb-4 col-4">
-				
-			<button type="submit" class="btn btn-info col-2">保存</button>
-						
-		</form>
+						<div class="form-group row">
+							<label for="shipDate" class="col-sm-1 col-form-label">海运日期</label>
+							<div class="col-sm-11">
+								<input type="date" class="form-control  mb-2 col-2"
+									id="shipDate" th:field="*{shippingDate}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="cutOffDate" class="col-sm-1 col-form-label">截单日期</label>
+							<div class="col-sm-11">
+								<input type="date" class="form-control  mb-2 col-2"
+									id="cutOffDate" th:field="*{cutOffDate}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="destination" class="col-sm-1 col-form-label">目的地</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="destination" th:field="*{destination}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="active" class="col-sm-1 col-form-label">激活状态</label>
+							<div class="col-sm-11">
+								<input type="checkbox" class="form-control  mb-1 col-1"
+									id="active" th:field="*{active}">
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-info mb-2">保存</button>
+
+					</form>
 
 
 
-        </div>
-        <!-- /.container-fluid -->
+				</div>
+				<!-- /.container-fluid -->
 
-      </div>
-      <!-- End of Main Content -->
-      
-	 <!-- Footer -->
-	 <div th:insert="dashboard/fragment/general :: footer"></div>
-	
- 
-    </div>
-    <!-- End of Content Wrapper -->
- 
-  </div>
-  <!-- End of Page Wrapper -->
+			</div>
+			<!-- End of Main Content -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+			<!-- Footer -->
+			<div th:insert="dashboard/fragment/general :: footer"></div>
 
-  <!-- Logout Modal-->
-  <div th:insert="dashboard/fragment/general :: logout-modal"></div>
-  
-  <!-- Script -->
- <div th:insert="dashboard/fragment/general :: script"></div>
-	
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div th:insert="dashboard/fragment/general :: logout-modal"></div>
+
+	<!-- Script -->
+	<div th:insert="dashboard/fragment/general :: script"></div>
+
 </body>
 
 </html>

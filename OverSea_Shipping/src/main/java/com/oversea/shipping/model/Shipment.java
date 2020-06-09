@@ -44,7 +44,27 @@ public class Shipment {
 	
 	@Column(name="unit")
 	private double unit;
+	
+	@Column(name="description")
+	private String description;
+	
+	@Column(name="deliveryMethod")
+	private String deliveryMethod;
+	
+	@Column(name="deliveryAddress")
+	private String deliveryAddress;
+	
+	@Column(name="deliveryProvince")
+	private String deliveryProvince;
+	
+	@Column(name="deliveryPostCode")
+	private String deliveryPostCode;
+	
+	@ManyToOne(cascade = { CascadeType.REFRESH })
+	@JoinColumn(name = "pickupLocation_Id")
+	private PickUpLocation pickupLocation;
 
+	
 	
 	public Shipment() {
 		// TODO Auto-generated constructor stub
@@ -129,7 +149,52 @@ public class Shipment {
 	public void setShipDate(ShipDate shipDate) {
 		this.shipDate = shipDate;
 	}
-	
-	
-	
+
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
+
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
+	}
+
+	public String getDeliveryProvince() {
+		return deliveryProvince;
+	}
+
+	public void setDeliveryProvince(String deliveryProvince) {
+		this.deliveryProvince = deliveryProvince;
+	}
+
+	public String getDeliveryPostCode() {
+		return deliveryPostCode;
+	}
+
+	public void setDeliveryPostCode(String deliveryPostCode) {
+		this.deliveryPostCode = deliveryPostCode;
+	}
+
+	public PickUpLocation getPickupLocation() {
+		return pickupLocation;
+	}
+
+	public void setPickupLocation(PickUpLocation pickupLocation) {
+		this.pickupLocation = pickupLocation;
+	}
 }

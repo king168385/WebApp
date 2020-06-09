@@ -1,10 +1,10 @@
 package com.oversea.shipping.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oversea.shipping.dao.ShipmentRepository;
 import com.oversea.shipping.model.Shipment;
@@ -23,28 +23,33 @@ public class ShipmentServiceImpl implements ShipmentService {
 		return ShipmentRepository.findAllByOrderByTrackingNumberAsc();
 	}
 
-	public Shipment findById(int theId) {
-		Optional<Shipment> result = ShipmentRepository.findById(theId);
-		
-		Shipment theShipment = null;
-		
-		if (result.isPresent()) {
-			theShipment = result.get();
-		}
-		else {
+	public Shipment findByTrackingNumber(String trackingNumber) {
+		Shipment theShipment = ShipmentRepository.findByTrackingNumber(trackingNumber);
+	
+		if (theShipment == null) {
 			// we didn't find the Shipment
-			throw new RuntimeException("Did not find Shipment id - " + theId);
+			throw new RuntimeException("Did not find tracking Number - " + trackingNumber);
 		}
 		
 		return theShipment;
 	}
 
 	public void save(Shipment theShipment) {
+		
+		double unit = theShipment.getLength() * theShipment.getWidth() * theShipment.getHeight() / 6000;
+		
+		if(unit > theShipment.getWeight()) {
+			theShipment.setUnit(unit);
+		}else {
+			theShipment.setUnit(theShipment.getWeight());
+		}
+		
 		ShipmentRepository.save(theShipment);
 	}
 
-	public void deleteById(int theId) {
-		ShipmentRepository.deleteById(theId);
+	@Transactional
+	public void deleteByTrackingNumber(String trackingNumber) {
+		ShipmentRepository.deleteByTrackingNumber(trackingNumber);
 	}
 
 }

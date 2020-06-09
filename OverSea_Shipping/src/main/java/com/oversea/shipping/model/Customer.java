@@ -24,10 +24,10 @@ public class Customer {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="email")
+	@Column(name="email", unique=true, nullable = false)
 	private String email;
 	
-	@Column(name="phone", unique=true, nullable = false)
+	@Column(name="phone")
 	private String phone;
 	
 	@Column(name="address")
@@ -38,6 +38,9 @@ public class Customer {
 	
 	@Column(name="postCode")
 	private String postCode;
+	
+	@Column(name="wechatId")
+	private String wechatId;
 		
 	// define constructors
 	
@@ -45,33 +48,6 @@ public class Customer {
 		
 	}
 	
-
-	public Customer(int id, String firstName, String lastName, String email, String phone, String address,
-			String province, String postCode) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.province = province;
-		this.postCode = postCode;
-	}
-
-
-	public Customer(String firstName, String lastName, String email, String phone, String address, String province,
-			String postCode) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.province = province;
-		this.postCode = postCode;
-	}
-
 
 
 	// define getter/setter
@@ -142,10 +118,15 @@ public class Customer {
 		this.postCode = postCode;
 	}
 
-	@Override
-	public String toString() {
-		return "customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+	public String getWechatId() {
+		return wechatId;
 	}
+
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
+	}
+
+
 		
 }
 

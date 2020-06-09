@@ -10,4 +10,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	// add a method to sort by last name
 	public List<Customer> findAllByOrderByLastNameAsc();
 	
+	public Customer findByEmail(String email);
+	
 }

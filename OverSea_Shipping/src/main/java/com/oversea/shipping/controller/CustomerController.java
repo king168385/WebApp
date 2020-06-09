@@ -2,6 +2,7 @@ package com.oversea.shipping.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,9 @@ import com.oversea.shipping.service.CustomerService;
 @RequestMapping("/customers")
 public class CustomerController {
 
+	@Autowired
 	private CustomerService customerService;
-	
-	public CustomerController(CustomerService thecustomerService) {
-		customerService = thecustomerService;
-	}
-	
+
 	// add mapping for "/list"
 
 	@GetMapping("/list")
@@ -34,10 +32,10 @@ public class CustomerController {
 		// add to the spring model
 		theModel.addAttribute("customers", thecustomers);
 		
-		return "customers/list-customers";
+		return "dashboard/customers/list-customers";
 	}
 	
-	@GetMapping("/showFormForAdd")
+	@GetMapping("/add")
 	public String showFormForAdd(Model theModel) {
 		
 		// create model attribute to bind form data
@@ -45,10 +43,10 @@ public class CustomerController {
 		
 		theModel.addAttribute("customer", thecustomer);
 		
-		return "customers/customer-form";
+		return "dashboard/customers/customer-form";
 	}
 
-	@GetMapping("/showFormForUpdate")
+	@GetMapping("/update")
 	public String showFormForUpdate(@RequestParam("customerId") int theId,
 									Model theModel) {
 		
@@ -59,7 +57,7 @@ public class CustomerController {
 		theModel.addAttribute("customer", thecustomer);
 		
 		// send over to our form
-		return "customers/customer-form";			
+		return "dashboard/customers/customer-form";			
 	}
 	
 	

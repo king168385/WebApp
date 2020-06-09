@@ -2,6 +2,7 @@
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,9 @@ import com.oversea.shipping.service.ShipDateService;
 @RequestMapping("/shipdate")
 public class ShipDateController {
 
+	@Autowired
 	private ShipDateService shipDateService;
-	
-	public ShipDateController(ShipDateService theshipdateService) {
-		shipDateService = theshipdateService;
-	}
-	
+		
 	// add mapping for "/list"
 
 	@GetMapping("/list")
@@ -37,7 +35,7 @@ public class ShipDateController {
 		return "dashboard/shipdate/list-shipDate";
 	}
 	
-	@GetMapping("/showFormForAdd")
+	@GetMapping("/add")
 	public String showFormForAdd(Model theModel) {
 		
 		// create model attribute to bind form data
@@ -48,7 +46,7 @@ public class ShipDateController {
 		return "dashboard/shipdate/shipDate-form";
 	}
 
-	@GetMapping("/showFormForUpdate")
+	@GetMapping("/update")
 	public String showFormForUpdate(@RequestParam("shipDateId") int theId,
 									Model theModel) {
 		
