@@ -8,6 +8,8 @@ public interface ShipDateService {
 
 	public List<ShipDate> findAll();
 	
+	public List<ShipDate> findAllActive();
+	
 	public ShipDate findById(int theId);
 	
 	public void save(ShipDate theShipDate);

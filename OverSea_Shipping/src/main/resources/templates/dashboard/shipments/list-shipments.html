@@ -65,7 +65,11 @@
 											<td th:text="${tempShipment.description}" />
 											<td th:text="${tempShipment.customer.wechatId}" />
 											<td th:text="${tempShipment.unit}" />
-											<td th:text="${tempShipment.deliveryMethod}" />
+											<td>
+												<div th:switch="${tempShipment.deliveryMethod}">
+													<span th:case="PickUp">自取</span> <span th:case="Delivery">送货</span>
+												</div>
+											</td>
 
 											<td>
 												<!-- Add "update" button/link --> <a

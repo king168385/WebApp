@@ -18,6 +18,9 @@ public class PickUpLocation {
 	@Column(name="address")
 	private String address;
 	
+	@Column(name="city")
+	private String city;
+	
 	@Column(name="province")
 	private String province;
 	
@@ -57,6 +60,14 @@ public class PickUpLocation {
 
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 	
 	

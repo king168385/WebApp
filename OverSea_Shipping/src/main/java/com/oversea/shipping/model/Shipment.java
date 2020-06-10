@@ -61,6 +61,9 @@ public class Shipment {
 	@Column(name="deliveryAddress")
 	private String deliveryAddress;
 	
+	@Column(name="deliveryCity")
+	private String deliveryCity;
+	
 	@Column(name="deliveryProvince")
 	private String deliveryProvince;
 	
@@ -186,6 +189,14 @@ public class Shipment {
 		this.deliveryAddress = deliveryAddress;
 	}
 
+	public String getDeliveryCity() {
+		return deliveryCity;
+	}
+
+	public void setDeliveryCity(String deliveryCity) {
+		this.deliveryCity = deliveryCity;
+	}
+
 	public String getDeliveryProvince() {
 		return deliveryProvince;
 	}
@@ -209,4 +220,14 @@ public class Shipment {
 	public void setPickupLocation(PickUpLocation pickupLocation) {
 		this.pickupLocation = pickupLocation;
 	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	
 }

@@ -25,7 +25,7 @@ public class HomeController {
 	public String home(Model theModel) {
 
 		// get shipdate from db
-		List<ShipDate> theshipdate = shipDateService.findAll();
+		List<ShipDate> theshipdate = shipDateService.findAllActive();
 				
 		// add to the spring model
 		theModel.addAttribute("shipDate", theshipdate);

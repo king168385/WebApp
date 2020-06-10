@@ -59,8 +59,12 @@
 											<td th:text="${tempShipDate.shippingDate}" />
 											<td th:text="${tempShipDate.cutOffDate}" />
 											<td th:text="${tempShipDate.destination}" />
-											<td th:text="${tempShipDate.active}" />
-
+											<td>
+												<div th:switch="${tempShipDate.active}">
+													<span th:case="${false}">暂停</span> <span th:case="${true}">激活</span>
+												</div>
+											</td>
+											
 											<td>
 												<!-- Add "update" button/link --> <a
 												th:href="@{/shipdate/update(shipDateId=${tempShipDate.id})}"

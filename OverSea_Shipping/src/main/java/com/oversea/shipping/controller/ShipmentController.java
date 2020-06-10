@@ -64,7 +64,7 @@ public class ShipmentController {
 		Shipment theshipment = new Shipment();
 				
 		// get shipdate from db
-		List<ShipDate> shipDateList = shipDateService.findAll();
+		List<ShipDate> shipDateList = shipDateService.findAllActive();
 				
 		theModel.addAttribute("shipment", theshipment);
 		theModel.addAttribute("shipDateList", shipDateList);
@@ -84,7 +84,7 @@ public class ShipmentController {
 		}
 
 		// get shipdate from db
-		List<ShipDate> shipDateList = shipDateService.findAll();
+		List<ShipDate> shipDateList = shipDateService.findAllActive();
 				
 		theModel.addAttribute("shipment", theshipment);
 		theModel.addAttribute("shipDateList", shipDateList);
@@ -99,7 +99,7 @@ public class ShipmentController {
 		// get the shipment from the service
 		Shipment theshipment = shipmentService.findByTrackingNumber(trackingNumber);
 		
-		List<ShipDate> shipDateList = shipDateService.findAll();
+		List<ShipDate> shipDateList = shipDateService.findAllActive();
 		
 		// set shipment as a model attribute to pre-populate the form
 		theModel.addAttribute("shipment", theshipment);

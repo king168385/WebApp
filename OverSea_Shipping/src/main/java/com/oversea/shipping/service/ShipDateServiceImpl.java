@@ -1,5 +1,8 @@
 package com.oversea.shipping.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,12 @@ public class ShipDateServiceImpl implements ShipDateService {
 	@Autowired
 	public ShipDateServiceImpl(ShipDateRepository theshipDateRepository) {
 		shipDateRepository = theshipDateRepository;
+	}
+	
+	public List<ShipDate> findAllActive() {
+		String pattern = "yyyy-MM-dd";
+		DateFormat df = new SimpleDateFormat(pattern);
+		return shipDateRepository.findByCutOffDateGreaterThanEqualAndActiveTrue(df.format(new Date()));
 	}
 	
 	public List<ShipDate> findAll() {
