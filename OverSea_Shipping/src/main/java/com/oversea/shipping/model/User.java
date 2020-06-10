@@ -1,11 +1,15 @@
 package com.oversea.shipping.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="user")
@@ -16,11 +20,12 @@ public class User {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="customer_id")
-	private int customer_id;
+	@OneToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name="customer_id")
+	private Customer customer;
 	
 	@Column(name="role", length=20)
-	private String role; // values: MEMBER, ADMIN
+	private String role; // values: MEMBER, EMPLOYEE, ADMIN
 	
 	@Column(name="email", length=120)
 	private String email;
@@ -39,12 +44,14 @@ public class User {
 		this.id = id;
 	}
 
-	public int getCustomer_id() {
-		return customer_id;
+
+
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public String getRole() {
