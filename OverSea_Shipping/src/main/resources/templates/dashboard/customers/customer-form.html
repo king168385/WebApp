@@ -1,52 +1,160 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<div th:insert="dashboard/fragment/general :: head"></div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<body id="page-top">
 
-	<title>Save customer</title>
-</head>
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-<body>
+		<!-- sidebar -->
+		<div th:insert="dashboard/fragment/general :: sidebar"></div>
 
-	<div class="container">
-	
-		<h3>customer Directory</h3>
-		<hr>
-		
-		<p class="h4 mb-4">Save customer</p>
-	
-		<form action="#" th:action="@{/customers/save}"
-						 th:object="${customer}" method="POST">
-		
-			<!-- Add hidden form field to handle update -->
-			<input type="hidden" th:field="*{id}" />
-			
-			<input type="text" th:field="*{firstName}"
-					class="form-control mb-4 col-4" placeholder="First name">
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-			<input type="text" th:field="*{lastName}"
-					class="form-control mb-4 col-4" placeholder="Last name">
+			<!-- Main Content -->
+			<div id="content">
 
-			<input type="text" th:field="*{email}"
-					class="form-control mb-4 col-4" placeholder="Email">
-				
-			<button type="submit" class="btn btn-info col-2">Save</button>
+				<!-- Topbar -->
+				<div th:insert="dashboard/fragment/general :: topbar"></div>
+				<!-- End of Topbar -->
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">添加客户</h1>
+					</div>
+
+					<!-- Content Row -->
+
+					<form action="#" th:action="@{/customers/save}"
+						th:object="${customer}" method="POST">
+
+						<!-- Add hidden form field to handle update -->
+						<input type="hidden" th:field="*{id}" />
+
+						<div class="form-group row">
+							<label for="lastName" class="col-sm-1 col-form-label">姓氏</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="lastName" th:field="*{lastName}">
+							</div>
+						</div>
 						
-		</form>
-	
-		<hr>
-		<a th:href="@{/customers/list}">Back to customers List</a>
-		
+						<div class="form-group row">
+							<label for="firstName" class="col-sm-1 col-form-label">名字</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="firstName" th:field="*{firstName}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="wechatId" class="col-sm-1 col-form-label">微信名称</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="wechatId" th:field="*{wechatId}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="email" class="col-sm-1 col-form-label">邮箱</label>
+							<div class="col-sm-11">
+								<input type="email" class="form-control  mb-2 col-2"
+									id="email" th:field="*{email}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="phone" class="col-sm-1 col-form-label">电话</label>
+							<div class="col-sm-11">
+								<input type="tel" class="form-control  mb-2 col-2"
+									id="phone" th:field="*{phone}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="address" class="col-sm-1 col-form-label">地址</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="address" th:field="*{address}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="city" class="col-sm-1 col-form-label">城市</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="city" th:field="*{city}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="province" class="col-sm-1 col-form-label">省份</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="province" th:field="*{province}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="postCode" class="col-sm-1 col-form-label">邮编</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="postCode" th:field="*{postCode}">
+							</div>
+						</div>
+
+						
+
+						<button type="submit" class="btn btn-info mb-2">保存</button>
+
+					</form>
+
+
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<div th:insert="dashboard/fragment/general :: footer"></div>
+
+
+		</div>
+		<!-- End of Content Wrapper -->
+
 	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div th:insert="dashboard/fragment/general :: logout-modal"></div>
+
+	<!-- Script -->
+	<div th:insert="dashboard/fragment/general :: script"></div>
+
 </body>
 
 </html>
+
+
+
+
+
+
+
 
 
 

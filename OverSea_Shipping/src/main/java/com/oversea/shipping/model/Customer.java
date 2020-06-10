@@ -33,6 +33,9 @@ public class Customer {
 	@Column(name="address")
 	private String address;
 	
+	@Column(name="city")
+	private String city;
+	
 	@Column(name="province")
 	private String province;
 	
@@ -124,6 +127,18 @@ public class Customer {
 
 	public void setWechatId(String wechatId) {
 		this.wechatId = wechatId;
+	}
+
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 
