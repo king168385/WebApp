@@ -34,7 +34,7 @@
 						<div class="card-body">
 
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table table-bordered" id="example" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
@@ -115,7 +115,15 @@
 
 	<!-- Script -->
 	<div th:insert="dashboard/fragment/general :: script"></div>
+	
+<script type="text/javascript">
+var table = $('#example').DataTable( {
+	dom: 'Blfrtip',
+    buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+} );
 
+
+    </script>
 </body>
 
 </html>

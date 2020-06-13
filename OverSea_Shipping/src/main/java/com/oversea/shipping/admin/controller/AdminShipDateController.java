@@ -1,4 +1,4 @@
- package com.oversea.shipping.controller;
+ package com.oversea.shipping.admin.controller;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.service.ShipDateService;
 
 @Controller
-@RequestMapping("/shipdate")
-public class ShipDateController {
+@RequestMapping("/admin/shipdate")
+public class AdminShipDateController {
 
 	@Autowired
 	private ShipDateService shipDateService;
@@ -68,7 +68,7 @@ public class ShipDateController {
 		shipDateService.save(theshipDate);
 		
 		// use a redirect to prevent duplicate submissions
-		return "redirect:/shipdate/list";
+		return "redirect:/admin/shipdate/list";
 	}
 	
 	
@@ -79,7 +79,7 @@ public class ShipDateController {
 		shipDateService.deleteById(theId);
 		
 		// redirect to /shipdate/list
-		return "redirect:/shipdate/list";
+		return "redirect:/admin/shipdate/list";
 		
 	}
 }

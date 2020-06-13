@@ -44,19 +44,8 @@ public class ShipmentController {
 		
 		return "dashboard/shipments/list-shipments";
 	}
-	
-	@GetMapping("/mylist")
-	public String myListshipments(Model theModel) {
-		
-		// get shipments from db
-		List<Shipment> theshipments = shipmentService.findAll();
-		
-		// add to the spring model
-		theModel.addAttribute("shipments", theshipments);
-		
-		return "dashboard/shipments/list-shipments";
-	}
-	
+
+
 	@GetMapping("/add")
 	public String showFormForAdd(Model theModel) {
 		

@@ -6,17 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.oversea.shipping.service.CustomerService;
-
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
-
-	private CustomerService customerService;
-	
-	public DashboardController(CustomerService thecustomerService) {
-		customerService = thecustomerService;
-	}
 	
 	// add mapping for "/list"
 	

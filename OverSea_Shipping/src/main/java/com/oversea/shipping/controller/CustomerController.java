@@ -23,29 +23,6 @@ public class CustomerController {
 
 	// add mapping for "/list"
 
-	@GetMapping("/list")
-	public String listcustomers(Model theModel) {
-		
-		// get customers from db
-		List<Customer> thecustomers = customerService.findAll();
-		
-		// add to the spring model
-		theModel.addAttribute("customers", thecustomers);
-		
-		return "dashboard/customers/list-customers";
-	}
-	
-	@GetMapping("/add")
-	public String showFormForAdd(Model theModel) {
-		
-		// create model attribute to bind form data
-		Customer thecustomer = new Customer();
-		
-		theModel.addAttribute("customer", thecustomer);
-		
-		return "dashboard/customers/customer-form";
-	}
-
 	@GetMapping("/update")
 	public String showFormForUpdate(@RequestParam("customerId") int theId,
 									Model theModel) {
@@ -68,19 +45,8 @@ public class CustomerController {
 		customerService.save(thecustomer);
 		
 		// use a redirect to prevent duplicate submissions
-		return "redirect:/customers/list";
-	}
-	
-	
-	@GetMapping("/delete")
-	public String delete(@RequestParam("customerId") int theId) {
-		
-		// delete the customer
-		customerService.deleteById(theId);
-		
-		// redirect to /customers/list
-		return "redirect:/customers/list";
-		
+		//TODO depends on role to return page
+		return "redirect:/admin/customers/list";
 	}
 }
 
