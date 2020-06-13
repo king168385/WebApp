@@ -111,6 +111,9 @@ public class ShipmentController {
 				theshipment.setCustomer(customer);
 			}
 		}
+		
+		ShipDate shipDate = shipDateService.findById(theshipment.getShipDate().getId()); 
+		theshipment.setUnit_price(shipDate.getUnitPrice());
 
 		// save the shipment
 		shipmentService.save(theshipment);

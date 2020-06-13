@@ -1,5 +1,6 @@
 package com.oversea.shipping.service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,15 @@ public class ShipmentServiceImpl implements ShipmentService {
 		
 		double unit = theShipment.getLength() * theShipment.getWidth() * theShipment.getHeight() / 6000;
 		
-		if(unit > theShipment.getWeight()) {
-			theShipment.setUnit(unit);
-		}else {
-			theShipment.setUnit(theShipment.getWeight());
+		if(unit < theShipment.getWeight()) {
+			unit = theShipment.getWeight();
 		}
+		
+		DecimalFormat format = new DecimalFormat("###.##");
+		unit = Double.valueOf(format.format(unit));
+		
+		theShipment.setUnit(unit);
+		theShipment.setShipping_price(unit * theShipment.getUnit_price());
 		
 		ShipmentRepository.save(theShipment);
 	}

@@ -29,6 +29,9 @@ public class ShipDate {
 	
 	@Column(name="active")
 	private Boolean active;
+	
+	@Column(name="unit_price")
+	private double unitPrice;
 
 	// define constructors
 	
@@ -92,9 +95,14 @@ public class ShipDate {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	
 
-		
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}	
 }
 
 

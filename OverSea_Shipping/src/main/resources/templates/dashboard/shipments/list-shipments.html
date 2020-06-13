@@ -43,6 +43,7 @@
 											<th>货物描述</th>
 											<th>微信名称</th>
 											<th>货运体积</th>
+											<th>货物运费</th>
 											<th>提货方式</th>
 											<th></th>
 										</tr>
@@ -54,6 +55,7 @@
 											<th>货物描述</th>
 											<th>微信名称</th>
 											<th>货运体积</th>
+											<th>货物运费</th>
 											<th>提货方式</th>
 											<th></th>
 										</tr>
@@ -65,6 +67,7 @@
 											<td th:text="${tempShipment.description}" />
 											<td th:text="${tempShipment.customer.wechatId}" />
 											<td th:text="${tempShipment.unit}" />
+											<td th:text="${tempShipment.shipping_price}" />
 											<td>
 												<div th:switch="${tempShipment.deliveryMethod}">
 													<span th:case="PickUp">自取</span> <span th:case="Delivery">送货</span>
