@@ -355,7 +355,9 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" th:href="@{/logout}">Logout</a>
+						<form th:action="@{/logout}" method="post">
+						    <button type="submit" class="btn btn-primary" th:href="@{/logout}">Logout</button>
+						</form>
 				</div>
 			</div>
 		</div>
@@ -408,7 +410,7 @@
 			src="//cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 
 		<!-- Page level custom scripts -->
-		<script src="../js/demo/datatables-demo.js"></script>
+		<script src="/js/demo/datatables-demo.js"></script>
 	</div>
 </body>
 
