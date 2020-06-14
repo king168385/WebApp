@@ -8,20 +8,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oversea.shipping.dao.ShipmentRepository;
+import com.oversea.shipping.model.Customer;
 import com.oversea.shipping.model.Shipment;
 
 @Service
 public class ShipmentServiceImpl implements ShipmentService {
 
-	private ShipmentRepository ShipmentRepository;
-	
 	@Autowired
-	public ShipmentServiceImpl(ShipmentRepository theShipmentRepository) {
-		ShipmentRepository = theShipmentRepository;
+	private ShipmentRepository ShipmentRepository;
+
+	public List<Shipment> findAll() {
+		return ShipmentRepository.findAllByOrderByCreateDateDesc();
 	}
 	
-	public List<Shipment> findAll() {
-		return ShipmentRepository.findAllByOrderByTrackingNumberAsc();
+	@Override
+	public List<Shipment> findByCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		return ShipmentRepository.findByCustomer(customer);
 	}
 
 	public Shipment findByTrackingNumber(String trackingNumber) {
@@ -56,6 +59,8 @@ public class ShipmentServiceImpl implements ShipmentService {
 	public void deleteByTrackingNumber(String trackingNumber) {
 		ShipmentRepository.deleteByTrackingNumber(trackingNumber);
 	}
+
+	
 
 }
 

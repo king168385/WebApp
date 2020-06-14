@@ -6,19 +6,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.dao.CustomerRepository;
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.Role;
+import com.oversea.shipping.model.User;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+	@Autowired
 	private CustomerRepository customerRepository;
 	
 	@Autowired
-	public CustomerServiceImpl(CustomerRepository thecustomerRepository) {
-		customerRepository = thecustomerRepository;
-	}
-	
+	private UserService userService;
+
 	public List<Customer> findAll() {
 		return customerRepository.findAllByOrderByLastNameAsc();
 	}
@@ -46,6 +48,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 	public void save(Customer thecustomer) {
 		customerRepository.save(thecustomer);
+		
+		User user = userService.getCurrentUser();
+
+		if(user.hasRole(Role.MEMBER) && user.getCustomer() == null) {
+			user.setCustomer(thecustomer);
+			userService.update(user);
+		}
 	}
 
 	public void deleteById(int theId) {

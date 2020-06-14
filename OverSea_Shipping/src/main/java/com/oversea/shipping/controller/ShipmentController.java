@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.Role;
 import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
+import com.oversea.shipping.model.User;
 import com.oversea.shipping.service.CustomerService;
 import com.oversea.shipping.service.ShipDateService;
 import com.oversea.shipping.service.ShipmentService;
@@ -31,13 +35,22 @@ public class ShipmentController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@Autowired
+	private UserService userService;
+	
 	// add mapping for "/list"
 
 	@GetMapping("/list")
 	public String listshipments(Model theModel) {
+		User user = userService.getCurrentUser();
 		
-		// get shipments from db
-		List<Shipment> theshipments = shipmentService.findAll();
+		List<Shipment> theshipments = null;
+		
+		if(user.hasRole(Role.EMPLOYEE) || user.hasRole(Role.ADMIN)) {
+			theshipments = shipmentService.findAll();
+		}else {
+			theshipments = shipmentService.findByCustomer(user.getCustomer());
+		}
 		
 		// add to the spring model
 		theModel.addAttribute("shipments", theshipments);
@@ -48,9 +61,11 @@ public class ShipmentController {
 
 	@GetMapping("/add")
 	public String showFormForAdd(Model theModel) {
+		User user = userService.getCurrentUser();
 		
 		// create model attribute to bind form data
 		Shipment theshipment = new Shipment();
+		theshipment.setCustomer(user.getCustomer());
 				
 		// get shipdate from db
 		List<ShipDate> shipDateList = shipDateService.findAllActive();
@@ -119,7 +134,7 @@ public class ShipmentController {
 		shipmentService.save(theshipment);
 		
 		// use a redirect to prevent duplicate submissions
-		return "redirect:/shipments/list";
+		return "redirect:/dashboard/shipments/list";
 	}
 	
 	
@@ -130,7 +145,7 @@ public class ShipmentController {
 		shipmentService.deleteByTrackingNumber(trackingNumber);
 		
 		// redirect to /shipments/list
-		return "redirect:/shipments/list";
+		return "redirect:/dashboard/shipments/list";
 		
 	}
 }

@@ -1,7 +1,6 @@
 package com.oversea.shipping.model;
 
 import java.util.Collection;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -99,6 +98,12 @@ public class User {
 		this.active = active;
 	}
 
-
+	public boolean hasRole(String roleName) {
+		for(Role role: roles) {
+			if(role.getName().equals(roleName))
+				return true;
+		}
+		return false;
+	}
 
 }

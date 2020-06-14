@@ -1,6 +1,6 @@
 package com.oversea.shipping.model;
 
-import java.util.Set;
+import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +12,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 public class Role {
+	
+	public static String ADMIN = "ROLE_ADMIN";
+	public static String MEMBER = "ROLE_MEMBER";
+	public static String EMPLOYEE = "ROLE_EMPLOYEE";
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Collection<User> users;
 
     public Long getId() {
         return id;
@@ -38,11 +42,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
+    public Collection<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Collection<User> users) {
         this.users = users;
     }
 }

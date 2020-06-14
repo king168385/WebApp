@@ -3,7 +3,11 @@ package com.oversea.shipping.auth.service;
 import com.oversea.shipping.model.User;
 
 public interface UserService {
-    void save(User user);
+    public void save(User user);
+    
+    public void update(User user);
 
-    User findByUsername(String username);
+    public User findByUsername(String username);
+    
+    public User getCurrentUser();
 }
