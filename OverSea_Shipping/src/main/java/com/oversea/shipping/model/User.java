@@ -1,5 +1,6 @@
 package com.oversea.shipping.model;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,7 +30,7 @@ public class User {
 	private Customer customer;
 	
 	@ManyToMany
-    private Set<Role> roles; //Role.name: MEMBER, EMPLOYEE, ADMIN
+    private Collection<Role> roles; //Role.name: MEMBER, EMPLOYEE, ADMIN
 	
 	private String username;
 	
@@ -57,11 +58,12 @@ public class User {
 		this.customer = customer;
 	}
 	
-	public Set<Role> getRoles() {
+
+	public Collection<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
 

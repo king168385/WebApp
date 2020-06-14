@@ -54,26 +54,27 @@
 					th:href="@{/dashboard}"> <i class="fas fa-fw fa-tachometer-alt"></i>
 						<span>控制面板</span></a></li>
 
-				<!-- Divider -->
-				<hr class="sidebar-divider">
+				<div sec:authorize="hasRole('ADMIN')">
+					<!-- Divider -->
+					<hr class="sidebar-divider">
 
-				<!-- Heading -->
-				<div class="sidebar-heading">船运管理</div>
+					<!-- Heading -->
+					<div class="sidebar-heading">船运管理</div>
 
-				<!-- Nav Item - Pages Collapse Menu -->
-				<li class="nav-item"><a class="nav-link collapsed" href="#"
-					data-toggle="collapse" data-target="#collapseOne"
-					aria-expanded="true" aria-controls="collapseOne"> <i
-						class="fas fa-fw fa-cog"></i> <span>船期</span>
-				</a>
-					<div id="collapseOne" class="collapse" aria-labelledby="headingTwo"
-						data-parent="#accordionSidebar">
-						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/admin/shipdate/list}">船期列表</a> <a
-								class="collapse-item" th:href="@{/admin/shipdate/add}">添加船期</a>
-						</div>
-					</div></li>
-
+					<!-- Nav Item - Pages Collapse Menu -->
+					<li class="nav-item"><a class="nav-link collapsed" href="#"
+						data-toggle="collapse" data-target="#collapseOne"
+						aria-expanded="true" aria-controls="collapseOne"> <i
+							class="fas fa-fw fa-cog"></i> <span>船期</span>
+					</a>
+						<div id="collapseOne" class="collapse"
+							aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<a class="collapse-item" th:href="@{/admin/shipdate/list}">船期列表</a>
+								<a class="collapse-item" th:href="@{/admin/shipdate/add}">添加船期</a>
+							</div>
+						</div></li>
+				</div>
 				<!-- Divider -->
 				<hr class="sidebar-divider">
 
@@ -89,30 +90,32 @@
 					<div id="collapseTwo" class="collapse"
 						aria-labelledby="headingPages" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/dashboard/shipments/list}">订单列表</a>  <a
-								class="collapse-item" th:href="@{/dashboard/shipments/add}">添加订单</a>
+							<a class="collapse-item" th:href="@{/dashboard/shipments/list}">订单列表</a>
+							<a class="collapse-item" th:href="@{/dashboard/shipments/add}">添加订单</a>
 						</div>
 					</div></li>
 
-				<!-- Divider -->
-				<hr class="sidebar-divider">
+				<div sec:authorize="hasRole('ADMIN')">
+					<!-- Divider -->
+					<hr class="sidebar-divider">
 
-				<!-- Heading -->
-				<div class="sidebar-heading">客户管理</div>
+					<!-- Heading -->
+					<div class="sidebar-heading">客户管理</div>
 
-				<!-- Nav Item - Pages Collapse Menu -->
-				<li class="nav-item"><a class="nav-link collapsed" href="#"
-					data-toggle="collapse" data-target="#collapseThree"
-					aria-expanded="true" aria-controls="collapseThree"> <i
-						class="fas fa-fw fa-folder"></i> <span>客户</span>
-				</a>
-					<div id="collapseThree" class="collapse"
-						aria-labelledby="headingPages" data-parent="#accordionSidebar">
-						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/admin/customers/list}">客户列表</a> <a
-								class="collapse-item" th:href="@{/admin/customers/add}">添加客户</a>
-						</div>
-					</div></li>
+					<!-- Nav Item - Pages Collapse Menu -->
+					<li class="nav-item"><a class="nav-link collapsed" href="#"
+						data-toggle="collapse" data-target="#collapseThree"
+						aria-expanded="true" aria-controls="collapseThree"> <i
+							class="fas fa-fw fa-folder"></i> <span>客户</span>
+					</a>
+						<div id="collapseThree" class="collapse"
+							aria-labelledby="headingPages" data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<a class="collapse-item" th:href="@{/admin/customers/list}">客户列表</a>
+								<a class="collapse-item" th:href="@{/admin/customers/add}">添加客户</a>
+							</div>
+						</div></li>
+				</div>
 
 				<!-- Divider -->
 				<hr class="sidebar-divider d-none d-md-block">
@@ -286,8 +289,7 @@
 								class="nav-link dropdown-toggle" href="#" id="userDropdown"
 								role="button" data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false"> <span
-									class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie
-										Luna</span> <img class="img-profile rounded-circle"
+									class="mr-2 d-none d-lg-inline text-gray-600 small" sec:authentication="name"></span> <img class="img-profile rounded-circle"
 									src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
 							</a> <!-- Dropdown - User Information -->
 								<div
@@ -353,7 +355,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
+					<a class="btn btn-primary" th:href="@{/logout}">Logout</a>
 				</div>
 			</div>
 		</div>
