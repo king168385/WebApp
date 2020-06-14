@@ -31,8 +31,8 @@ public class User {
 	@ManyToMany
     private Set<Role> roles; //Role.name: MEMBER, EMPLOYEE, ADMIN
 	
-	@Column(name="email", length=120)
-	private String email;
+	@Column(name="username", length=120)
+	private String username;
 	
 	@Column(name="password", length=50)
 	private String password;
@@ -68,12 +68,12 @@ public class User {
 		this.roles = roles;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
