@@ -1,5 +1,7 @@
 package com.oversea.shipping.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -24,27 +28,29 @@ public class User {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@Column(name="role", length=20)
-	private String role; // values: MEMBER, EMPLOYEE, ADMIN
+	@ManyToMany
+    private Set<Role> roles; //Role.name: MEMBER, EMPLOYEE, ADMIN
 	
 	@Column(name="email", length=120)
 	private String email;
 	
 	@Column(name="password", length=50)
 	private String password;
+	
+	@Transient
+    private String passwordConfirm;
 
 	@Column(name="active", length=1)
 	private String active;
 
-	public int getId() {
+
+	public int getId() { 
 		return id;
 	}
-
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public Customer getCustomer() {
 		return customer;
@@ -53,13 +59,13 @@ public class User {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-	public String getRole() {
-		return role;
+	
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public String getEmail() {
@@ -76,6 +82,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public String getActive() {
