@@ -19,7 +19,7 @@ import com.oversea.shipping.service.ShipDateService;
 import com.oversea.shipping.service.ShipmentService;
 
 @Controller
-@RequestMapping("/shipments")
+@RequestMapping("/dashboard/shipments")
 public class ShipmentController {
 
 	@Autowired

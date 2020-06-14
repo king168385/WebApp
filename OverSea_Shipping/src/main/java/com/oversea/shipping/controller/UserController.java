@@ -11,20 +11,8 @@ import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.auth.validator.UserValidator;
 import com.oversea.shipping.model.User;
 
-//@Controller
-//@RequestMapping("/users")
-//public class UserController {
-//	
-//	@GetMapping("/register")
-//	public String listcustomers(Model theModel) {
-//		
-//		return "dashboard/login/register";
-//	}
-//
-//}
-
-
 @Controller
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -39,7 +27,7 @@ public class UserController {
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
 
-        return "registration";
+        return "dashboard/login/register";
     }
 
     @PostMapping("/registration")
@@ -47,14 +35,14 @@ public class UserController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return "dashboard/login/register";
         }
 
         userService.save(userForm);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/login")
@@ -65,11 +53,6 @@ public class UserController {
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");
 
-        return "login";
-    }
-
-    @GetMapping({"/", "/welcome"})
-    public String welcome(Model model) {
-        return "welcome";
+        return "dashboard/login/login";
     }
 }

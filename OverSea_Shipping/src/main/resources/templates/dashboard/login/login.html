@@ -22,7 +22,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
-                  <form class="user" action="#" th:action="@{/dashboard/login}" method="POST">
+                  <form class="user" action="#" th:action="@{/dashboard}" method="POST">
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                     </div>
@@ -39,10 +39,10 @@
                   </form>
                   <hr>
                   <div class="text-center">
-                    <a class="small" th:href="@{/dashboard/forgot-password}">Forgot Password?</a>
+                    <a class="small" th:href="@{/user/forgot-password}">Forgot Password?</a>
                   </div>
                   <div class="text-center">
-                    <a class="small" href="/users/register">Create an Account!</a>
+                    <a class="small" th:href="@{/user/registration}">Create an Account!</a>
                   </div>
                 </div>
               </div>

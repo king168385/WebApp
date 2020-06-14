@@ -31,17 +31,14 @@ public class User {
 	@ManyToMany
     private Set<Role> roles; //Role.name: MEMBER, EMPLOYEE, ADMIN
 	
-	@Column(name="username", length=120)
 	private String username;
 	
-	@Column(name="password", length=50)
 	private String password;
 	
 	@Transient
     private String passwordConfirm;
 
-	@Column(name="active", length=1)
-	private String active;
+	private boolean active;
 
 
 	public int getId() { 
@@ -92,12 +89,14 @@ public class User {
 		this.passwordConfirm = passwordConfirm;
 	}
 
-	public String getActive() {
+	public boolean isActive() {
 		return active;
 	}
 
-	public void setActive(String active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+
 
 }

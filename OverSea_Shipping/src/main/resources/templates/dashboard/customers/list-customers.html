@@ -63,10 +63,10 @@
 											
 											<td>
 												<!-- Add "update" button/link --> <a
-												th:href="@{/customers/update(customerId=${tempcustomer.id})}"
+												th:href="@{/dashboard/customers/update(customerId=${tempcustomer.id})}"
 												class="btn btn-info btn-sm"> 更改 </a> <!-- Add "delete" button/link -->
 												<a
-												th:href="@{/customers/delete(customerId=${tempcustomer.id})}"
+												th:href="@{/admin/customers/delete(customerId=${tempcustomer.id})}"
 												class="btn btn-danger btn-sm"
 												onclick="if (!(confirm('您确定要删除这个船期吗?'))) return false">
 													删除 </a>

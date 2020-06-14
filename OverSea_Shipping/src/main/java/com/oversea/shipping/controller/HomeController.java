@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oversea.shipping.model.ShipDate;
-import com.oversea.shipping.service.CustomerService;
 import com.oversea.shipping.service.ShipDateService;
 
 @Controller

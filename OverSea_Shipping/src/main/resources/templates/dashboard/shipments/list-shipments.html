@@ -76,10 +76,10 @@
 
 											<td>
 												<!-- Add "update" button/link --> <a
-												th:href="@{/shipments/update(trackingNumber=${tempShipment.trackingNumber})}"
+												th:href="@{/dashboard/shipments/update(trackingNumber=${tempShipment.trackingNumber})}"
 												class="btn btn-info btn-sm"> 更改 </a> <!-- Add "delete" button/link -->
 												<a
-												th:href="@{/shipments/delete(trackingNumber=${tempShipment.trackingNumber})}"
+												th:href="@{/dashboard/shipments/delete(trackingNumber=${tempShipment.trackingNumber})}"
 												class="btn btn-danger btn-sm"
 												onclick="if (!(confirm('您确定要删除这个订单吗?'))) return false">
 													删除 </a>
