@@ -31,6 +31,9 @@ public class Shipment {
 	@Column(name="trackingNumber", unique=true, nullable = false)
 	private String trackingNumber;
 	
+	@Column(name="shipingCompany")
+	private String shipingCompany;
+	
 	@Column(name="weight")
 	private double weight;
 	
@@ -42,6 +45,9 @@ public class Shipment {
 	
 	@Column(name="width")
 	private double width;
+	
+	@Column(name="package_value")
+	private double packageValue;
 	
 	@Column(name="shipping_price")
 	private double shipping_price;
@@ -79,7 +85,8 @@ public class Shipment {
 	@JoinColumn(name = "pickupLocation_Id")
 	private PickUpLocation pickupLocation;
 
-	
+	@Column(name="note")
+	private String note;
 	
 	public Shipment() {
 		// TODO Auto-generated constructor stub
@@ -227,6 +234,30 @@ public class Shipment {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getShipingCompany() {
+		return shipingCompany;
+	}
+
+	public void setShipingCompany(String shipingCompany) {
+		this.shipingCompany = shipingCompany;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public double getPackageValue() {
+		return packageValue;
+	}
+
+	public void setPackageValue(double packageValue) {
+		this.packageValue = packageValue;
 	}
 	
 	

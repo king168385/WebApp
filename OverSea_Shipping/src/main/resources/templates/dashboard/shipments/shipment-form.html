@@ -27,7 +27,7 @@
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">添加运货单</h1>
+						<h1 class="h3 mb-0 text-gray-800">货运订单</h1>
 					</div>
 
 					<!-- Content Row -->
@@ -46,19 +46,21 @@
 							</div>
 						</div>
 
-						<div class="form-group row">
-							<label for="email" class="col-sm-1 col-form-label">邮箱</label>
-							<div class="col-sm-11">
-								<input type="email" class="form-control  mb-3 col-3" id="email"
-									th:field="*{customer.email}">
+						<div sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+							<div class="form-group row">
+								<label for="email" class="col-sm-1 col-form-label">邮箱</label>
+								<div class="col-sm-11">
+									<input type="email" class="form-control  mb-3 col-3" id="email"
+										th:field="*{customer.email}">
+								</div>
 							</div>
-						</div>
 
-						<div class="form-group row">
-							<label for="phone" class="col-sm-1 col-form-label">电话</label>
-							<div class="col-sm-11">
-								<input type="tel" class="form-control  mb-2 col-2" id="phone"
-									th:field="*{customer.phone}">
+							<div class="form-group row">
+								<label for="phone" class="col-sm-1 col-form-label">电话</label>
+								<div class="col-sm-11">
+									<input type="tel" class="form-control  mb-2 col-2" id="phone"
+										th:field="*{customer.phone}">
+								</div>
 							</div>
 						</div>
 
@@ -71,7 +73,15 @@
 						</div>
 
 						<div class="form-group row">
-							<label for="trackingNumber" class="col-sm-1 col-form-label">货运单号</label>
+							<label for="shipingCompany" class="col-sm-1 col-form-label">快递公司</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control  mb-2 col-2"
+									id="shipingCompany" th:field="*{shipingCompany}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label>
 							<div class="col-sm-11">
 								<input type="text" class="form-control  mb-2 col-2"
 									id="trackingNumber" th:field="*{trackingNumber}">
@@ -79,88 +89,111 @@
 						</div>
 
 						<div class="form-group row">
-							<label for="description" class="col-sm-1 col-form-label">货物描述</label>
+							<label for="description" class="col-sm-1 col-form-label">货品描述</label>
 							<div class="col-sm-11">
 								<input type="text" class="form-control  mb-2 col-2"
 									id="description" th:field="*{description}">
 							</div>
 						</div>
 
-						<div class="form-group row">
-							<label for="weight" class="col-sm-1 col-form-label">重量（公斤）</label>
+						<div class="form-group row"
+							sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+							<label for="packageValue" class="col-sm-1 col-form-label">货品价值</label>
 							<div class="col-sm-11">
 								<input type="number" class="form-control  mb-2 col-2"
-									id="weight" th:field="*{weight}">
+									id="packageValue" th:field="*{packageValue}"> <small>请如实填写</small>
 							</div>
+
 						</div>
 
-						<div class="form-group row">
-							<label for="length" class="col-sm-1 col-form-label">长度（厘米）</label>
-							<div class="col-sm-11">
-								<input type="number" class="form-control  mb-2 col-2"
-									id="length" th:field="*{length}">
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label for="width" class="col-sm-1 col-form-label">宽度（厘米）</label>
-							<div class="col-sm-11">
-								<input type="number" class="form-control  mb-2 col-2" id="width"
-									th:field="*{width}">
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label for="height" class="col-sm-1 col-form-label">高度（厘米）</label>
-							<div class="col-sm-11">
-								<input type="number" class="form-control  mb-2 col-2"
-									id="height" th:field="*{height}">
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label for="deliveryMethod" class="col-sm-1 col-form-label">提货方式</label>
-							<div class="col-sm-11">
-								<select class="form-control  mb-2 col-2" id="deliveryMethod"
-									th:field="*{deliveryMethod}">
-									<option value=""></option>
-									<option th:value="'PickUp'" th:text="自取"></option>
-									<option th:value="'Delivery'" th:text="送货"></option>
-								</select>
-							</div>
-						</div>
-
-						<div id="deliveryAddress">
+						<div sec:authorize="hasAnyRole('EMPLOYEE', 'ADMIN')">
 							<div class="form-group row">
-								<label for="address" class="col-sm-1 col-form-label">送货地址</label>
+								<label for="weight" class="col-sm-1 col-form-label">重量（公斤）</label>
 								<div class="col-sm-11">
-									<input type="text" class="form-control  mb-2 col-2"
-										id="address" th:field="*{deliveryAddress}">
+									<input type="number" class="form-control  mb-2 col-2"
+										id="weight" th:field="*{weight}">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="city" class="col-sm-1 col-form-label">送货城市</label>
+								<label for="length" class="col-sm-1 col-form-label">长度（厘米）</label>
 								<div class="col-sm-11">
-									<input type="text" class="form-control  mb-2 col-2" id="city"
-										th:field="*{deliveryCity}">
+									<input type="number" class="form-control  mb-2 col-2"
+										id="length" th:field="*{length}">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="province" class="col-sm-1 col-form-label">送货省份</label>
+								<label for="width" class="col-sm-1 col-form-label">宽度（厘米）</label>
 								<div class="col-sm-11">
-									<input type="text" class="form-control  mb-2 col-2"
-										id="province" th:field="*{deliveryProvince}">
+									<input type="number" class="form-control  mb-2 col-2"
+										id="width" th:field="*{width}">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="postCode" class="col-sm-1 col-form-label">送货邮编</label>
+								<label for="height" class="col-sm-1 col-form-label">高度（厘米）</label>
 								<div class="col-sm-11">
-									<input type="text" class="form-control  mb-2 col-2"
-										id="postCode" th:field="*{deliveryPostCode}">
+									<input type="number" class="form-control  mb-2 col-2"
+										id="height" th:field="*{height}">
 								</div>
+							</div>
+						</div>
+
+						<div sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+							<div class="form-group row">
+								<label for="deliveryMethod" class="col-sm-1 col-form-label">提货方式</label>
+								<div class="col-sm-11">
+									<select class="form-control  mb-2 col-2" id="deliveryMethod"
+										th:field="*{deliveryMethod}">
+										<option value=""></option>
+										<option th:value="'PickUp'" th:text="自取"></option>
+										<option th:value="'Delivery'" th:text="送货"></option>
+									</select>
+								</div>
+							</div>
+
+							<div id="deliveryAddress">
+								<div class="form-group row">
+									<label for="address" class="col-sm-1 col-form-label">送货地址</label>
+									<div class="col-sm-11">
+										<input type="text" class="form-control  mb-2 col-2"
+											id="address" th:field="*{deliveryAddress}">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label for="city" class="col-sm-1 col-form-label">送货城市</label>
+									<div class="col-sm-11">
+										<input type="text" class="form-control  mb-2 col-2" id="city"
+											th:field="*{deliveryCity}">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label for="province" class="col-sm-1 col-form-label">送货省份</label>
+									<div class="col-sm-11">
+										<input type="text" class="form-control  mb-2 col-2"
+											id="province" th:field="*{deliveryProvince}">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label for="postCode" class="col-sm-1 col-form-label">送货邮编</label>
+									<div class="col-sm-11">
+										<input type="text" class="form-control  mb-2 col-2"
+											id="postCode" th:field="*{deliveryPostCode}">
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="note" class="col-sm-1 col-form-label">备注</label>
+							<div class="col-sm-11">
+								<textarea class="form-control  mb-2 col-2" id="note"
+									th:field="*{note}"></textarea>
 							</div>
 						</div>
 

@@ -37,7 +37,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "dashboard/login/register";
         }
-
+ 
         userService.save(userForm);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());

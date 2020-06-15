@@ -39,40 +39,49 @@
 									<thead>
 										<tr>
 											<th>海运日期</th>
-											<th>货运单号</th>
-											<th>货物描述</th>
 											<th>微信名称</th>
+											<th>快递公司</th>
+											<th>快递单号</th>
+											<th>货品描述</th>
+											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货品价值</th>
 											<th>货运体积</th>
-											<th>货物运费</th>
-											<th>提货方式</th>
+											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货物运费</th>
+											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
+											<th>备注</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
 											<th>海运日期</th>
-											<th>货运单号</th>
-											<th>货物描述</th>
 											<th>微信名称</th>
+											<th>快递公司</th>
+											<th>快递单号</th>
+											<th>货品描述</th>
+											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货品价值</th>
 											<th>货运体积</th>
-											<th>货物运费</th>
-											<th>提货方式</th>
+											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货物运费</th>
+											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
+											<th>备注</th>
 											<th></th>
 										</tr>
 									</tfoot>
 									<tbody>
 										<tr th:each="tempShipment : ${shipments}">
 											<td th:text="${tempShipment.shipDate.shippingDate}" />
+											<td th:text="${tempShipment.customer.wechatId}" />
+											<td th:text="${tempShipment.shipingCompany}" />
 											<td th:text="${tempShipment.trackingNumber}" />
 											<td th:text="${tempShipment.description}" />
-											<td th:text="${tempShipment.customer.wechatId}" />
+											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" th:text="${tempShipment.packageValue}" />
 											<td th:text="${tempShipment.unit}" />
-											<td th:text="${tempShipment.shipping_price}" />
-											<td>
+											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" th:text="${tempShipment.shipping_price}" />
+											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
 												<div th:switch="${tempShipment.deliveryMethod}">
 													<span th:case="PickUp">自取</span> <span th:case="Delivery">送货</span>
 												</div>
 											</td>
+											<td th:text="${tempShipment.note}" />
 
 											<td>
 												<!-- Add "update" button/link --> <a
