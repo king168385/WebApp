@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oversea.shipping.dao.ShipmentRepository;
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.PackageStatus;
 import com.oversea.shipping.model.Shipment;
+import com.oversea.shipping.model.ShipmentPackageStatus;
 
 @Service
 public class ShipmentServiceImpl implements ShipmentService {
@@ -51,6 +53,18 @@ public class ShipmentServiceImpl implements ShipmentService {
 		
 		theShipment.setUnit(unit);
 		theShipment.setShipping_price(unit * theShipment.getUnit_price());
+		
+		if(theShipment.getPackageStatusList().isEmpty()) {
+			ShipmentPackageStatus status = new ShipmentPackageStatus();
+			status.setPackageStatus(PackageStatus.NEW);
+			theShipment.getPackageStatusList().add(status);
+		}
+		
+		if(unit > 0 && !theShipment.hasPackageStatus(PackageStatus.RECEIVED)) {
+			ShipmentPackageStatus status = new ShipmentPackageStatus();
+			status.setPackageStatus(PackageStatus.RECEIVED);
+			theShipment.getPackageStatusList().add(status);
+		}
 		
 		ShipmentRepository.save(theShipment);
 	}

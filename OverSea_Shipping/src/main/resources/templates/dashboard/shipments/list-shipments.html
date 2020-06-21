@@ -47,6 +47,7 @@
 											<th>货运体积</th>
 											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货物运费</th>
 											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
+											<th>货物状态</th>
 											<th>备注</th>
 											<th></th>
 										</tr>
@@ -62,12 +63,13 @@
 											<th>货运体积</th>
 											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货物运费</th>
 											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
+											<th>货物状态</th>
 											<th>备注</th>
 											<th></th>
 										</tr>
 									</tfoot>
 									<tbody>
-										<tr th:each="tempShipment : ${shipments}">
+										<tr th:each="tempShipment : ${shipments}" >
 											<td th:text="${tempShipment.shipDate.shippingDate}" />
 											<td th:text="${tempShipment.customer.wechatId}" />
 											<td th:text="${tempShipment.shipingCompany}" />
@@ -79,6 +81,18 @@
 											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
 												<div th:switch="${tempShipment.deliveryMethod}">
 													<span th:case="PickUp">自取</span> <span th:case="Delivery">送货</span>
+												</div>
+											</td>
+											<td th:with="status=${tempShipment.getLastPackageStatus()}">
+												<div th:switch="${status.packageStatus}">
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).NEW}">新单</span> 
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).RECEIVED}">仓库签收</span>
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).SHIPPING}">船运中</span>
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).ARRIVED}">清关中</span>
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).PICKUP}">可以自取</span>
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).PICKEDUP}">已自取</span>
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).DELIVERY}">送货中</span>
+													<span th:case="${T(com.oversea.shipping.model.PackageStatus).DELIVERIED}">已送货</span>
 												</div>
 											</td>
 											<td th:text="${tempShipment.note}" />

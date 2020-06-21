@@ -1,25 +1,31 @@
 package com.oversea.shipping.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 
 @Entity
+@DynamicUpdate
 @Table(name="shipment")
 public class Shipment {
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToOne(cascade = { CascadeType.REFRESH })
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
@@ -87,6 +93,10 @@ public class Shipment {
 
 	@Column(name="note")
 	private String note;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "shipment_package_status_Id")
+	private List<ShipmentPackageStatus> packageStatusList = new ArrayList<ShipmentPackageStatus>();
 	
 	public Shipment() {
 		// TODO Auto-generated constructor stub
@@ -259,6 +269,32 @@ public class Shipment {
 	public void setPackageValue(double packageValue) {
 		this.packageValue = packageValue;
 	}
+
+	public List<ShipmentPackageStatus> getPackageStatusList() {
+		return packageStatusList;
+	}
+
+	public void setPackageStatusList(List<ShipmentPackageStatus> packageStatusList) {
+		this.packageStatusList = packageStatusList;
+	}
 	
+	public ShipmentPackageStatus getLastPackageStatus() {
+		ShipmentPackageStatus latest = null;
+		for(ShipmentPackageStatus status: packageStatusList) {
+			if(latest == null || status.getCreateDate().after(latest.getCreateDate())) {
+				latest = status;
+			}
+		}
+		return latest;
+	}
 	
+	public boolean hasPackageStatus(PackageStatus packageStatus) {
+		boolean result = false;
+		for(ShipmentPackageStatus status: packageStatusList) {
+			if(status.getPackageStatus().equals(packageStatus)) {
+				result = true;
+			}
+		}
+		return result;
+	}
 }

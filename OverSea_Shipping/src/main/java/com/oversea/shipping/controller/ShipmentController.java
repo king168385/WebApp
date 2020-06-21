@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.model.Customer;
@@ -23,6 +24,7 @@ import com.oversea.shipping.service.ShipDateService;
 import com.oversea.shipping.service.ShipmentService;
 
 @Controller
+@SessionAttributes("shipment")
 @RequestMapping("/dashboard/shipments")
 public class ShipmentController {
 
