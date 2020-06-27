@@ -1,0 +1,7 @@
+package com.oversea.shipping.email;
+
+public interface EmailService {
+	
+	void sendSimpleMessage(String to, String subject, String text);
+
+}

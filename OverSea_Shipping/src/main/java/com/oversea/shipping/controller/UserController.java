@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.oversea.shipping.auth.service.SecurityService;
 import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.auth.validator.UserValidator;
+import com.oversea.shipping.email.EmailService;
 import com.oversea.shipping.model.User;
 
 @Controller
@@ -22,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+    
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -43,6 +47,26 @@ public class UserController {
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
         return "redirect:/dashboard";
+    }
+    
+    @GetMapping("/forgot-password")
+    public String forgotPassword(Model model) {
+        model.addAttribute("userForm", new User());
+
+        return "dashboard/login/forgot-password";
+    }
+    
+    @PostMapping("/forgot-password")
+    public String forgotPassword(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+//        userValidator.validate(userForm, bindingResult);
+        
+        String msg = "You password has been reset.\n\n";
+        msg += "Regards\n";
+        msg += "Oversea Shipping Team\n";
+        
+        emailService.sendSimpleMessage("johnlg919@msn.com", "Oversea Shipping - Password Reset", msg);
+
+        return "dashboard/login/forgot-password";
     }
 
     @GetMapping("/login")
