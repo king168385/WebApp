@@ -1,6 +1,7 @@
 package com.oversea.shipping.model;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 
@@ -39,6 +42,14 @@ public class User {
     private String passwordConfirm;
 
 	private boolean active;
+	
+	@Column(name="reset_password")
+	private boolean resetPassword;
+	
+	
+	@Column(name = "reset_expiry", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date resetExpiry;
 
 
 	public int getId() { 
@@ -104,6 +115,22 @@ public class User {
 				return true;
 		}
 		return false;
+	}
+
+	public boolean isResetPassword() {
+		return resetPassword;
+	}
+
+	public void setResetPassword(boolean resetPassword) {
+		this.resetPassword = resetPassword;
+	}
+
+	public Date getResetExpiry() {
+		return resetExpiry;
+	}
+
+	public void setResetExpiry(Date resetExpiry) {
+		this.resetExpiry = resetExpiry;
 	}
 
 }
