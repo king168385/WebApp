@@ -1,16 +1,21 @@
 package com.oversea.shipping.controller;
 
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.oversea.shipping.auth.service.SecurityService;
@@ -21,6 +26,7 @@ import com.oversea.shipping.email.EmailService;
 import com.oversea.shipping.model.User;
 
 @Controller
+@SessionAttributes("user")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
@@ -37,6 +43,9 @@ public class UserController {
     
     @Autowired
 	private UserRepository userRepository;
+    
+    @Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -93,7 +102,7 @@ public class UserController {
 //            String decEmail = new String(Base64.getDecoder().decode(encEmail));
 //            System.out.println("dec:"+decEmail);
             
-            String url = baseUrl + "/user/reset-password?code=" + URLEncoder.encode(encEmail);
+            String url = baseUrl + "/user/reset-password/" + URLEncoder.encode(encEmail);
             
             // TODO: email template
             String msg = "Dear User,\n\n";
@@ -112,8 +121,8 @@ public class UserController {
         return "dashboard/login/forgot-password";
     }
     
-    @GetMapping("/reset-password")
-    public String resetPassword(Model model, @RequestParam String code) {
+    @GetMapping("/reset-password/{code}")
+    public String resetPassword(Model model, @PathVariable(value = "code") String code) {
     	
     	String decEmail = new String(Base64.getDecoder().decode(code));
 
@@ -124,22 +133,54 @@ public class UserController {
     	if(user == null)
     	{
     		// alert: 403 Forbidden
+    		model.addAttribute("alertMsg", "403 Forbidden");
     	}
     	else
     	{
     		Date now = new Date();
     		if(user.isResetPassword() && null != user.getResetExpiry() && user.getResetExpiry().compareTo(now) > 0)
     		{
-    			model.addAttribute("username", user.getUsername());
+    			user.setPassword(null);
+    			user.setPasswordConfirm(null);
+    			model.addAttribute("user", user);
     			return "dashboard/login/reset-password";
     		}
     		else
     		{
     			// alert: Password reset expired.
+    			model.addAttribute("alertMsg", "Password reset expried.");
     		}
     	}
 
         return "dashboard/login/reset-password";
+    }
+    
+    @PostMapping("/reset-password")
+    public String resetPassword(Model model, @ModelAttribute("user") User user) {
+        
+    	String password = user.getPassword();
+    	String passwordConfirm = user.getPasswordConfirm();
+    	
+    	boolean flagSucc = true;
+    	if(password.length() < 8)
+    	{
+    		model.addAttribute("alertMsg", "Password must be at least 8 characters long.");
+    		flagSucc = false;
+    	}
+    	else if(!password.equals(passwordConfirm))
+    	{
+    		model.addAttribute("alertMsg", "Password and confirm password do not match.");
+    		flagSucc = false;
+    	}
+    	
+    	if(flagSucc)
+    	{
+    		user.setPassword(bCryptPasswordEncoder.encode(password));
+    		user.setResetPassword(false);
+    		user.setResetExpiry(null);
+    	}
+
+    	return "dashboard/login/reset-password";
     }
 
     @GetMapping("/login")
