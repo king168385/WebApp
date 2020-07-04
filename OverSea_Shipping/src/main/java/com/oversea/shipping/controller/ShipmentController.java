@@ -2,10 +2,12 @@
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,29 +119,35 @@ public class ShipmentController {
 	
 	
 	@PostMapping("/save")
-	public String saveshipment(@ModelAttribute("shipment") Shipment theshipment) {
+	public String saveshipment(@Valid Shipment shipment, Model theModel, BindingResult bindingResult) {
 		
-		if(theshipment.getCustomer().getId() == 0) {
-			Customer customer = customerService.findByEmail(theshipment.getCustomer().getEmail());
+		if (bindingResult.hasErrors()) {
+			List<ShipDate> shipDateList = shipDateService.findAllActive();
+			theModel.addAttribute("shipDateList", shipDateList);
+            return "dashboard/shipments/shipment-form";
+        }
+		
+		if(shipment.getCustomer().getId() == 0) {
+			Customer customer = customerService.findByEmail(shipment.getCustomer().getEmail());
 			
 			if(customer == null) {
-				customerService.save(theshipment.getCustomer());
+				customerService.save(shipment.getCustomer());
 			}else {
-				theshipment.setCustomer(customer);
+				shipment.setCustomer(customer);
 			}
 		}
 		
-		ShipDate shipDate = shipDateService.findById(theshipment.getShipDate().getId()); 
-		theshipment.setUnit_price(shipDate.getUnitPrice());
+		ShipDate shipDate = shipDateService.findById(shipment.getShipDate().getId()); 
+		shipment.setUnit_price(shipDate.getUnitPrice());
 
 		// save the shipment
-		shipmentService.save(theshipment);
+		shipmentService.save(shipment);
 		
 		// use a redirect to prevent duplicate submissions
 		return "redirect:/dashboard/shipments/list";
 	}
 	
-	
+
 	@GetMapping("/delete")
 	public String delete(@RequestParam("trackingNumber") String trackingNumber) {
 		

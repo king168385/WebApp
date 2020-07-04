@@ -15,25 +15,27 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicUpdate;
 
 
 @Entity
-@DynamicUpdate
 @Table(name="shipment")
 public class Shipment {
-
+	@NotNull
 	@ManyToOne(cascade = { CascadeType.REFRESH })
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
+	@NotNull
 	@ManyToOne(cascade = { CascadeType.REFRESH })
 	@JoinColumn(name = "ship_date_id")
 	private ShipDate shipDate;
 	
 	@Id
+	@NotEmpty
 	@Column(name="trackingNumber", unique=true, nullable = false)
 	private String trackingNumber;
 	
@@ -67,6 +69,7 @@ public class Shipment {
 	@Column(name="description")
 	private String description;
 	
+	@NotNull
 	@Column(name="deliveryMethod")
 	private String deliveryMethod;
 	

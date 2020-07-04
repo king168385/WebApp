@@ -74,6 +74,43 @@ public class ShipmentServiceImpl implements ShipmentService {
 		ShipmentRepository.deleteByTrackingNumber(trackingNumber);
 	}
 
+	@Override
+	public void updatePackageStatus(Shipment theshipment) {
+		ShipmentPackageStatus status = theshipment.getLastPackageStatus();
+		ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
+		
+		
+		switch(status.getPackageStatus()) {
+		case NEW:
+			status.setPackageStatus(PackageStatus.RECEIVED);
+			break;
+		case RECEIVED:
+			status.setPackageStatus(PackageStatus.SHIPPING);
+			break;
+		case SHIPPING:
+			status.setPackageStatus(PackageStatus.ARRIVED);
+			break;
+		case ARRIVED:
+			if("Delivery".equals(theshipment.getDeliveryMethod())) {
+				status.setPackageStatus(PackageStatus.DELIVERY);
+			}else {
+				status.setPackageStatus(PackageStatus.PICKUP);
+			}
+			break;
+		case PICKUP:
+			status.setPackageStatus(PackageStatus.PICKEDUP);
+			break;
+		case DELIVERY:
+			status.setPackageStatus(PackageStatus.DELIVERIED);
+			break;
+		default:
+			break;
+		}
+		
+		theshipment.getPackageStatusList().add(newStatus);
+		ShipmentRepository.save(theshipment);
+	}
+
 	
 
 }

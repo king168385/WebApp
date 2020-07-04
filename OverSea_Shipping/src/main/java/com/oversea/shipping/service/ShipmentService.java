@@ -19,5 +19,7 @@ public interface ShipmentService {
 	public void deleteByTrackingNumber(String trackingNumber);
 
 	public List<Shipment> findByCustomer(Customer customer);
+
+	public void updatePackageStatus(Shipment theshipment);
 	
 }
