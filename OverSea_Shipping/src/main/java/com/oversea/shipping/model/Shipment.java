@@ -35,7 +35,7 @@ public class Shipment {
 	private ShipDate shipDate;
 	
 	@Id
-	@NotEmpty
+	@NotEmpty(message = "必须填写")
 	@Column(name="trackingNumber", unique=true, nullable = false)
 	private String trackingNumber;
 	

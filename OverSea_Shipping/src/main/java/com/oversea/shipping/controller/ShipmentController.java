@@ -119,7 +119,7 @@ public class ShipmentController {
 	
 	
 	@PostMapping("/save")
-	public String saveshipment(@Valid Shipment shipment, Model theModel, BindingResult bindingResult) {
+	public String saveshipment( Model theModel, @Valid Shipment shipment, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
 			List<ShipDate> shipDateList = shipDateService.findAllActive();
