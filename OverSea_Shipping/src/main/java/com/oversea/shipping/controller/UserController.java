@@ -124,16 +124,19 @@ public class UserController {
     @GetMapping("/reset-password/{code}")
     public String resetPassword(Model model, @PathVariable(value = "code") String code) {
     	
-    	String decEmail = new String(Base64.getDecoder().decode(code));
-
-    	System.out.println("reset user:" + decEmail);
-    	
-    	User user = userRepository.findByUsernameAndActiveTrue(decEmail);
+        User user = null;
+        try {
+            String decEmail = new String(Base64.getDecoder().decode(code));
+            user = userRepository.findByUsernameAndActiveTrue(decEmail);
+        } catch (Exception e) {
+            // cannot decode code
+        }
     	
     	if(user == null)
     	{
     		// alert: 403 Forbidden
-    		model.addAttribute("alertMsg", "403 Forbidden");
+    		model.addAttribute("alertMessage", "403 Forbidden");
+    		return "site/blank-with-message";
     	}
     	else
     	{
@@ -143,16 +146,16 @@ public class UserController {
     			user.setPassword(null);
     			user.setPasswordConfirm(null);
     			model.addAttribute("user", user);
+    			
     			return "dashboard/login/reset-password";
     		}
     		else
     		{
     			// alert: Password reset expired.
-    			model.addAttribute("alertMsg", "Password reset expried.");
+    			model.addAttribute("alertMessage", "Password reset expried.");
+    			return "site/blank-with-message";
     		}
     	}
-
-        return "dashboard/login/reset-password";
     }
     
     @PostMapping("/reset-password")
@@ -164,12 +167,14 @@ public class UserController {
     	boolean flagSucc = true;
     	if(password.length() < 8)
     	{
-    		model.addAttribute("alertMsg", "Password must be at least 8 characters long.");
+    		model.addAttribute("alertMessage", "Password must be at least 8 characters long.");
+    		model.addAttribute("alertType", "danger");
     		flagSucc = false;
     	}
     	else if(!password.equals(passwordConfirm))
     	{
-    		model.addAttribute("alertMsg", "Password and confirm password do not match.");
+    		model.addAttribute("alertMessage", "Password and confirm password do not match.");
+    		model.addAttribute("alertType", "danger");
     		flagSucc = false;
     	}
     	
@@ -178,7 +183,13 @@ public class UserController {
     		user.setPassword(bCryptPasswordEncoder.encode(password));
     		user.setResetPassword(false);
     		user.setResetExpiry(null);
+    		userRepository.save(user);
+    		
+    		model.addAttribute("alertMessage", "Password reset successful!");
+            model.addAttribute("alertType", "success");
     	}
+    	
+    	model.addAttribute("flagSucc", flagSucc);
 
     	return "dashboard/login/reset-password";
     }

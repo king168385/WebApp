@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:insert="dashboard/fragment/general :: head"></div>
+
+<body>
+
+    <br><br>
+    <h2 style="text-align: center" th:text="${alertMessage}"></h2>
+  
+
+  <!-- Script -->
+ <div th:insert="dashboard/fragment/general :: script"></div>
+
+</body>
+
+</html>
