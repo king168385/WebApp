@@ -28,7 +28,7 @@ public class Customer {
 	
 	@NotNull
 	@Email
-	@Column(name="email", unique=true, nullable = false)
+	@Column(name="email")
 	private String email;
 	
 	@Column(name="phone")
@@ -46,7 +46,7 @@ public class Customer {
 	@Column(name="postCode")
 	private String postCode;
 	
-	@Column(name="wechatId")
+	@Column(name="wechatId", unique=true, nullable = false)
 	private String wechatId;
 		
 	// define constructors

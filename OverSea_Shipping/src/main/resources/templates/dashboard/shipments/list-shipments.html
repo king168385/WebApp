@@ -44,6 +44,13 @@
 							<a id="searchWithDate" href="#" onclick='shipmentListWithDate();'
 								class="btn btn-info btn-sm">查询</a>
 						</div>
+						<div class="col-sm-1 offset-sm-7">
+							<form id="uploadFile" method="post" enctype="multipart/form-data"  th:action="@{/admin/shipments/uploadExcelFile}">
+						    <label class="btn btn-primary">
+    							<input type="file" id="file" name="file" class="d-none">导入货运单
+							</label>
+						</form>
+						</div>
 					</div>
 
 					<div class="card shadow mb-4">
@@ -196,6 +203,10 @@
 <script type="text/javascript">
 $(document).ready(function () {
 
+	$('#file').change(function(){
+		this.form.submit();
+	});
+	
     $(".updatePackageStatus").submit(function (event) {
 
         //stop submit the form, we will post it manually.

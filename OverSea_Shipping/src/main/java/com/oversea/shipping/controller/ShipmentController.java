@@ -154,11 +154,6 @@ public class ShipmentController {
 				shipment.setCustomer(customer);
 			}
 		}
-		
-		if(shipment.getUnit_price() == 0) {
-			ShipDate shipDate = shipDateService.findById(shipment.getShipDate().getId()); 
-			shipment.setUnit_price(shipDate.getUnitPrice());
-		}
 
 		// save the shipment
 		shipmentService.save(shipment);

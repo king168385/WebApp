@@ -1,5 +1,6 @@
 package com.oversea.shipping.service;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -27,5 +28,7 @@ public interface ShipmentService {
 	public void updatePackageStatus(Shipment theshipment);
 	
 	public void updatePackageStatus(Shipment theshipment, PackageStatus status);
+	
+	public void uploadShipmentFromExcel(InputStream input) throws Exception;
 	
 }

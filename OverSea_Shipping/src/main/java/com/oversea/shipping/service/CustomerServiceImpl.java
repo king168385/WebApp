@@ -61,6 +61,11 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRepository.deleteById(theId);
 	}
 
+	@Override
+	public Customer findByWeChatId(String wechatId) {
+		return customerRepository.findByWechatId(wechatId);
+	}
+
 }
 
 

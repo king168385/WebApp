@@ -69,7 +69,7 @@ public class Shipment {
 	@Column(name="description")
 	private String description;
 	
-	@NotNull
+	@NotEmpty(message = "必须填写")
 	@Column(name="deliveryMethod")
 	private String deliveryMethod;
 	
