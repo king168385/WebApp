@@ -77,8 +77,7 @@ public class UserController {
     }
     
     @PostMapping("/forgot-password")
-    public String forgotPassword(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-//        userValidator.validate(userForm, bindingResult);
+    public String forgotPassword(Model model, @ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         
         String username = userForm.getUsername();
         
@@ -98,10 +97,6 @@ public class UserController {
             final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
             
             String encEmail = Base64.getEncoder().encodeToString(username.getBytes());
-//            System.out.println("enc:"+encEmail);
-//            String decEmail = new String(Base64.getDecoder().decode(encEmail));
-//            System.out.println("dec:"+decEmail);
-            
             String url = baseUrl + "/user/reset-password/" + URLEncoder.encode(encEmail);
             
             // TODO: email template
@@ -112,10 +107,14 @@ public class UserController {
             msg += "Oversea Shipping Team\n";
             
             emailService.sendSimpleMessage(username, "Oversea Shipping - Password Reset", msg);
+            
+            model.addAttribute("alertMessage", "Please check your email to proceed password reset.");
+            model.addAttribute("alertType", "success");
         }
         else
         {
-        	System.out.println("alert user not exist");
+            model.addAttribute("alertMessage", "Email not found.");
+            model.addAttribute("alertType", "danger");
         }
 
         return "dashboard/login/forgot-password";
