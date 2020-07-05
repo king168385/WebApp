@@ -1,6 +1,7 @@
 package com.oversea.shipping.service;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oversea.shipping.dao.ShipmentRepository;
 import com.oversea.shipping.model.Customer;
 import com.oversea.shipping.model.PackageStatus;
+import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
 import com.oversea.shipping.model.ShipmentPackageStatus;
 
@@ -25,7 +27,6 @@ public class ShipmentServiceImpl implements ShipmentService {
 	
 	@Override
 	public List<Shipment> findByCustomer(Customer customer) {
-		// TODO Auto-generated method stub
 		return ShipmentRepository.findByCustomer(customer);
 	}
 
@@ -51,8 +52,11 @@ public class ShipmentServiceImpl implements ShipmentService {
 		DecimalFormat format = new DecimalFormat("###.##");
 		unit = Double.valueOf(format.format(unit));
 		
-		theShipment.setUnit(unit);
-		theShipment.setShipping_price(unit * theShipment.getUnit_price());
+		if(theShipment.getUnit() == 0) {
+			theShipment.setUnit(unit);
+		}
+		
+		theShipment.setShipping_price(theShipment.getUnit() * theShipment.getUnit_price());
 		
 		if(theShipment.getPackageStatusList().isEmpty()) {
 			ShipmentPackageStatus status = new ShipmentPackageStatus();
@@ -85,6 +89,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 			status.setPackageStatus(PackageStatus.RECEIVED);
 			break;
 		case RECEIVED:
+			status.setPackageStatus(PackageStatus.UNPAY);
+			break;
+		case UNPAY:
 			status.setPackageStatus(PackageStatus.SHIPPING);
 			break;
 		case SHIPPING:
@@ -108,6 +115,24 @@ public class ShipmentServiceImpl implements ShipmentService {
 		}
 		
 		theshipment.getPackageStatusList().add(newStatus);
+		ShipmentRepository.save(theshipment);
+	}
+
+	@Override
+	public List<Shipment> findByShipDate(ShipDate shipDate) {
+		return ShipmentRepository.findByShipDate(shipDate);
+	}
+
+	@Override
+	public void updatePackageStatus(Shipment theshipment, PackageStatus status) {
+		ShipmentPackageStatus shipmentStatus = theshipment.getPackageStatus(status);
+		if(shipmentStatus != null) {
+			shipmentStatus.setCreateDate(new Date());
+		}else {
+			ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
+			newStatus.setPackageStatus(status);
+			theshipment.getPackageStatusList().add(newStatus); 
+		}
 		ShipmentRepository.save(theshipment);
 	}
 

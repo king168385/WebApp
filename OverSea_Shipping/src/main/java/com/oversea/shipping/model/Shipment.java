@@ -300,4 +300,14 @@ public class Shipment {
 		}
 		return result;
 	}
+	
+	public ShipmentPackageStatus getPackageStatus(PackageStatus packageStatus) {
+		ShipmentPackageStatus result = null;
+		for(ShipmentPackageStatus status: packageStatusList) {
+			if(status.getPackageStatus().equals(packageStatus)) {
+				result = status;
+			}
+		}
+		return result;
+	}
 }

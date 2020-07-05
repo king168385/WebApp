@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +19,7 @@ import com.oversea.shipping.model.Customer;
 import com.oversea.shipping.model.Role;
 import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
+import com.oversea.shipping.model.UpdatePackageStatus;
 import com.oversea.shipping.model.User;
 import com.oversea.shipping.service.CustomerService;
 import com.oversea.shipping.service.ShipDateService;
@@ -45,19 +45,35 @@ public class ShipmentController {
 	// add mapping for "/list"
 
 	@GetMapping("/list")
-	public String listshipments(Model theModel) {
+	public String listshipments(@RequestParam(required = false) Integer shipDate_Id, Model theModel) {
 		User user = userService.getCurrentUser();
 		
 		List<Shipment> theshipments = null;
 		
 		if(user.hasRole(Role.EMPLOYEE) || user.hasRole(Role.ADMIN)) {
-			theshipments = shipmentService.findAll();
+			if(shipDate_Id == null) {
+				theshipments = shipmentService.findAll();
+			}else {
+				ShipDate shipDate = shipDateService.findById(shipDate_Id);
+				theshipments = shipmentService.findByShipDate(shipDate);
+			}
+			
+			
+			ShipDate theshipDate = new ShipDate();
+			theModel.addAttribute("shipDate", theshipDate);
+			
+			UpdatePackageStatus updatePackageStatus = new UpdatePackageStatus();
+			theModel.addAttribute("updatePackageStatus", updatePackageStatus);
+			
+			List<ShipDate> shipDateList = shipDateService.findAllActive();
+			theModel.addAttribute("shipDateList", shipDateList);
 		}else {
 			theshipments = shipmentService.findByCustomer(user.getCustomer());
 		}
-		
+
 		// add to the spring model
 		theModel.addAttribute("shipments", theshipments);
+		
 		
 		return "dashboard/shipments/list-shipments";
 	}
@@ -82,9 +98,11 @@ public class ShipmentController {
 	
 	@GetMapping("/addWithDate")
 	public String showFormForAdd(@RequestParam("shipDate_Id") Integer shipDate_Id, Model theModel) {
+		User user = userService.getCurrentUser();
 		
 		// create model attribute to bind form data
 		Shipment theshipment = new Shipment();
+		theshipment.setCustomer(user.getCustomer());
 				
 		if(shipDate_Id != null) {
 			ShipDate shipDate = shipDateService.findById(shipDate_Id);
@@ -137,8 +155,10 @@ public class ShipmentController {
 			}
 		}
 		
-		ShipDate shipDate = shipDateService.findById(shipment.getShipDate().getId()); 
-		shipment.setUnit_price(shipDate.getUnitPrice());
+		if(shipment.getUnit_price() == 0) {
+			ShipDate shipDate = shipDateService.findById(shipment.getShipDate().getId()); 
+			shipment.setUnit_price(shipDate.getUnitPrice());
+		}
 
 		// save the shipment
 		shipmentService.save(shipment);

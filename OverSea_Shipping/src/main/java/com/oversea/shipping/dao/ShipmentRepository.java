@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
 
 public interface ShipmentRepository extends JpaRepository<Shipment, Integer> {
@@ -16,5 +17,7 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer> {
 	public void deleteByTrackingNumber(String trackingNumber);
 
 	public List<Shipment> findByCustomer(Customer customer);
+	
+	public List<Shipment> findByShipDate(ShipDate shipDate);
 	
 }
