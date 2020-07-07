@@ -125,16 +125,38 @@
       
       
       function madeAjaxCall(){
-      
+    	  
+    	  var token = $("meta[name='_csrf']").attr("content");
+    	  
+    	  $.ajax({
+            type: "post",
+            url: "http://localhost:8080/rest/shippingstatus",
+            headers: {"X-CSRF-TOKEN": token},
+            cache: false,    
+            data:'trackingnumber=' + $("#trackingNumber").val(),
+            success: function(response){
+             $('#result').html("");
+             var obj = JSON.parse(JSON.stringify(response));
+             console.log(obj);
+             ////$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
+            },
+            error: function(){      
+             alert('Error while request..');
+            }
+           });
+          }
+    	  
+    	 /*
+    	// working with get  
         var trackingnum = $("#trackingNumber").val();
 		$.ajax({
-		  type: "post",
-		  url: "http://localhost:8080/admin/shippingstatus/"+trackingnum,
+		  type: "get",
+		  url: "http://localhost:8080/rest/shipping/"+trackingnum,
 		  cache: false,    
-		  data:'trackingnumber=' + $("#trackingNumber").val(),
+		  //data:'trackingnumber=' + $("#trackingNumber").val(),
 		  success: function(response){
 		   $('#result').html("");
-		   var obj = JSON.parse(response);
+		   var obj = JSON.parse(JSON.stringify(response));
 		   console.log(obj);
 		   ////$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
 		  },
@@ -142,7 +164,7 @@
 		   alert('Error while request..');
 		  }
 		 });
-		}
+		}*/
    </script>
 	
 </body>
