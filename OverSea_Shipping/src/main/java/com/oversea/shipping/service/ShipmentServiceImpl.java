@@ -25,7 +25,6 @@ import com.oversea.shipping.model.Customer;
 import com.oversea.shipping.model.PackageStatus;
 import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
-import com.oversea.shipping.model.ShipmentPackageStatus;
 
 @Service
 public class ShipmentServiceImpl implements ShipmentService {
@@ -61,6 +60,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 		return theShipment;
 	}
 
+	@Transactional 
 	public void save(Shipment theShipment) {
 
 		double unit = theShipment.getLength() * theShipment.getWidth() * theShipment.getHeight() / 6000;
@@ -83,20 +83,16 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 		theShipment.setShipping_price(theShipment.getUnit() * theShipment.getUnit_price());
 
-		if (theShipment.getPackageStatusList().isEmpty()) {
-			ShipmentPackageStatus status = new ShipmentPackageStatus();
-			status.setPackageStatus(PackageStatus.NEW);
-			theShipment.getPackageStatusList().add(status);
+		if (theShipment.getStatus() == null) {
+			theShipment.addPackageStatus(PackageStatus.NEW);
 		}
 
 		if (theShipment.getDeliveryMethod() == null) {
 			theShipment.setDeliveryMethod("PickUp");
 		}
 
-		if (unit > 0 && !theShipment.hasPackageStatus(PackageStatus.RECEIVED)) {
-			ShipmentPackageStatus status = new ShipmentPackageStatus();
-			status.setPackageStatus(PackageStatus.RECEIVED);
-			theShipment.getPackageStatusList().add(status);
+		if (unit > 0 && theShipment.getStatus().equals(PackageStatus.NEW)) {
+			theShipment.addPackageStatus(PackageStatus.RECEIVED);
 		}
 
 		ShipmentRepository.save(theShipment);
@@ -109,40 +105,38 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
 	public void updatePackageStatus(Shipment theshipment) {
-		ShipmentPackageStatus status = theshipment.getLastPackageStatus();
-		ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
+		PackageStatus status = theshipment.getStatus();
 
-		switch (status.getPackageStatus()) {
+		switch (status) {
 		case NEW:
-			status.setPackageStatus(PackageStatus.RECEIVED);
+			theshipment.addPackageStatus(PackageStatus.RECEIVED);
 			break;
 		case RECEIVED:
-			status.setPackageStatus(PackageStatus.UNPAY);
+			theshipment.addPackageStatus(PackageStatus.UNPAY);
 			break;
 		case UNPAY:
-			status.setPackageStatus(PackageStatus.SHIPPING);
+			theshipment.addPackageStatus(PackageStatus.SHIPPING);
 			break;
 		case SHIPPING:
-			status.setPackageStatus(PackageStatus.ARRIVED);
+			theshipment.addPackageStatus(PackageStatus.ARRIVED);
 			break;
 		case ARRIVED:
 			if ("Delivery".equals(theshipment.getDeliveryMethod())) {
-				status.setPackageStatus(PackageStatus.DELIVERY);
+				theshipment.addPackageStatus(PackageStatus.DELIVERY);
 			} else {
-				status.setPackageStatus(PackageStatus.PICKUP);
+				theshipment.addPackageStatus(PackageStatus.PICKUP);
 			}
 			break;
 		case PICKUP:
-			status.setPackageStatus(PackageStatus.PICKEDUP);
+			theshipment.addPackageStatus(PackageStatus.PICKEDUP);
 			break;
 		case DELIVERY:
-			status.setPackageStatus(PackageStatus.DELIVERIED);
+			theshipment.addPackageStatus(PackageStatus.DELIVERIED);
 			break;
 		default:
 			break;
 		}
-
-		theshipment.getPackageStatusList().add(newStatus);
+		
 		ShipmentRepository.save(theshipment);
 	}
 
@@ -153,14 +147,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
 	public void updatePackageStatus(Shipment theshipment, PackageStatus status) {
-		ShipmentPackageStatus shipmentStatus = theshipment.getPackageStatus(status);
-		if (shipmentStatus != null) {
-			shipmentStatus.setCreateDate(new Date());
-		} else {
-			ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
-			newStatus.setPackageStatus(status);
-			theshipment.getPackageStatusList().add(newStatus);
-		}
+		theshipment.addPackageStatus(status);
 		ShipmentRepository.save(theshipment);
 	}
 
@@ -174,9 +161,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 		header.put("TrackingNumber", -1);
 		header.put("ShipingCompany", -1);
 		header.put("Weight", -1);
-		header.put("Height", -1);
-		header.put("Length", -1);
-		header.put("Width", -1);
+		header.put("Dimension", -1);
 		header.put("PackageValue", -1);
 		header.put("Description", -1);
 		header.put("CreateDate", -1);
@@ -208,6 +193,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 				throw new Exception(entry.getKey() + " is missing from Excel");
 		}
 
+		int rowNum = 1;
 		while (rows.hasNext()) {
 			Row currentRow = rows.next();
 
@@ -218,8 +204,10 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 			logger.info("import trackingNumber: " + trackingNumber);
 
-			if (shipDate == null)
-				throw new Exception(shippingDate + " is not a valid shipping date");
+			if (shipDate == null) {
+				throw new Exception("Line " + rowNum + ": shipping date "+ shippingDate + " is not valid.");
+			}
+				
 
 			if (!StringUtils.isEmpty(trackingNumber) && !StringUtils.isEmpty(wechatId)) {
 				Shipment shipment = ShipmentRepository.findByTrackingNumber(trackingNumber);
@@ -241,15 +229,6 @@ public class ShipmentServiceImpl implements ShipmentService {
 					shipment.setWeight(currentRow.getCell(header.get("Weight")) != null
 							? currentRow.getCell(header.get("Weight")).getNumericCellValue()
 							: 0);
-					shipment.setHeight(currentRow.getCell(header.get("Height")) != null
-							? currentRow.getCell(header.get("Height")).getNumericCellValue()
-							: 0);
-					shipment.setLength(currentRow.getCell(header.get("Length")) != null
-							? currentRow.getCell(header.get("Length")).getNumericCellValue()
-							: 0);
-					shipment.setWidth(currentRow.getCell(header.get("Width")) != null
-							? currentRow.getCell(header.get("Width")).getNumericCellValue()
-							: 0);
 					shipment.setPackageValue(currentRow.getCell(header.get("PackageValue")) != null
 							? currentRow.getCell(header.get("PackageValue")).getNumericCellValue()
 							: 0);
@@ -262,17 +241,60 @@ public class ShipmentServiceImpl implements ShipmentService {
 					shipment.setCreateDate(currentRow.getCell(header.get("CreateDate")) != null
 							? currentRow.getCell(header.get("CreateDate")).getDateCellValue()
 							: new Date());
+					
+					if(currentRow.getCell(header.get("Dimension")) != null) {
+						String dimension = currentRow.getCell(header.get("Dimension")).getStringCellValue();
+						String[] dimensions = dimension.split("*");
+						if(dimensions.length == 3) {
+							shipment.setLength(Double.valueOf(dimensions[0]));
+							shipment.setWidth(Double.valueOf(dimensions[1]));
+							shipment.setHeight(Double.valueOf(dimensions[2]));
+						}
+						
+					}
+
 					shipment.setShipDate(shipDate);
 					shipment.setCustomer(customer);
 
 					this.save(shipment);
 				}else {
-					logger.info("trackingNumber: " + trackingNumber + " exist, skip import");
+					boolean updateShipment = false;
+					if(shipment.getUnit() == 0) {
+						if(currentRow.getCell(header.get("Weight")) != null) {
+							shipment.setWeight(currentRow.getCell(header.get("Weight")).getNumericCellValue());
+							updateShipment = true;
+						}
+						if(currentRow.getCell(header.get("Dimension")) != null) {
+							String dimension = currentRow.getCell(header.get("Dimension")).getStringCellValue();
+							String[] dimensions = dimension.trim().split("\\*");
+							if(dimensions.length == 3) {
+								shipment.setLength(Double.valueOf(dimensions[0]));
+								shipment.setWidth(Double.valueOf(dimensions[1]));
+								shipment.setHeight(Double.valueOf(dimensions[2]));
+								updateShipment = true;
+							}
+						}
+						
+						if(updateShipment) {
+							logger.info("trackingNumber: " + trackingNumber + " exist, update dimension");
+							this.save(shipment);
+						}else {
+							logger.info("trackingNumber: " + trackingNumber + " exist, skip import");
+						}
+					}else {
+						logger.info("trackingNumber: " + trackingNumber + " exist, skip import");
+					}
 				}
 			}
+			rowNum++;
 		}
 
 		workbook.close();
+	}
+
+	@Override
+	public List<Shipment> findByShipDateAndStatus(ShipDate shipDate, PackageStatus packageStatus) {
+		return ShipmentRepository.findByShipDateAndStatus(shipDate, packageStatus);
 	}
 
 }

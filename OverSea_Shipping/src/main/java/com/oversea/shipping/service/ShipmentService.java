@@ -30,5 +30,7 @@ public interface ShipmentService {
 	public void updatePackageStatus(Shipment theshipment, PackageStatus status);
 	
 	public void uploadShipmentFromExcel(InputStream input) throws Exception;
+
+	public List<Shipment> findByShipDateAndStatus(ShipDate shipDate, PackageStatus packageStatus);
 	
 }

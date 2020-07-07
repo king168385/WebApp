@@ -23,7 +23,7 @@
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-
+					<div th:insert="dashboard/fragment/general :: message"></div>
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -31,35 +31,63 @@
 					</div>
 
 					<div class="form-group row" sec:authorize="hasAnyRole('ADMIN')">
-						<label for="shippingDate" class="col-sm-1 col-form-label">海运日期</label>
+						<label for="shippingDate"
+							class="col-sm-1 col-form-label text-right">海运日期</label>
 						<div class="col-sm-2">
-							<select class="form-control" id="shippingDate">
-								<option></option>
+							<select class="form-control" id="shippingDateSearch">
+								<option value=''></option>
 								<option th:each="theShipDate : ${shipDateList}"
 									th:value="${theShipDate.id}"
-									th:text="${theShipDate.shippingDate}"></option>
+									th:text="${theShipDate.shippingDate}" th:selected="*{theShipDate.id == shippingDateSearch}"></option>
+							</select>
+						</div>
+						<label for="packageStatusSearch"
+							class="col-sm-1 col-form-labe text-right" style="padding-top:6px">货物状态</label>
+						<div class="col-sm-1">
+							<select class="form-control" id="packageStatusSearch">
+								<option value=''></option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).NEW}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).NEW}">新单</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).RECEIVED}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).RECEIVED}">仓库签收</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).UNPAY}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).UNPAY}">未付款</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).SHIPPING}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).SHIPPING}">船运中</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).ARRIVED}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).ARRIVED}">清关中</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).PICKUP}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).PICKUP}">可以自取</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).PICKEDUP}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).PICKEDUP}">已自取</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).DELIVERY}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).DELIVERY}">送货中</option>
+								<option
+									th:value="${T(com.oversea.shipping.model.PackageStatus).DELIVERIED}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).DELIVERIED}">已送货</option>
 							</select>
 						</div>
 						<div class="col-sm-1">
 							<a id="searchWithDate" href="#" onclick='shipmentListWithDate();'
 								class="btn btn-info btn-sm">查询</a>
 						</div>
-						<div class="col-sm-1 offset-sm-7">
-							<form id="uploadFile" method="post" enctype="multipart/form-data"  th:action="@{/admin/shipments/uploadExcelFile}">
-						    <label class="btn btn-primary">
-    							<input type="file" id="file" name="file" class="d-none">导入货运单
-							</label>
-						</form>
+						<div class="col-sm-1 offset-sm-5">
+							<form id="uploadFile" method="post" enctype="multipart/form-data"
+								th:action="@{/admin/shipments/uploadExcelFile}">
+								<label class="btn btn-primary"> <input type="file"
+									id="file" name="file" class="d-none">导入货运单
+								</label>
+							</form>
 						</div>
 					</div>
 
 					<div class="card shadow mb-4">
-						<form action="#" th:action="@{/admin/shipments/updatePackageStatus}"
-						th:object="${updatePackageStatus}" method="POST">
-						<div class="card-body">
+						<form action="#"
+							th:action="@{/admin/shipments/updatePackageStatus}"
+							th:object="${updatePackageStatus}" method="POST">
+							<div class="card-body">
 								<div class="form-group row" sec:authorize="hasAnyRole('ADMIN')">
 									<label for="shippingDate" class="col-sm-1 col-form-label">货物状态</label>
-									<div class="col-sm-2">
+									<div class="col-sm-1">
 										<select class="form-control" th:field="*{packageStatus}">
 											<option
 												th:value="${T(com.oversea.shipping.model.PackageStatus).NEW}">新单</option>
@@ -84,92 +112,88 @@
 									<button type="submit" class="btn btn-warning mb-2 col-sm-1">更改状态</button>
 								</div>
 								<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-										<tr>
-											<th sec:authorize="hasAnyRole('ADMIN')"></th>
-											<th>海运日期</th>
-											<th>会员号</th>
-											<th>快递公司</th>
-											<th>快递单号</th>
-											<th>货品描述</th>
-											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货品价值</th>
-											<th>货物体积</th>
-											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">运费(人民币)</th>
-											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
-											<th>货物状态</th>
-											<th>备注</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th sec:authorize="hasAnyRole('ADMIN')"></th>
-											<th>海运日期</th>
-											<th>会员号</th>
-											<th>快递公司</th>
-											<th>快递单号</th>
-											<th>货品描述</th>
-											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货品价值</th>
-											<th>货运体积</th>
-											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">运费(人民币)</th>
-											<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
-											<th>货物状态</th>
-											<th>备注</th>
-											<th></th>
-										</tr>
-									</tfoot>
-									<tbody>
-										<tr th:each="tempShipment : ${shipments}" >
-											<td sec:authorize="hasAnyRole('ADMIN')"><input type="checkbox" th:field="*{trackingNumbers}" th:value="${tempShipment.trackingNumber}"/></td>
-											<td th:text="${tempShipment.shipDate.shippingDate}" />
-											<td th:text="${tempShipment.customer.wechatId}" />
-											<td th:text="${tempShipment.shipingCompany}" />
-											<td th:text="${tempShipment.trackingNumber}" />
-											<td th:text="${tempShipment.description}" />
-											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" th:text="${tempShipment.packageValue}" />
-											<td th:text="${tempShipment.unit}" />
-											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" th:text="${tempShipment.shipping_price}" />
-											<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
-												<div th:switch="${tempShipment.deliveryMethod}">
-													<span th:case="PickUp">自取</span> <span th:case="Delivery">送货</span>
-												</div>
-											</td>
-											<td th:with="status=${tempShipment.getLastPackageStatus()}">
-												<div th:switch="${status.packageStatus}">
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).NEW}">新单</span> 
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).RECEIVED}">仓库签收</span>
-													<span class="text-danger" th:case="${T(com.oversea.shipping.model.PackageStatus).UNPAY}">未付款</span>
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).SHIPPING}">船运中</span>
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).ARRIVED}">清关中</span>
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).PICKUP}">可以自取</span>
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).PICKEDUP}">已自取</span>
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).DELIVERY}">送货中</span>
-													<span th:case="${T(com.oversea.shipping.model.PackageStatus).DELIVERIED}">已送货</span>
-												</div>
-											</td>
-											<td th:text="${tempShipment.note}" />
+									<table class="table table-bordered" id="shipmentTable" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<th sec:authorize="hasAnyRole('ADMIN')"><input type="checkbox" id="selectAll"></th>
+												<th>海运日期</th>
+												<th>会员号</th>
+												<th>快递公司</th>
+												<th>快递单号</th>
+												<th style="width:10%">货品描述</th>
+												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货品价值</th>
+												<th>货物体积</th>
+												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">运费(人民币)</th>
+												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
+												<th>货物状态</th>
+												<th style="width:10%">备注</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="tempShipment : ${shipments}">
+												<td sec:authorize="hasAnyRole('ADMIN')"><input
+													type="checkbox" class="checkboxes" th:field="*{trackingNumbers}"
+													th:value="${tempShipment.trackingNumber}" /></td>
+												<td th:text="${tempShipment.shipDate.shippingDate}" />
+												<td th:text="${tempShipment.customer.wechatId}" />
+												<td th:text="${tempShipment.shipingCompany}" />
+												<td th:text="${tempShipment.trackingNumber}" />
+												<td th:text="${tempShipment.description}" />
+												<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')"
+													th:text="${tempShipment.packageValue}" />
+												<td th:text="${tempShipment.unit}" />
+												<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')"
+													th:text="${tempShipment.shipping_price}" />
+												<td sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+													<div th:switch="${tempShipment.deliveryMethod}">
+														<span th:case="PickUp">自取</span> <span th:case="Delivery">送货</span>
+													</div>
+												</td>
+												<td>
+													<div th:switch="${tempShipment.status}">
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).NEW}">新单</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).RECEIVED}">仓库签收</span>
+														<span class="text-danger"
+															th:case="${T(com.oversea.shipping.model.PackageStatus).UNPAY}">未付款</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).SHIPPING}">船运中</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).ARRIVED}">清关中</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).PICKUP}">可以自取</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).PICKEDUP}">已自取</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).DELIVERY}">送货中</span>
+														<span
+															th:case="${T(com.oversea.shipping.model.PackageStatus).DELIVERIED}">已送货</span>
+													</div>
+												</td>
+												<td th:text="${tempShipment.note}" />
 
-											<td>
-												<!-- <a
+												<td>
+													<!-- <a
 												th:href="@{/admin/rest/updatePackageStatus(trackingNumber=${tempShipment.trackingNumber})}"
-												class="btn btn-warning btn-sm">改变状态 </a> -->
-												<!-- Add "update" button/link --> <a
-												th:href="@{/dashboard/shipments/update(trackingNumber=${tempShipment.trackingNumber})}"
-												class="btn btn-info btn-sm"> 更改 </a> <!-- Add "delete" button/link -->
-												<a
-												th:href="@{/dashboard/shipments/delete(trackingNumber=${tempShipment.trackingNumber})}"
-												class="btn btn-danger btn-sm"
-												onclick="if (!(confirm('您确定要删除这个订单吗?'))) return false">
-													删除 </a>
+												class="btn btn-warning btn-sm">改变状态 </a> --> <!-- Add "update" button/link -->
+													<a
+													th:href="@{/dashboard/shipments/update(trackingNumber=${tempShipment.trackingNumber})}"
+													class="btn btn-info btn-sm"> 更改 </a> <!-- Add "delete" button/link -->
+													<a
+													th:href="@{/dashboard/shipments/delete(trackingNumber=${tempShipment.trackingNumber})}"
+													class="btn btn-danger btn-sm"
+													onclick="if (!(confirm('您确定要删除这个订单吗?'))) return false">
+														删除 </a>
 
-											</td>
-										</tr>
-									</tbody>
-								</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
-						</div>
 						</form>
 					</div>
 
@@ -199,53 +223,41 @@
 
 	<!-- Script -->
 	<div th:insert="dashboard/fragment/general :: script"></div>
-	
-<script type="text/javascript">
-$(document).ready(function () {
 
-	$('#file').change(function(){
-		this.form.submit();
-	});
-	
-    $(".updatePackageStatus").submit(function (event) {
+	<script type="text/javascript">
+		$(document).ready(function() {
 
-        //stop submit the form, we will post it manually.
-        event.preventDefault();
+			$('#selectAll').change(function() {
+				if(this.checked){
+					$('.checkboxes').prop('checked', true);
+				}else{
+					$('.checkboxes').prop('checked', false);
+				}
+			});
+			
+			$('#file').change(function() {
+				this.form.submit();
+			});
 
-        fire_ajax_submit();
+			
+			$('#shipmentTable').DataTable({
+				  cache: true,
+				  buttons: [ 'excel'],
+				  "ordering": false
+			  });
+			
 
-    });
+		});
 
-});
-
-function fire_ajax_submit() {
-	var trackingNumber = $(".trackingNumber").val();
-	alert(trackingNumber);
-	
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/admin/rest/updatePackageStatus",
-        data: JSON.stringify(trackingNumber),
-        dataType: 'json',
-        cache: false,
-        timeout: 600000,
-        success: function (data) {
-        },
-        error: function (e) {
-            console.log("ERROR : ", e);
-        }
-    });
-
-}
-
-function shipmentListWithDate() {
-	var shipDateId = $("#shippingDate").val();
-	$("#searchWithDate").attr("href", "/dashboard/shipments/list?shipDate_Id=" + shipDateId);
-}
-
-
-    </script>
+		function shipmentListWithDate() {
+			var shipDateId = $("#shippingDateSearch").val();
+			var status = $("#packageStatusSearch").val();
+			$("#searchWithDate").attr(
+					"href",
+					"/dashboard/shipments/list?shipDate_Id=" + shipDateId
+							+ "&packageStatus=" + status);
+		}
+	</script>
 </body>
 
 </html>

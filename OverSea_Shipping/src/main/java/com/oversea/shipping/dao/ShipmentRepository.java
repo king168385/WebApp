@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.PackageStatus;
 import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
 
@@ -19,5 +20,7 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer> {
 	public List<Shipment> findByCustomer(Customer customer);
 	
 	public List<Shipment> findByShipDate(ShipDate shipDate);
+	
+	public List<Shipment> findByShipDateAndStatus(ShipDate shipDate, PackageStatus status);
 	
 }

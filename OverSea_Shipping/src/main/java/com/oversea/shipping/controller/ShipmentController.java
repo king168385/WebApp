@@ -1,7 +1,9 @@
  package com.oversea.shipping.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.PackageStatus;
 import com.oversea.shipping.model.Role;
 import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
@@ -45,35 +48,37 @@ public class ShipmentController {
 	// add mapping for "/list"
 
 	@GetMapping("/list")
-	public String listshipments(@RequestParam(required = false) Integer shipDate_Id, Model theModel) {
+	public String listshipments(@RequestParam(required = false) Integer shipDate_Id, @RequestParam(required = false) PackageStatus packageStatus, Model theModel) {
 		User user = userService.getCurrentUser();
 		
 		List<Shipment> theshipments = null;
 		
 		if(user.hasRole(Role.EMPLOYEE) || user.hasRole(Role.ADMIN)) {
 			if(shipDate_Id == null) {
-				theshipments = shipmentService.findAll();
+				theshipments = new ArrayList<Shipment>();
 			}else {
 				ShipDate shipDate = shipDateService.findById(shipDate_Id);
-				theshipments = shipmentService.findByShipDate(shipDate);
+				if(packageStatus != null) {
+					theshipments = shipmentService.findByShipDateAndStatus(shipDate, packageStatus);
+				}else {
+					theshipments = shipmentService.findByShipDate(shipDate);
+				}
 			}
-			
-			
-			ShipDate theshipDate = new ShipDate();
-			theModel.addAttribute("shipDate", theshipDate);
 			
 			UpdatePackageStatus updatePackageStatus = new UpdatePackageStatus();
 			theModel.addAttribute("updatePackageStatus", updatePackageStatus);
 			
 			List<ShipDate> shipDateList = shipDateService.findAllActive();
 			theModel.addAttribute("shipDateList", shipDateList);
+			
+			theModel.addAttribute("shippingDateSearch", shipDate_Id);
+			theModel.addAttribute("packageStatusSearch", packageStatus);
 		}else {
 			theshipments = shipmentService.findByCustomer(user.getCustomer());
 		}
 
 		// add to the spring model
-		theModel.addAttribute("shipments", theshipments);
-		
+		theModel.addAttribute("shipments", theshipments);		
 		
 		return "dashboard/shipments/list-shipments";
 	}
