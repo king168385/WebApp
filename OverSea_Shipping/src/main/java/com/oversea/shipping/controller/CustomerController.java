@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.User;
 import com.oversea.shipping.service.CustomerService;
 
 @Controller
@@ -18,15 +20,27 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private UserService userService;
 
 	// add mapping for "/list"
 
 	@GetMapping("/update")
-	public String showFormForUpdate(@RequestParam("customerId") int theId,
+	public String showFormForUpdate(@RequestParam(required = false) Integer customerId,
 									Model theModel) {
+		Customer thecustomer = null;
 		
-		// get the customer from the service
-		Customer thecustomer = customerService.findById(theId);
+		if(customerId == null) {
+			User user = userService.getCurrentUser();
+			thecustomer = user.getCustomer();
+		}else {
+			thecustomer = customerService.findById(customerId);
+		}
+		
+		if(thecustomer == null) {
+			thecustomer = new Customer();
+		}
 		
 		// set customer as a model attribute to pre-populate the form
 		theModel.addAttribute("customer", thecustomer);

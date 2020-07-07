@@ -12,6 +12,8 @@ public interface ShipDateService {
 	
 	public ShipDate findById(int theId);
 	
+	public ShipDate findByShippingDate(String date);
+	
 	public void save(ShipDate theShipDate);
 	
 	public void deleteById(int theId);

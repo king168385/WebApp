@@ -69,7 +69,7 @@ public class Shipment {
 	@Column(name="description")
 	private String description;
 	
-	@NotNull
+	@NotEmpty(message = "必须填写")
 	@Column(name="deliveryMethod")
 	private String deliveryMethod;
 	
@@ -296,6 +296,16 @@ public class Shipment {
 		for(ShipmentPackageStatus status: packageStatusList) {
 			if(status.getPackageStatus().equals(packageStatus)) {
 				result = true;
+			}
+		}
+		return result;
+	}
+	
+	public ShipmentPackageStatus getPackageStatus(PackageStatus packageStatus) {
+		ShipmentPackageStatus result = null;
+		for(ShipmentPackageStatus status: packageStatusList) {
+			if(status.getPackageStatus().equals(packageStatus)) {
+				result = status;
 			}
 		}
 		return result;

@@ -12,6 +12,8 @@ public interface CustomerService {
 	
 	public Customer findByEmail(String email);
 	
+	public Customer findByWeChatId(String wechatId);
+	
 	public void save(Customer thecustomer);
 	
 	public void deleteById(int theId);

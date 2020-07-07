@@ -56,6 +56,11 @@ public class ShipDateServiceImpl implements ShipDateService {
 		shipDateRepository.deleteById(theId);
 	}
 
+	@Override
+	public ShipDate findByShippingDate(String date) {
+		return shipDateRepository.findByShippingDateAndActiveTrue(date);
+	}
+
 }
 
 

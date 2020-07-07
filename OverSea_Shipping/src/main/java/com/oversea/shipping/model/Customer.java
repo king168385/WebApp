@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="customer")
@@ -24,7 +26,9 @@ public class Customer {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="email", unique=true, nullable = false)
+	@NotNull
+	@Email
+	@Column(name="email")
 	private String email;
 	
 	@Column(name="phone")
@@ -42,7 +46,7 @@ public class Customer {
 	@Column(name="postCode")
 	private String postCode;
 	
-	@Column(name="wechatId")
+	@Column(name="wechatId", unique=true, nullable = false)
 	private String wechatId;
 		
 	// define constructors
