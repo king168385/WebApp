@@ -19,6 +19,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Entity
@@ -97,7 +98,10 @@ public class Shipment {
 	@Column(name="note")
 	private String note;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Column(name="status")
+	private PackageStatus status;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "shipment_package_status_Id")
 	private List<ShipmentPackageStatus> packageStatusList = new ArrayList<ShipmentPackageStatus>();
 	
@@ -273,6 +277,7 @@ public class Shipment {
 		this.packageValue = packageValue;
 	}
 
+	@Transactional
 	public List<ShipmentPackageStatus> getPackageStatusList() {
 		return packageStatusList;
 	}
@@ -281,16 +286,15 @@ public class Shipment {
 		this.packageStatusList = packageStatusList;
 	}
 	
-	public ShipmentPackageStatus getLastPackageStatus() {
-		ShipmentPackageStatus latest = null;
-		for(ShipmentPackageStatus status: packageStatusList) {
-			if(latest == null || status.getCreateDate().after(latest.getCreateDate())) {
-				latest = status;
-			}
-		}
-		return latest;
+	public PackageStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PackageStatus status) {
+		this.status = status;
 	}
 	
+	@Transactional
 	public boolean hasPackageStatus(PackageStatus packageStatus) {
 		boolean result = false;
 		for(ShipmentPackageStatus status: packageStatusList) {
@@ -301,13 +305,26 @@ public class Shipment {
 		return result;
 	}
 	
-	public ShipmentPackageStatus getPackageStatus(PackageStatus packageStatus) {
+	@Transactional
+	public void addPackageStatus(PackageStatus packageStatus) {
 		ShipmentPackageStatus result = null;
 		for(ShipmentPackageStatus status: packageStatusList) {
 			if(status.getPackageStatus().equals(packageStatus)) {
 				result = status;
 			}
 		}
-		return result;
+		
+		if (result != null) {
+			result.setCreateDate(new Date());
+		} else {
+			ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
+			newStatus.setPackageStatus(packageStatus);
+			packageStatusList.add(newStatus);
+		}
+		status = packageStatus;
 	}
+
+	
+	
+	
 }

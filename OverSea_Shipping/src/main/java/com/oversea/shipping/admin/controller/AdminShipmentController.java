@@ -1,8 +1,5 @@
  package com.oversea.shipping.admin.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;

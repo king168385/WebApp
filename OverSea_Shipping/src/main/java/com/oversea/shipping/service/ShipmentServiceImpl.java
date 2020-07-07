@@ -25,7 +25,6 @@ import com.oversea.shipping.model.Customer;
 import com.oversea.shipping.model.PackageStatus;
 import com.oversea.shipping.model.ShipDate;
 import com.oversea.shipping.model.Shipment;
-import com.oversea.shipping.model.ShipmentPackageStatus;
 
 @Service
 public class ShipmentServiceImpl implements ShipmentService {
@@ -61,6 +60,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 		return theShipment;
 	}
 
+	@Transactional 
 	public void save(Shipment theShipment) {
 
 		double unit = theShipment.getLength() * theShipment.getWidth() * theShipment.getHeight() / 6000;
@@ -83,20 +83,16 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 		theShipment.setShipping_price(theShipment.getUnit() * theShipment.getUnit_price());
 
-		if (theShipment.getPackageStatusList().isEmpty()) {
-			ShipmentPackageStatus status = new ShipmentPackageStatus();
-			status.setPackageStatus(PackageStatus.NEW);
-			theShipment.getPackageStatusList().add(status);
+		if (theShipment.getStatus() == null) {
+			theShipment.addPackageStatus(PackageStatus.NEW);
 		}
 
 		if (theShipment.getDeliveryMethod() == null) {
 			theShipment.setDeliveryMethod("PickUp");
 		}
 
-		if (unit > 0 && !theShipment.hasPackageStatus(PackageStatus.RECEIVED)) {
-			ShipmentPackageStatus status = new ShipmentPackageStatus();
-			status.setPackageStatus(PackageStatus.RECEIVED);
-			theShipment.getPackageStatusList().add(status);
+		if (unit > 0 && theShipment.getStatus().equals(PackageStatus.NEW)) {
+			theShipment.addPackageStatus(PackageStatus.RECEIVED);
 		}
 
 		ShipmentRepository.save(theShipment);
@@ -109,40 +105,38 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
 	public void updatePackageStatus(Shipment theshipment) {
-		ShipmentPackageStatus status = theshipment.getLastPackageStatus();
-		ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
+		PackageStatus status = theshipment.getStatus();
 
-		switch (status.getPackageStatus()) {
+		switch (status) {
 		case NEW:
-			status.setPackageStatus(PackageStatus.RECEIVED);
+			theshipment.addPackageStatus(PackageStatus.RECEIVED);
 			break;
 		case RECEIVED:
-			status.setPackageStatus(PackageStatus.UNPAY);
+			theshipment.addPackageStatus(PackageStatus.UNPAY);
 			break;
 		case UNPAY:
-			status.setPackageStatus(PackageStatus.SHIPPING);
+			theshipment.addPackageStatus(PackageStatus.SHIPPING);
 			break;
 		case SHIPPING:
-			status.setPackageStatus(PackageStatus.ARRIVED);
+			theshipment.addPackageStatus(PackageStatus.ARRIVED);
 			break;
 		case ARRIVED:
 			if ("Delivery".equals(theshipment.getDeliveryMethod())) {
-				status.setPackageStatus(PackageStatus.DELIVERY);
+				theshipment.addPackageStatus(PackageStatus.DELIVERY);
 			} else {
-				status.setPackageStatus(PackageStatus.PICKUP);
+				theshipment.addPackageStatus(PackageStatus.PICKUP);
 			}
 			break;
 		case PICKUP:
-			status.setPackageStatus(PackageStatus.PICKEDUP);
+			theshipment.addPackageStatus(PackageStatus.PICKEDUP);
 			break;
 		case DELIVERY:
-			status.setPackageStatus(PackageStatus.DELIVERIED);
+			theshipment.addPackageStatus(PackageStatus.DELIVERIED);
 			break;
 		default:
 			break;
 		}
-
-		theshipment.getPackageStatusList().add(newStatus);
+		
 		ShipmentRepository.save(theshipment);
 	}
 
@@ -153,14 +147,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
 	public void updatePackageStatus(Shipment theshipment, PackageStatus status) {
-		ShipmentPackageStatus shipmentStatus = theshipment.getPackageStatus(status);
-		if (shipmentStatus != null) {
-			shipmentStatus.setCreateDate(new Date());
-		} else {
-			ShipmentPackageStatus newStatus = new ShipmentPackageStatus();
-			newStatus.setPackageStatus(status);
-			theshipment.getPackageStatusList().add(newStatus);
-		}
+		theshipment.addPackageStatus(status);
 		ShipmentRepository.save(theshipment);
 	}
 
@@ -273,6 +260,11 @@ public class ShipmentServiceImpl implements ShipmentService {
 		}
 
 		workbook.close();
+	}
+
+	@Override
+	public List<Shipment> findByShipDateAndStatus(ShipDate shipDate, PackageStatus packageStatus) {
+		return ShipmentRepository.findByShipDateAndStatus(shipDate, packageStatus);
 	}
 
 }
