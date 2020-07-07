@@ -121,24 +121,28 @@
   <!-- Script -->
  <div th:insert="dashboard/fragment/general :: script"></div>
  
- <script type="text/javascript">
+    <script type="text/javascript">
+      
+      
       function madeAjaxCall(){
-       $.ajax({
-        type: "post",
-        url: "http://localhost:8080/rest/shippingStatus",
-        cache: false,    
-        data:'trackingNumber=' + $("#trackingNumber").val(),
-        success: function(response){
-         $('#result').html("");
-         var obj = JSON.parse(response);
-         console.log(obj);
-         ////$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
-        },
-        error: function(){      
-         alert('Error while request..');
-        }
-       });
-      }
+      
+        var trackingnum = $("#trackingNumber").val();
+		$.ajax({
+		  type: "post",
+		  url: "http://localhost:8080/admin/shippingstatus/"+trackingnum,
+		  cache: false,    
+		  data:'trackingnumber=' + $("#trackingNumber").val(),
+		  success: function(response){
+		   $('#result').html("");
+		   var obj = JSON.parse(response);
+		   console.log(obj);
+		   ////$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
+		  },
+		  error: function(){      
+		   alert('Error while request..');
+		  }
+		 });
+		}
    </script>
 	
 </body>
