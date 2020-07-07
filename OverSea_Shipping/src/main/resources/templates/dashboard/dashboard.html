@@ -46,7 +46,7 @@
 							<label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label>
 							<div class="col-sm-11">
 								<input type="text" class="form-control  mb-2 col-2"
-									id="trackingNumber">
+									id="trackingNumber" onkeyup="madeAjaxCall()">
 							</div>
 						</div>
 						<div class="row d-flex justify-content-between px-3 top">
@@ -120,6 +120,30 @@
   
   <!-- Script -->
  <div th:insert="dashboard/fragment/general :: script"></div>
+ 
+    <script type="text/javascript">
+      
+      
+      function madeAjaxCall(){
+      
+        var trackingnum = $("#trackingNumber").val();
+		$.ajax({
+		  type: "post",
+		  url: "http://localhost:8080/admin/shippingstatus/"+trackingnum,
+		  cache: false,    
+		  data:'trackingnumber=' + $("#trackingNumber").val(),
+		  success: function(response){
+		   $('#result').html("");
+		   var obj = JSON.parse(response);
+		   console.log(obj);
+		   ////$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
+		  },
+		  error: function(){      
+		   alert('Error while request..');
+		  }
+		 });
+		}
+   </script>
 	
 </body>
 
