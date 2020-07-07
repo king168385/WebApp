@@ -161,9 +161,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 		header.put("TrackingNumber", -1);
 		header.put("ShipingCompany", -1);
 		header.put("Weight", -1);
-		header.put("Height", -1);
-		header.put("Length", -1);
-		header.put("Width", -1);
+		header.put("Dimension", -1);
 		header.put("PackageValue", -1);
 		header.put("Description", -1);
 		header.put("CreateDate", -1);
@@ -195,6 +193,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 				throw new Exception(entry.getKey() + " is missing from Excel");
 		}
 
+		int rowNum = 1;
 		while (rows.hasNext()) {
 			Row currentRow = rows.next();
 
@@ -205,8 +204,10 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 			logger.info("import trackingNumber: " + trackingNumber);
 
-			if (shipDate == null)
-				throw new Exception(shippingDate + " is not a valid shipping date");
+			if (shipDate == null) {
+				throw new Exception("Line " + rowNum + ": shipping date "+ shippingDate + " is not valid.");
+			}
+				
 
 			if (!StringUtils.isEmpty(trackingNumber) && !StringUtils.isEmpty(wechatId)) {
 				Shipment shipment = ShipmentRepository.findByTrackingNumber(trackingNumber);
@@ -228,15 +229,6 @@ public class ShipmentServiceImpl implements ShipmentService {
 					shipment.setWeight(currentRow.getCell(header.get("Weight")) != null
 							? currentRow.getCell(header.get("Weight")).getNumericCellValue()
 							: 0);
-					shipment.setHeight(currentRow.getCell(header.get("Height")) != null
-							? currentRow.getCell(header.get("Height")).getNumericCellValue()
-							: 0);
-					shipment.setLength(currentRow.getCell(header.get("Length")) != null
-							? currentRow.getCell(header.get("Length")).getNumericCellValue()
-							: 0);
-					shipment.setWidth(currentRow.getCell(header.get("Width")) != null
-							? currentRow.getCell(header.get("Width")).getNumericCellValue()
-							: 0);
 					shipment.setPackageValue(currentRow.getCell(header.get("PackageValue")) != null
 							? currentRow.getCell(header.get("PackageValue")).getNumericCellValue()
 							: 0);
@@ -249,14 +241,52 @@ public class ShipmentServiceImpl implements ShipmentService {
 					shipment.setCreateDate(currentRow.getCell(header.get("CreateDate")) != null
 							? currentRow.getCell(header.get("CreateDate")).getDateCellValue()
 							: new Date());
+					
+					if(currentRow.getCell(header.get("Dimension")) != null) {
+						String dimension = currentRow.getCell(header.get("Dimension")).getStringCellValue();
+						String[] dimensions = dimension.split("*");
+						if(dimensions.length == 3) {
+							shipment.setLength(Double.valueOf(dimensions[0]));
+							shipment.setWidth(Double.valueOf(dimensions[1]));
+							shipment.setHeight(Double.valueOf(dimensions[2]));
+						}
+						
+					}
+
 					shipment.setShipDate(shipDate);
 					shipment.setCustomer(customer);
 
 					this.save(shipment);
 				}else {
-					logger.info("trackingNumber: " + trackingNumber + " exist, skip import");
+					boolean updateShipment = false;
+					if(shipment.getUnit() == 0) {
+						if(currentRow.getCell(header.get("Weight")) != null) {
+							shipment.setWeight(currentRow.getCell(header.get("Weight")).getNumericCellValue());
+							updateShipment = true;
+						}
+						if(currentRow.getCell(header.get("Dimension")) != null) {
+							String dimension = currentRow.getCell(header.get("Dimension")).getStringCellValue();
+							String[] dimensions = dimension.trim().split("\\*");
+							if(dimensions.length == 3) {
+								shipment.setLength(Double.valueOf(dimensions[0]));
+								shipment.setWidth(Double.valueOf(dimensions[1]));
+								shipment.setHeight(Double.valueOf(dimensions[2]));
+								updateShipment = true;
+							}
+						}
+						
+						if(updateShipment) {
+							logger.info("trackingNumber: " + trackingNumber + " exist, update dimension");
+							this.save(shipment);
+						}else {
+							logger.info("trackingNumber: " + trackingNumber + " exist, skip import");
+						}
+					}else {
+						logger.info("trackingNumber: " + trackingNumber + " exist, skip import");
+					}
 				}
 			}
+			rowNum++;
 		}
 
 		workbook.close();

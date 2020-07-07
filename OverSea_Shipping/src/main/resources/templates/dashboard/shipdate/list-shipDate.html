@@ -46,16 +46,6 @@
 											<th></th>
 										</tr>
 									</thead>
-									<tfoot>
-										<tr>
-											<th>海运日期</th>
-											<th>截单日期</th>
-											<th>目的地</th>
-											<th>单价</th>
-											<th>状态</th>
-											<th></th>
-										</tr>
-									</tfoot>
 									<tbody>
 										<tr th:each="tempShipDate : ${shipDate}">
 											<td th:text="${tempShipDate.shippingDate}" />

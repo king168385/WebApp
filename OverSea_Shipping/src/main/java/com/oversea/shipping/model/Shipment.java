@@ -19,7 +19,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Entity
@@ -277,7 +276,6 @@ public class Shipment {
 		this.packageValue = packageValue;
 	}
 
-	@Transactional
 	public List<ShipmentPackageStatus> getPackageStatusList() {
 		return packageStatusList;
 	}
@@ -294,7 +292,6 @@ public class Shipment {
 		this.status = status;
 	}
 	
-	@Transactional
 	public boolean hasPackageStatus(PackageStatus packageStatus) {
 		boolean result = false;
 		for(ShipmentPackageStatus status: packageStatusList) {
@@ -305,7 +302,6 @@ public class Shipment {
 		return result;
 	}
 	
-	@Transactional
 	public void addPackageStatus(PackageStatus packageStatus) {
 		ShipmentPackageStatus result = null;
 		for(ShipmentPackageStatus status: packageStatusList) {

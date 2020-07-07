@@ -23,7 +23,7 @@
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-
+					<div th:insert="dashboard/fragment/general :: message"></div>
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -131,23 +131,6 @@
 												<th></th>
 											</tr>
 										</thead>
-										<tfoot>
-											<tr>
-												<th sec:authorize="hasAnyRole('ADMIN')"></th>
-												<th>海运日期</th>
-												<th>会员号</th>
-												<th>快递公司</th>
-												<th>快递单号</th>
-												<th>货品描述</th>
-												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">货品价值</th>
-												<th>货运体积</th>
-												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">运费(人民币)</th>
-												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
-												<th>货物状态</th>
-												<th>备注</th>
-												<th></th>
-											</tr>
-										</tfoot>
 										<tbody>
 											<tr th:each="tempShipment : ${shipments}">
 												<td sec:authorize="hasAnyRole('ADMIN')"><input
@@ -256,14 +239,6 @@
 				this.form.submit();
 			});
 
-			$(".updatePackageStatus").submit(function(event) {
-
-				//stop submit the form, we will post it manually.
-				event.preventDefault();
-
-				fire_ajax_submit();
-
-			});
 			
 			$('#shipmentTable').DataTable({
 				  cache: true,
@@ -273,27 +248,6 @@
 			
 
 		});
-
-		function fire_ajax_submit() {
-			var trackingNumber = $(".trackingNumber").val();
-			alert(trackingNumber);
-
-			$.ajax({
-				type : "POST",
-				contentType : "application/json",
-				url : "/admin/rest/updatePackageStatus",
-				data : JSON.stringify(trackingNumber),
-				dataType : 'json',
-				cache : false,
-				timeout : 600000,
-				success : function(data) {
-				},
-				error : function(e) {
-					console.log("ERROR : ", e);
-				}
-			});
-
-		}
 
 		function shipmentListWithDate() {
 			var shipDateId = $("#shippingDateSearch").val();

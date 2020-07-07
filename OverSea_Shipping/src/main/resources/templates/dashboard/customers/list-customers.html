@@ -39,24 +39,15 @@
 									<thead>
 										<tr>
 											<th>名字</th>
-											<th>微信</th>
+											<th>会员号</th>
 											<th>邮箱</th>
 											<th>电话</th>
 											<th></th>
 										</tr>
 									</thead>
-									<tfoot>
-										<tr>
-											<th>名字</th>
-											<th>微信</th>
-											<th>邮箱</th>
-											<th>电话</th>
-											<th></th>
-										</tr>
-									</tfoot>
 									<tbody>
 										<tr th:each="tempcustomer : ${customers}">
-											<td th:text="${tempcustomer.firstName}" />	
+											<td th:text="${tempcustomer.firstName + ' ' + tempcustomer.lastName}" />	
 											<td th:text="${tempcustomer.wechatId}" />
 											<td th:text="${tempcustomer.email}" />
 											<td th:text="${tempcustomer.phone}" />
