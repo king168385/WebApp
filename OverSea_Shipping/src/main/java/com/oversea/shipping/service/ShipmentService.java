@@ -1,5 +1,6 @@
 package com.oversea.shipping.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -32,5 +33,9 @@ public interface ShipmentService {
 	public void uploadShipmentFromExcel(InputStream input) throws Exception;
 
 	public List<Shipment> findByShipDateAndStatus(ShipDate shipDate, PackageStatus packageStatus);
+
+	public ByteArrayInputStream exportToExcel(List<Shipment> theshipments) throws Exception;
+
+	public List<Shipment> findByStatus(PackageStatus packageStatus);
 	
 }

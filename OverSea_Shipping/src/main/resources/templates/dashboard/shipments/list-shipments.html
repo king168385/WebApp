@@ -68,9 +68,13 @@
 						</div>
 						<div class="col-sm-1">
 							<a id="searchWithDate" href="#" onclick='shipmentListWithDate();'
-								class="btn btn-info btn-sm">查询</a>
+								class="btn btn-info">查询</a>
 						</div>
-						<div class="col-sm-1 offset-sm-5">
+						<div class="col-sm-1 offset-sm-4">
+							<a id="downloadShipment" href="#" onclick='downloadShipmentList();'
+								class="btn btn-primary">导出货运单</a>
+						</div>
+						<div class="col-sm-1">
 							<form id="uploadFile" method="post" enctype="multipart/form-data"
 								th:action="@{/admin/shipments/uploadExcelFile}">
 								<label class="btn btn-primary"> <input type="file"
@@ -248,13 +252,22 @@
 			
 
 		});
-
+		
 		function shipmentListWithDate() {
 			var shipDateId = $("#shippingDateSearch").val();
 			var status = $("#packageStatusSearch").val();
 			$("#searchWithDate").attr(
 					"href",
 					"/dashboard/shipments/list?shipDate_Id=" + shipDateId
+							+ "&packageStatus=" + status);
+		}
+
+		function downloadShipmentList() {
+			var shipDateId = $("#shippingDateSearch").val();
+			var status = $("#packageStatusSearch").val();
+			$("#downloadShipment").attr(
+					"href",
+					"/admin/rest/download/shipment?shipDate_Id=" + shipDateId
 							+ "&packageStatus=" + status);
 		}
 	</script>

@@ -292,6 +292,10 @@ public class Shipment {
 		this.status = status;
 	}
 	
+	public String getDimension() {
+		return length+"*"+width+"*"+height;
+	}
+	
 	public boolean hasPackageStatus(PackageStatus packageStatus) {
 		boolean result = false;
 		for(ShipmentPackageStatus status: packageStatusList) {

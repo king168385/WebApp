@@ -21,6 +21,8 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer> {
 	
 	public List<Shipment> findByShipDate(ShipDate shipDate);
 	
+	public List<Shipment> findByStatus(PackageStatus status);
+	
 	public List<Shipment> findByShipDateAndStatus(ShipDate shipDate, PackageStatus status);
 	
 }

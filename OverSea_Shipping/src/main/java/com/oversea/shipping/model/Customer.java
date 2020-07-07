@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,7 +27,6 @@ public class Customer {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@NotNull
 	@Email
 	@Column(name="email")
 	private String email;
@@ -46,6 +46,7 @@ public class Customer {
 	@Column(name="postCode")
 	private String postCode;
 	
+	@NotEmpty(message = "必须填写")
 	@Column(name="wechatId", unique=true, nullable = false)
 	private String wechatId;
 		

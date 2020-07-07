@@ -14,6 +14,9 @@ public class PickUpLocation {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
+	
+	@Column(name="name")
+	private String name;
 		
 	@Column(name="address")
 	private String address;
@@ -68,6 +71,14 @@ public class PickUpLocation {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	
