@@ -121,29 +121,30 @@
   <!-- Script -->
  <div th:insert="dashboard/fragment/general :: script"></div>
  
-    <script type="text/javascript">
+ <script type="text/javascript">
       
-      
-      function madeAjaxCall(){
-      
-        var trackingnum = $("#trackingNumber").val();
-		$.ajax({
-		  type: "post",
-		  url: "http://localhost:8080/admin/shippingstatus/"+trackingnum,
-		  cache: false,    
-		  data:'trackingnumber=' + $("#trackingNumber").val(),
-		  success: function(response){
-		   $('#result').html("");
-		   var obj = JSON.parse(response);
-		   console.log(obj);
-		   ////$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
-		  },
-		  error: function(){      
-		   alert('Error while request..');
-		  }
-		 });
-		}
-   </script>
+    function madeAjaxCall(){
+ 
+        var token = $("meta[name='_csrf']").attr("content");
+ 
+        $.ajax({
+            type: "post",
+            url: "http://localhost:8080/rest/shippingstatus",
+            headers: {"X-CSRF-TOKEN": token},
+            cache: false,    
+            data:'trackingnumber=' + $("#trackingNumber").val(),
+            success: function(response){
+                //$('#result').html("");
+                var obj = JSON.parse(JSON.stringify(response));
+                console.log(obj);
+            },
+            error: function(){      
+                alert('Error while request..');
+            }
+        });
+    }
+    	  
+ </script>
 	
 </body>
 

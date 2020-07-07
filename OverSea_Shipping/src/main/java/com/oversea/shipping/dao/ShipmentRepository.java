@@ -19,6 +19,8 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer> {
 
 	public List<Shipment> findByCustomer(Customer customer);
 	
+	public Shipment findByCustomerAndTrackingNumber(Customer customer, String trackingNumber);
+	
 	public List<Shipment> findByShipDate(ShipDate shipDate);
 	
 	public List<Shipment> findByStatus(PackageStatus status);
