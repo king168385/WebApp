@@ -50,6 +50,15 @@
 							</div>
 						</div>
 						<div class="row d-flex justify-content-between px-3 top">
+				<div class="panel panel-primary">
+
+    <div id="toolbar1">
+	        <h4 class="paneltitle">Shipping Status</h4>
+	    </div>
+	    <table id="status_table" data-toolbar="#toolbar1"></table>
+	</div>		
+						
+						
             <div class="d-flex">
                 <h5>ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
             </div>
@@ -123,27 +132,86 @@
  
  <script type="text/javascript">
       
-    function madeAjaxCall(){
+ var token = $("meta[name='_csrf']").attr("content");   
  
-        var token = $("meta[name='_csrf']").attr("content");
+    //var myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
+    var myData;
+    
+     function madeAjaxCall(){
  
-        $.ajax({
+        /*$.ajax({
             type: "post",
             url: "http://localhost:8080/rest/shippingstatus",
             headers: {"X-CSRF-TOKEN": token},
             cache: false,    
-            data:'trackingnumber=' + $("#trackingNumber").val(),
+            data:'trackingnumber=' + '773044700377098',//$("#trackingNumber").val(),
             success: function(response){
                 //$('#result').html("");
                 var obj = JSON.parse(JSON.stringify(response));
+                myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
+                $("#status_table").bootstrapTable('refresh');
+                console.log(obj[0]);
                 console.log(obj);
             },
             error: function(){      
                 alert('Error while request..');
             }
-        });
+        });*/
     }
-    	  
+    
+    var tkn = {headers: {"X-CSRF-TOKEN": token}};
+    
+    $(document).ready(function(){
+    	
+    	$("#trackingNumber").keyup(function(){
+    		
+            $("#status_table").bootstrapTable('refresh');
+        });
+    	
+    	$("#status_table").bootstrapTable({
+            idField: 'id',
+            ajaxOptions: tkn,
+            //url: 'http://localhost:8080/rest/shippingstatus',
+            url: 'http://localhost:8080/rest/shipping/'+'773044700377098',
+            //data: myData,
+            dataType: 'json',
+            method: 'get',
+            cache: false,
+            striped: true,
+            pagination: true,
+            showFooter: true,
+            pageSize: 50,
+            pageList: [50, 100, 200],
+            search: true,
+            showColumns: true,
+            //rowStyle: rowStyle,
+            queryParams: function (p) {
+                return {
+                	trackingnumber: '773044700377098'//$("#trackingNumber").val()
+                };
+            },
+
+            columns: [
+                 {
+                     field: 'id',
+                     title: 'ID',
+                     align: 'center',
+                     visible: true
+                 },
+                 {
+                     field: 'packageStatus',
+                     title: 'Status',
+                     align: 'center'
+                 },
+                 {
+                     field: 'createDate',
+                     title: 'Create Date',
+                     align: 'center'
+                 }
+            ]
+        });
+    	
+    }); // end document.ready()	  
  </script>
 	
 </body>
