@@ -52,12 +52,17 @@
 						<div class="row d-flex justify-content-between px-3 top">
 				<div class="panel panel-primary">
 
+<div class="panel panel-success">
+    <div class="panel-heading">Test</div>
+    <div class="panel-body">body content</div>
+</div>
+<div class="panel panel-primary">    
     <div id="toolbar1">
 	        <h4 class="paneltitle">Shipping Status</h4>
 	    </div>
 	    <table id="status_table" data-toolbar="#toolbar1"></table>
 	</div>		
-						
+</div>						
 						
             <div class="d-flex">
                 <h5>ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
@@ -134,8 +139,8 @@
       
  var token = $("meta[name='_csrf']").attr("content");   
  
-    //var myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
-    var myData;
+    var myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
+    //var myData;
     
      function madeAjaxCall(){
  
@@ -172,7 +177,8 @@
             idField: 'id',
             ajaxOptions: tkn,
             //url: 'http://localhost:8080/rest/shippingstatus',
-            url: 'http://localhost:8080/rest/shipping/'+'773044700377098',
+            url: 'http://localhost:8080/rest/shipping/'+'773044700377098', // 1 record
+            url: 'http://localhost:8080/rest/shipping/'+'4306661536782', // 2 records
             //data: myData,
             dataType: 'json',
             method: 'get',
@@ -185,11 +191,11 @@
             search: true,
             showColumns: true,
             //rowStyle: rowStyle,
-            queryParams: function (p) {
+            /*queryParams: function (p) {
                 return {
                 	trackingnumber: '773044700377098'//$("#trackingNumber").val()
                 };
-            },
+            },*/
 
             columns: [
                  {
