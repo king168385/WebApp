@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.model.Role;
-import com.oversea.shipping.model.Shipment;
-import com.oversea.shipping.model.User;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -23,9 +21,9 @@ public class DashboardController {
 	
 	@GetMapping()
 	public String loadupDashboard(Model theModel) {
-		User user = userService.getCurrentUser();
+		List<String> roles = userService.getCurrentRole();
 
-		if(user.hasRole(Role.ADMIN)) {
+		if(roles.contains(Role.ADMIN)) {
 			return "dashboard/dashboard";
 		}else {
 			return "dashboard/dashboard-welcome";
@@ -35,9 +33,9 @@ public class DashboardController {
 	
 	@PostMapping()
 	public String login(Model theModel) {
-		User user = userService.getCurrentUser();
+		List<String> roles = userService.getCurrentRole();
 
-		if(user.hasRole(Role.ADMIN)) {
+		if(roles.contains(Role.ADMIN)) {
 			return "dashboard/dashboard";
 		}else {
 			return "dashboard/dashboard-welcome";

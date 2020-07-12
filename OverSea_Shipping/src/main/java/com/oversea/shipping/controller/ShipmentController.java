@@ -48,11 +48,11 @@ public class ShipmentController {
 
 	@GetMapping("/list")
 	public String listshipments(@RequestParam(required = false) Integer shipDate_Id, @RequestParam(required = false) PackageStatus packageStatus, Model theModel) {
-		User user = userService.getCurrentUser();
 		
+		List<String> roles = userService.getCurrentRole();
 		List<Shipment> theshipments = null;
 		
-		if(user.hasRole(Role.EMPLOYEE) || user.hasRole(Role.ADMIN)) {
+		if(roles.contains(Role.EMPLOYEE) || roles.contains(Role.ADMIN)) {
 			if(shipDate_Id == null) {
 				theshipments = new ArrayList<Shipment>();
 			}else {
@@ -73,6 +73,7 @@ public class ShipmentController {
 			theModel.addAttribute("shippingDateSearch", shipDate_Id);
 			theModel.addAttribute("packageStatusSearch", packageStatus);
 		}else {
+			User user = userService.getCurrentUser();
 			theshipments = shipmentService.findByCustomer(user.getCustomer());
 		}
 

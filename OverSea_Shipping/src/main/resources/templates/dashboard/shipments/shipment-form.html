@@ -36,8 +36,8 @@
 						th:object="${shipment}" method="POST">
 						
 						<div class="form-group row">
-							<label for="shippingDate" class="col-sm-1 col-form-label text-right">海运日期</label>
-							<div class="col-sm-2">
+							<label for="shippingDate" class="col-md-2 col-lg-1 col-form-label">海运日期</label>
+							<div class="col-md-4 col-lg-2">
 								<select class="form-control" id="shippingDate"
 									th:field="${shipment.shipDate.id}" th:disabled="${!shipment.isEditable()}">
 									<option th:each="shipDate : ${shipDateList}"
@@ -48,18 +48,18 @@
 
 						<div sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
 							<div class="form-group row">
-								<label for="email" class="col-sm-1 col-form-label text-right">邮箱<span class="text-danger">*</span></label>
-								<div class="col-sm-2">
+								<label for="email" class="col-lg-1 col-form-label">邮箱<span class="text-danger">*</span></label>
+								<div class="col-lg-2">
 									<input type="email" class="form-control" id="email"
 										th:field="*{customer.email}" th:disabled="*{customer!=null && customer.email != null && customer.email != ''}">
 								</div>
-								<label for="phone" class="col-sm-1 col-form-label text-right">电话</label>
-								<div class="col-sm-2">
+								<label for="phone" class="col-lg-1 col-form-label">电话</label>
+								<div class="col-lg-2">
 									<input type="tel" class="form-control" id="phone"
 										th:field="*{customer.phone}">
 								</div>
-								<label for="wechat" class="col-sm-1 col-form-label text-right">会员号<span class="text-danger">*</span></label>
-								<div class="col-sm-2">
+								<label for="wechat" class="col-lg-1 col-form-label">会员号<span class="text-danger">*</span></label>
+								<div class="col-lg-2">
 									<input type="text" class="form-control" id="wechat"
 										th:field="*{customer.wechatId}" th:disabled="*{customer!=null && customer.wechatId != null && customer.wechatId != ''}">
 								</div>
@@ -67,34 +67,34 @@
 						</div>
 
 						<div class="form-group row">
-							<label for="shipingCompany" class="col-sm-1 col-form-label text-right">快递公司<span class="text-danger">*</span></label>
-							<div class="col-sm-2">
+							<label for="shipingCompany" class="col-lg-1 col-form-label">快递公司<span class="text-danger">*</span></label>
+							<div class="col-lg-2">
 								<input type="text" class="form-control"
 									id="shipingCompany" th:field="*{shipingCompany}" th:disabled="${!shipment.isEditable()}">
 							</div>
-							<label for="trackingNumber" class="col-sm-1 col-form-label text-right">快递单号<span class="text-danger">*</span></label>
-							<div class="col-sm-2">
+							<label for="trackingNumber" class="col-lg-1 col-form-label">快递单号<span class="text-danger">*</span></label>
+							<div class="col-lg-2">
 								<input type="text" class="form-control"
 									id="trackingNumber" th:field="*{trackingNumber}" th:disabled="${!shipment.isEditable()}">
 							</div>
-							<span class="col-sm-2 text-danger" th:if="${#fields.hasErrors('trackingNumber')}" th:errors="*{trackingNumber}"></span>
+							<span class="col-lg-2 text-danger" th:if="${#fields.hasErrors('trackingNumber')}" th:errors="*{trackingNumber}"></span>
 						</div>
 
 						<div class="form-group row">
-							<label for="description" class="col-sm-1 col-form-label text-right">物品描述<small>(英文)</small><span class="text-danger">*</span></label>
-							<div class="col-sm-3">
+							<label for="description" class="col-lg-1 col-form-label">物品描述<small>(英文)</small><span class="text-danger">*</span></label>
+							<div class="col-lg-3">
 								<input type="text" class="form-control"
 									id="description" th:field="*{description}" th:disabled="${!shipment.isEditable()}">
 							</div>
 							
-							<label for="numOfItem" class="col-sm-1 col-form-label text-right">物品数量<span class="text-danger">*</span></label>
-							<div class="col-sm-1">
+							<label for="numOfItem" class="col-lg-1 col-form-label">物品数量<span class="text-danger">*</span></label>
+							<div class="col-lg-1">
 								<input type="number" min="0" class="form-control"
 									id="numOfItem" th:field="*{numOfItem}" th:disabled="${!shipment.isEditable()}">
 							</div>
 							
-							<label sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" for="packageValue" class="col-sm-2 col-form-label text-right">物品价值 <small>(请如实填写)</small><span class="text-danger">*</span></label>
-							<div class="col-sm-1" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
+							<label sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" for="packageValue" class="col-lg-2 col-form-label">物品价值 <small>(请如实填写)</small><span class="text-danger">*</span></label>
+							<div class="col-lg-1" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
 								<input type="number" min="0" step="0.01" class="form-control"
 										id="packageValue" th:field="*{packageValue}" th:disabled="${!shipment.isEditable()}"> 
 							</div>
@@ -103,23 +103,23 @@
 
 						<div sec:authorize="hasAnyRole('EMPLOYEE', 'ADMIN')">
 							<div class="form-group row">
-								<label for="weight" class="col-sm-1 col-form-label text-right">重量（公斤）</label>
-								<div class="col-sm-1">
+								<label for="weight" class="col-lg-1 col-form-label">重量（公斤）</label>
+								<div class="col-lg-1">
 									<input type="number" min="0" step="0.01" class="form-control"
 										id="weight" th:field="*{weight}">
 								</div>
-								<label for="length" class="col-sm-1 col-form-label text-right">长度（厘米）</label>
-								<div class="col-sm-1">
+								<label for="length" class="col-lg-1 col-form-label">长度（厘米）</label>
+								<div class="col-lg-1">
 									<input type="number" min="0" step="0.01" class="form-control"
 										id="length" th:field="*{length}">
 								</div>
-								<label for="width" class="col-sm-1 col-form-label text-right">宽度（厘米）</label>
-								<div class="col-sm-1">
+								<label for="width" class="col-lg-1 col-form-label">宽度（厘米）</label>
+								<div class="col-lg-1">
 									<input type="number" min="0" step="0.01" class="form-control"
 										id="width" th:field="*{width}">
 								</div>
-								<label for="height" class="col-sm-1 col-form-label text-right">高度（厘米）</label>
-								<div class="col-sm-1">
+								<label for="height" class="col-lg-1 col-form-label">高度（厘米）</label>
+								<div class="col-lg-1">
 									<input type="number" min="0" step="0.01" class="form-control"
 										id="height" th:field="*{height}">
 								</div>
@@ -128,18 +128,18 @@
 						
 						<div sec:authorize="hasAnyRole('ADMIN')">
 							<div class="form-group row">
-								<label for="unit" class="col-sm-1 col-form-label text-right">体积重</label>
-								<div class="col-sm-1">
+								<label for="unit" class="col-lg-1 col-form-label">体积重</label>
+								<div class="col-lg-1">
 									<input type="number" min="0" class="form-control"
 										id="unit" th:field="*{unit}">
 								</div>
-								<label for="unit_price" class="col-sm-1 col-form-label text-right">运费单价</label>
-								<div class="col-sm-1">
+								<label for="unit_price" class="col-lg-1 col-form-label">运费单价</label>
+								<div class="col-lg-1">
 									<input type="number" min="0" step="0.01" class="form-control"
 										id="unit_price" th:field="*{unit_price}">
 								</div>
-								<label for="shipping_price" class="col-sm-1 col-form-label text-right">运费</label>
-								<div class="col-sm-1"  style="padding: 5px 10px;">
+								<label for="shipping_price" class="col-lg-1 col-form-label">运费</label>
+								<div class="col-lg-1"  style="padding: 5px 10px;">
 									<span th:text="*{shipping_price}" class="font-weight-bold text-danger"></span>
 								</div>
 							</div>
@@ -147,8 +147,8 @@
 
 						<div sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
 							<div class="form-group row">
-								<label for="deliveryMethod" class="col-sm-1 col-form-label text-right">提货方式<span class="text-danger">*</span></label>
-								<div class="col-sm-1">
+								<label for="deliveryMethod" class="col-lg-1 col-form-label">提货方式<span class="text-danger">*</span></label>
+								<div class="col-lg-1">
 									<select class="form-control" id="deliveryMethod"
 										th:field="*{deliveryMethod}">
 										<option value=""></option>
@@ -160,23 +160,23 @@
 
 							<div id="deliveryAddress">
 								<div class="form-group row">
-									<label for="address" class="col-sm-1 col-form-label text-right">送货地址</label>
-									<div class="col-sm-3">
+									<label for="address" class="col-lg-1 col-form-label">送货地址</label>
+									<div class="col-lg-3">
 										<input type="text" class="form-control"
 											id="address" th:field="*{deliveryAddress}">
 									</div>
-									<label for="city" class="col-sm-1 col-form-label text-right">送货城市</label>
-									<div class="col-sm-1">
+									<label for="city" class="col-lg-1 col-form-label">送货城市</label>
+									<div class="col-lg-1">
 										<input type="text" class="form-control" id="city"
 											th:field="*{deliveryCity}">
 									</div>
-									<label for="province" class="col-sm-1 col-form-label text-right">送货省份</label>
-									<div class="col-sm-1">
+									<label for="province" class="col-lg-1 col-form-label">送货省份</label>
+									<div class="col-lg-1">
 										<input type="text" class="form-control"
 											id="province" th:field="*{deliveryProvince}">
 									</div>
-									<label for="postCode" class="col-sm-1 col-form-label text-right">送货邮编</label>
-									<div class="col-sm-1">
+									<label for="postCode" class="col-lg-1 col-form-label">送货邮编</label>
+									<div class="col-lg-1">
 										<input type="text" class="form-control"
 											id="postCode" th:field="*{deliveryPostCode}">
 									</div>
@@ -185,8 +185,8 @@
 						</div>
 
 						<div class="form-group row">
-							<label for="note" class="col-sm-1 col-form-label text-right">备注</label>
-							<div class="col-sm-3">
+							<label for="note" class="col-lg-1 col-form-label">备注</label>
+							<div class="col-lg-3">
 								<textarea class="form-control" id="note"
 									th:field="*{note}"></textarea>
 							</div>

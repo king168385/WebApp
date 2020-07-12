@@ -32,8 +32,8 @@
 
 					<div class="form-group row" sec:authorize="hasAnyRole('ADMIN')">
 						<label for="shippingDate"
-							class="col-sm-1 col-form-label text-right">海运日期</label>
-						<div class="col-sm-2">
+							class="col-md-2 col-lg-1 col-form-label text-right">海运日期</label>
+						<div class="col-md-4 col-lg-2">
 							<select class="form-control" id="shippingDateSearch">
 								<option value=''></option>
 								<option th:each="theShipDate : ${shipDateList}"
@@ -42,8 +42,8 @@
 							</select>
 						</div>
 						<label for="packageStatusSearch"
-							class="col-sm-1 col-form-labe text-right" style="padding-top:6px">货物状态</label>
-						<div class="col-sm-1">
+							class="col-md-2 col-lg-1 col-form-labe text-right" style="padding-top:6px">货物状态</label>
+						<div class="col-md-3 col-lg-1">
 							<select class="form-control" id="packageStatusSearch">
 								<option value=''></option>
 								<option
@@ -66,15 +66,15 @@
 									th:value="${T(com.oversea.shipping.model.PackageStatus).DELIVERIED}" th:selected="*{packageStatusSearch == T(com.oversea.shipping.model.PackageStatus).DELIVERIED}">已送货</option>
 							</select>
 						</div>
-						<div class="col-sm-1">
+						<div class="col-md-3 col-lg-1">
 							<a id="searchWithDate" href="#" onclick='shipmentListWithDate();'
 								class="btn btn-info">查询</a>
 						</div>
-						<div class="col-sm-1 offset-sm-4">
+						<div class="col-md-3 col-lg-1 offset-lg-4">
 							<a id="downloadShipment" href="#" onclick='downloadShipmentList();'
 								class="btn btn-primary">导出货运单</a>
 						</div>
-						<div class="col-sm-1">
+						<div class="col-md-3 col-lg-1">
 							<form id="uploadFile" method="post" enctype="multipart/form-data"
 								th:action="@{/admin/shipments/uploadExcelFile}">
 								<label class="btn btn-primary"> <input type="file"
@@ -90,8 +90,8 @@
 							th:object="${updatePackageStatus}" method="POST">
 							<div class="card-body">
 								<div class="form-group row" sec:authorize="hasAnyRole('ADMIN')">
-									<label for="shippingDate" class="col-sm-1 col-form-label">货物状态</label>
-									<div class="col-sm-1">
+									<label for="shippingDate" class="col-md-3 col-lg-1 col-form-label">货物状态</label>
+									<div class="col-md-3 col-lg-1">
 										<select class="form-control" th:field="*{packageStatus}">
 											<option
 												th:value="${T(com.oversea.shipping.model.PackageStatus).NEW}">新单</option>
@@ -113,7 +113,7 @@
 												th:value="${T(com.oversea.shipping.model.PackageStatus).DELIVERIED}">已送货</option>
 										</select>
 									</div>
-									<button type="submit" class="btn btn-warning mb-2 col-sm-1">更改状态</button>
+									<button type="submit" class="btn btn-warning mb-2 col-md-3 col-lg-1">更改状态</button>
 								</div>
 								<div class="table-responsive">
 									<table class="table table-bordered" id="shipmentTable" width="100%"
@@ -121,17 +121,17 @@
 										<thead>
 											<tr>
 												<th sec:authorize="hasAnyRole('ADMIN')"><input type="checkbox" id="selectAll"></th>
-												<th>海运日期</th>
-												<th>会员号</th>
-												<th>快递公司</th>
-												<th>快递单号</th>
-												<th style="width:10%">物品描述</th>
-												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">物品价值</th>
-												<th>体积重</th>
-												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">运费(人民币)</th>
-												<th sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
-												<th>货物状态</th>
-												<th style="width:10%">备注</th>
+												<th style="min-width:100px;">海运日期</th>
+												<th style="min-width:100px;">会员号</th>
+												<th style="min-width:100px;">快递公司</th>
+												<th style="width:120px;">快递单号</th>
+												<th style="min-width:100px;">物品描述</th>
+												<th style="min-width:60px;" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">物品价值</th>
+												<th style="min-width:60px;">体积重</th>
+												<th style="min-width:60px;" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">运费(人民币)</th>
+												<th style="min-width:60px;" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">提货方式</th>
+												<th style="min-width:60px;">货物状态</th>
+												<th style="min-width:150px;">备注</th>
 												<th></th>
 											</tr>
 										</thead>

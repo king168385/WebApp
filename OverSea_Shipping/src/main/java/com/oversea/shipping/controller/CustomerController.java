@@ -1,5 +1,7 @@
 package com.oversea.shipping.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oversea.shipping.auth.service.UserService;
 import com.oversea.shipping.model.Customer;
+import com.oversea.shipping.model.Role;
 import com.oversea.shipping.model.User;
 import com.oversea.shipping.service.CustomerService;
 
@@ -52,13 +55,17 @@ public class CustomerController {
 	
 	@PostMapping("/save")
 	public String savecustomer(@ModelAttribute("customer") Customer thecustomer) {
-		
+		List<String> roles = userService.getCurrentRole();
 		// save the customer
 		customerService.save(thecustomer);
 		
 		// use a redirect to prevent duplicate submissions
-		//TODO depends on role to return page
-		return "redirect:/admin/customers/list";
+		if(roles.contains(Role.ADMIN)) {
+			return "redirect:/admin/customers/list";
+		}else {
+			return "redirect:/dashboard";
+		}
+		
 	}
 }
 

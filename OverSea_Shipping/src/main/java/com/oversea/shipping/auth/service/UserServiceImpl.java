@@ -1,8 +1,13 @@
 package com.oversea.shipping.auth.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,6 +54,18 @@ public class UserServiceImpl implements UserService {
 	public User getCurrentUser() {
 		String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		return findByUsername(currentUserName);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getCurrentRole(){
+		List<String> roles = new ArrayList<String>();
+		Iterator<SimpleGrantedAuthority> iterator = (Iterator<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator();
+		while(iterator.hasNext()) {
+			SimpleGrantedAuthority authority = iterator.next();
+			String role = authority.getAuthority();
+			roles.add(role);
+		}
+		return roles;
 	}
 
 	@Override
