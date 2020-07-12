@@ -15,13 +15,13 @@ public class DashboardController {
 	@GetMapping()
 	public String loadupDashboard(Model theModel) {
 		
-		return "dashboard/dashboard";
+		return "dashboard/dashboard-welcome";
 	}
 	
 	@PostMapping()
 	public String login(Model theModel) {
 		
-		return "dashboard/dashboard";
+		return "dashboard/dashboard-welcome";
 	}
 }
 

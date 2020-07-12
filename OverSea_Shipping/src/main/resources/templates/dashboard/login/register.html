@@ -17,6 +17,7 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
+              <div th:insert="site/fragment/general :: message"></div>
               <form class="user" action="#" th:action="@{/user/registration}"
 						th:object="${userForm}" method="POST">
                 <div class="form-group">
@@ -30,11 +31,11 @@
                     <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" th:field="*{passwordConfirm}" placeholder="Repeat Password">
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-user btn-block">保存</button>
+                <button type="submit" class="btn btn-primary btn-user btn-block">注册</button>
               </form>
               <hr>
               <div class="text-center">
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                <a class="small" th:href="@{/user/forgot-password}">Forgot Password?</a>
               </div>
               <div class="text-center">
                 <a class="small" th:href="@{/user/login}">Already have an account? Login!</a>

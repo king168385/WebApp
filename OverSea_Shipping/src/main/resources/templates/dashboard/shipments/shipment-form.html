@@ -39,7 +39,7 @@
 							<label for="shippingDate" class="col-sm-1 col-form-label text-right">海运日期</label>
 							<div class="col-sm-2">
 								<select class="form-control" id="shippingDate"
-									th:field="${shipment.shipDate.id}">
+									th:field="${shipment.shipDate.id}" th:disabled="${!shipment.isEditable()}">
 									<option th:each="shipDate : ${shipDateList}"
 										th:value="${shipDate.id}" th:text="${shipDate.shippingDate}"></option>
 								</select>
@@ -48,10 +48,10 @@
 
 						<div sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
 							<div class="form-group row">
-								<label for="email" class="col-sm-1 col-form-label text-right">邮箱</label>
+								<label for="email" class="col-sm-1 col-form-label text-right">邮箱<span class="text-danger">*</span></label>
 								<div class="col-sm-2">
 									<input type="email" class="form-control" id="email"
-										th:field="*{customer.email}">
+										th:field="*{customer.email}" th:disabled="*{customer!=null && customer.email != null && customer.email != ''}">
 								</div>
 								<label for="phone" class="col-sm-1 col-form-label text-right">电话</label>
 								<div class="col-sm-2">
@@ -61,7 +61,7 @@
 								<label for="wechat" class="col-sm-1 col-form-label text-right">会员号<span class="text-danger">*</span></label>
 								<div class="col-sm-2">
 									<input type="text" class="form-control" id="wechat"
-										th:field="*{customer.wechatId}">
+										th:field="*{customer.wechatId}" th:disabled="*{customer!=null && customer.wechatId != null && customer.wechatId != ''}">
 								</div>
 							</div>
 						</div>
@@ -70,27 +70,33 @@
 							<label for="shipingCompany" class="col-sm-1 col-form-label text-right">快递公司<span class="text-danger">*</span></label>
 							<div class="col-sm-2">
 								<input type="text" class="form-control"
-									id="shipingCompany" th:field="*{shipingCompany}">
+									id="shipingCompany" th:field="*{shipingCompany}" th:disabled="${!shipment.isEditable()}">
 							</div>
 							<label for="trackingNumber" class="col-sm-1 col-form-label text-right">快递单号<span class="text-danger">*</span></label>
 							<div class="col-sm-2">
 								<input type="text" class="form-control"
-									id="trackingNumber" th:field="*{trackingNumber}">
+									id="trackingNumber" th:field="*{trackingNumber}" th:disabled="${!shipment.isEditable()}">
 							</div>
 							<span class="col-sm-2 text-danger" th:if="${#fields.hasErrors('trackingNumber')}" th:errors="*{trackingNumber}"></span>
 						</div>
 
 						<div class="form-group row">
-							<label for="description" class="col-sm-1 col-form-label text-right">货品描述<span class="text-danger">*</span></label>
+							<label for="description" class="col-sm-1 col-form-label text-right">物品描述<small>(英文)</small><span class="text-danger">*</span></label>
 							<div class="col-sm-3">
 								<input type="text" class="form-control"
-									id="description" th:field="*{description}">
+									id="description" th:field="*{description}" th:disabled="${!shipment.isEditable()}">
 							</div>
 							
-							<label sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" for="packageValue" class="col-sm-2 col-form-label text-right">货品价值 <small>(请如实填写)</small><span class="text-danger">*</span></label>
+							<label for="numOfItem" class="col-sm-1 col-form-label text-right">物品数量<span class="text-danger">*</span></label>
+							<div class="col-sm-1">
+								<input type="number" min="0" class="form-control"
+									id="numOfItem" th:field="*{numOfItem}" th:disabled="${!shipment.isEditable()}">
+							</div>
+							
+							<label sec:authorize="hasAnyRole('MEMBER', 'ADMIN')" for="packageValue" class="col-sm-2 col-form-label text-right">物品价值 <small>(请如实填写)</small><span class="text-danger">*</span></label>
 							<div class="col-sm-1" sec:authorize="hasAnyRole('MEMBER', 'ADMIN')">
-								<input type="number" class="form-control"
-										id="packageValue" th:field="*{packageValue}"> 
+								<input type="number" min="0" step="0.01" class="form-control"
+										id="packageValue" th:field="*{packageValue}" th:disabled="${!shipment.isEditable()}"> 
 							</div>
 						
 						</div>
@@ -99,22 +105,22 @@
 							<div class="form-group row">
 								<label for="weight" class="col-sm-1 col-form-label text-right">重量（公斤）</label>
 								<div class="col-sm-1">
-									<input type="number" class="form-control"
+									<input type="number" min="0" step="0.01" class="form-control"
 										id="weight" th:field="*{weight}">
 								</div>
 								<label for="length" class="col-sm-1 col-form-label text-right">长度（厘米）</label>
 								<div class="col-sm-1">
-									<input type="number" class="form-control"
+									<input type="number" min="0" step="0.01" class="form-control"
 										id="length" th:field="*{length}">
 								</div>
 								<label for="width" class="col-sm-1 col-form-label text-right">宽度（厘米）</label>
 								<div class="col-sm-1">
-									<input type="number" class="form-control"
+									<input type="number" min="0" step="0.01" class="form-control"
 										id="width" th:field="*{width}">
 								</div>
 								<label for="height" class="col-sm-1 col-form-label text-right">高度（厘米）</label>
 								<div class="col-sm-1">
-									<input type="number" class="form-control"
+									<input type="number" min="0" step="0.01" class="form-control"
 										id="height" th:field="*{height}">
 								</div>
 							</div>
@@ -124,12 +130,12 @@
 							<div class="form-group row">
 								<label for="unit" class="col-sm-1 col-form-label text-right">体积重</label>
 								<div class="col-sm-1">
-									<input type="number" class="form-control"
+									<input type="number" min="0" class="form-control"
 										id="unit" th:field="*{unit}">
 								</div>
 								<label for="unit_price" class="col-sm-1 col-form-label text-right">运费单价</label>
 								<div class="col-sm-1">
-									<input type="number" class="form-control"
+									<input type="number" min="0" step="0.01" class="form-control"
 										id="unit_price" th:field="*{unit_price}">
 								</div>
 								<label for="shipping_price" class="col-sm-1 col-form-label text-right">运费</label>
@@ -147,7 +153,7 @@
 										th:field="*{deliveryMethod}">
 										<option value=""></option>
 										<option th:value="'PickUp'" th:text="自取"></option>
-										<option th:value="'Delivery'" th:text="送货"></option>
+										<!-- <option th:value="'Delivery'" th:text="送货"></option> -->
 									</select>
 								</div>
 							</div>

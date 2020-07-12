@@ -57,6 +57,9 @@ public class Shipment {
 	@Column(name="package_value")
 	private double packageValue;
 	
+	@Column(name="numOfItem")
+	private int numOfItem;
+	
 	@Column(name="shipping_price")
 	private double shipping_price;
 	
@@ -64,7 +67,7 @@ public class Shipment {
 	private double unit_price;
 	
 	@Column(name="unit")
-	private double unit;
+	private int unit;
 	
 	@Column(name="description")
 	private String description;
@@ -172,11 +175,11 @@ public class Shipment {
 		this.unit_price = unit_price;
 	}
 
-	public double getUnit() {
+	public int getUnit() {
 		return unit;
 	}
 
-	public void setUnit(double unit) {
+	public void setUnit(int unit) {
 		this.unit = unit;
 	}
 
@@ -296,6 +299,14 @@ public class Shipment {
 		return length+"*"+width+"*"+height;
 	}
 	
+	public int getNumOfItem() {
+		return numOfItem;
+	}
+
+	public void setNumOfItem(int numOfItem) {
+		this.numOfItem = numOfItem;
+	}
+
 	public boolean hasPackageStatus(PackageStatus packageStatus) {
 		boolean result = false;
 		for(ShipmentPackageStatus status: packageStatusList) {
@@ -324,7 +335,27 @@ public class Shipment {
 		status = packageStatus;
 	}
 
-	
+	public boolean isEditable() {
+		boolean result = true;
+		if(status == null) return result;
+		switch (status) {
+		case SHIPPING:
+			result = false;
+			break;
+		case ARRIVED:
+			result = false;
+			break;
+		case PICKUP:
+			result = false;
+			break;
+		case DELIVERY:
+			result = false;
+			break;
+		default:
+			break;
+		}
+		return result;
+	}
 	
 	
 }

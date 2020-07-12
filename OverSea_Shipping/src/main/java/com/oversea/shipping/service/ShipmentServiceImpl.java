@@ -76,10 +76,10 @@ public class ShipmentServiceImpl implements ShipmentService {
 		}
 
 		DecimalFormat format = new DecimalFormat("###.##");
-		unit = Double.valueOf(format.format(unit));
+		unit =Double.valueOf(format.format(unit));
 
 		if (theShipment.getUnit() == 0) {
-			theShipment.setUnit(unit);
+			theShipment.setUnit((int) Math.floor(unit+0.6));
 		}
 
 		if (theShipment.getUnit_price() == 0) {

@@ -5,221 +5,259 @@
 
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-	<!-- sidebar -->
-    <div th:insert="dashboard/fragment/general :: sidebar"></div>
+		<!-- sidebar -->
+		<div th:insert="dashboard/fragment/general :: sidebar"></div>
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+			<!-- Main Content -->
+			<div id="content">
 
-        <!-- Topbar -->
-        <div th:insert="dashboard/fragment/general :: topbar"></div>
-        <!-- End of Topbar -->
+				<!-- Topbar -->
+				<div th:insert="dashboard/fragment/general :: topbar"></div>
+				<!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid" style="height:600px">
+				<!-- Begin Page Content -->
+				<div class="container-fluid" style="height: 600px">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">控制面板</h1>
-          </div>
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">控制面板</h1>
+					</div>
 
-          <!-- Content Row -->
+					<!-- Content Row -->
 
-          <div class="row">
+					<div class="row">
 
-            <!-- Area Chart -->
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">快递单查询</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="form-group row">
-							<label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label>
-							<div class="col-sm-11">
-								<input type="text" class="form-control  mb-2 col-2"
-									id="trackingNumber" onkeyup="madeAjaxCall()">
+						<!-- Area Chart -->
+						<div class="col-xl-12 col-lg-12">
+							<div class="card shadow mb-4">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-primary">快递单查询</h6>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+									<div class="form-group row">
+										<label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label>
+										<div class="col-sm-11">
+											<input type="text" class="form-control  mb-2 col-2"
+												id="trackingNumber" onkeyup="madeAjaxCall()">
+										</div>
+									</div>
+									<div class="row d-flex justify-content-between px-3 top">
+										<div class="panel panel-primary">
+
+											<div class="panel panel-success">
+												<div class="panel-heading">Test</div>
+												<div class="panel-body">body content</div>
+											</div>
+											<div class="panel panel-primary">
+												<div id="toolbar1">
+													<h4 class="paneltitle">Shipping Status</h4>
+												</div>
+												<table id="status_table" data-toolbar="#toolbar1"></table>
+											</div>
+										</div>
+
+										<div class="d-flex">
+											<h5>
+												ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span>
+											</h5>
+										</div>
+										<div class="d-flex flex-column text-sm-right">
+											<p class="mb-0">
+												Expected Arrival <span>01/12/19</span>
+											</p>
+											<p>
+												USPS <span class="font-weight-bold">234094567242423422898</span>
+											</p>
+										</div>
+									</div>
+									<!-- Add class 'active' to progress -->
+									<div class="row d-flex justify-content-center">
+										<div class="col-12">
+											<ul id="progressbar" class="text-center">
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="step0"></li>
+											</ul>
+										</div>
+									</div>
+									<div class="row justify-content-between top">
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Processed
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Shipped
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/TkPm63y.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>En Route
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/HdsziHP.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Arrived
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="row d-flex justify-content-between px-3 top">
-				<div class="panel panel-primary">
 
-<div class="panel panel-success">
-    <div class="panel-heading">Test</div>
-    <div class="panel-body">body content</div>
-</div>
-<div class="panel panel-primary">    
-    <div id="toolbar1">
-	        <h4 class="paneltitle">Shipping Status</h4>
-	    </div>
-	    <table id="status_table" data-toolbar="#toolbar1"></table>
-	</div>		
-</div>						
-						
-            <div class="d-flex">
-                <h5>ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
-            </div>
-            <div class="d-flex flex-column text-sm-right">
-                <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
-                <p>USPS <span class="font-weight-bold">234094567242423422898</span></p>
-            </div>
-        </div> <!-- Add class 'active' to progress -->
-        <div class="row d-flex justify-content-center">
-            <div class="col-12">
-                <ul id="progressbar" class="text-center">
-                    <li class="active step0"></li>
-                    <li class="active step0"></li>
-                    <li class="active step0"></li>
-                    <li class="step0"></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row justify-content-between top">
-            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
-                <div class="d-flex flex-column">
-                    <p class="font-weight-bold">Order<br>Processed</p>
-                </div>
-            </div>
-            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
-                <div class="d-flex flex-column">
-                    <p class="font-weight-bold">Order<br>Shipped</p>
-                </div>
-            </div>
-            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
-                <div class="d-flex flex-column">
-                    <p class="font-weight-bold">Order<br>En Route</p>
-                </div>
-            </div>
-            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
-                <div class="d-flex flex-column">
-                    <p class="font-weight-bold">Order<br>Arrived</p>
-                </div>
-            </div>
-        </div>
-                </div>
-              </div>
-            </div>
+					</div>
+					<!-- /.container-fluid -->
 
-        </div>
-        <!-- /.container-fluid -->
+				</div>
+				<!-- End of Main Content -->
 
-      </div>
-      <!-- End of Main Content -->
-      
-	 <!-- Footer -->
-	 <div th:insert="dashboard/fragment/general :: footer"></div>
-	
- 
-    </div>
-    <!-- End of Content Wrapper -->
- 
-  </div>
-  <!-- End of Page Wrapper -->
+				<!-- Footer -->
+				<div th:insert="dashboard/fragment/general :: footer"></div>
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
 
-  <!-- Logout Modal-->
-  <div th:insert="dashboard/fragment/general :: logout-modal"></div>
-  
-  <!-- Script -->
- <div th:insert="dashboard/fragment/general :: script"></div>
- 
- <script type="text/javascript">
-      
- var token = $("meta[name='_csrf']").attr("content");   
- 
-    var myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
-    //var myData;
-    
-     function madeAjaxCall(){
- 
-        /*$.ajax({
-            type: "post",
-            url: "http://localhost:8080/rest/shippingstatus",
-            headers: {"X-CSRF-TOKEN": token},
-            cache: false,    
-            data:'trackingnumber=' + '773044700377098',//$("#trackingNumber").val(),
-            success: function(response){
-                //$('#result').html("");
-                var obj = JSON.parse(JSON.stringify(response));
-                myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
-                $("#status_table").bootstrapTable('refresh');
-                console.log(obj[0]);
-                console.log(obj);
-            },
-            error: function(){      
-                alert('Error while request..');
-            }
-        });*/
-    }
-    
-    var tkn = {headers: {"X-CSRF-TOKEN": token}};
-    
-    $(document).ready(function(){
-    	
-    	$("#trackingNumber").keyup(function(){
-    		
-            $("#status_table").bootstrapTable('refresh');
-        });
-    	
-    	$("#status_table").bootstrapTable({
-            idField: 'id',
-            ajaxOptions: tkn,
-            //url: 'http://localhost:8080/rest/shippingstatus',
-            url: 'http://localhost:8080/rest/shipping/'+'773044700377098', // 1 record
-            url: 'http://localhost:8080/rest/shipping/'+'4306661536782', // 2 records
-            //data: myData,
-            dataType: 'json',
-            method: 'get',
-            cache: false,
-            striped: true,
-            pagination: true,
-            showFooter: true,
-            pageSize: 50,
-            pageList: [50, 100, 200],
-            search: true,
-            showColumns: true,
-            //rowStyle: rowStyle,
-            /*queryParams: function (p) {
-                return {
-                	trackingnumber: '773044700377098'//$("#trackingNumber").val()
-                };
-            },*/
+			</div>
+			<!-- End of Content Wrapper -->
 
-            columns: [
-                 {
-                     field: 'id',
-                     title: 'ID',
-                     align: 'center',
-                     visible: true
-                 },
-                 {
-                     field: 'packageStatus',
-                     title: 'Status',
-                     align: 'center'
-                 },
-                 {
-                     field: 'createDate',
-                     title: 'Create Date',
-                     align: 'center'
-                 }
-            ]
-        });
-    	
-    }); // end document.ready()	  
- </script>
-	
+		</div>
+		<!-- End of Page Wrapper -->
+
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fas fa-angle-up"></i>
+		</a>
+
+		<!-- Logout Modal-->
+		<div th:insert="dashboard/fragment/general :: logout-modal"></div>
+
+		<!-- Script -->
+		<div th:insert="dashboard/fragment/general :: script"></div>
+
+		<script type="text/javascript">
+			var token = $("meta[name='_csrf']").attr("content");
+
+			var myData = [ {
+				"id" : 1,
+				"packageStatus" : "NEW",
+				"createDate" : "2020-07-07T18:09:16.000+0000"
+			}, {
+				"id" : 301,
+				"packageStatus" : "RECEIVED",
+				"createDate" : "2020-07-07T16:43:05.000+0000"
+			} ];
+			//var myData;
+
+			function madeAjaxCall() {
+
+				/*$.ajax({
+				    type: "post",
+				    url: "http://localhost:8080/rest/shippingstatus",
+				    headers: {"X-CSRF-TOKEN": token},
+				    cache: false,    
+				    data:'trackingnumber=' + '773044700377098',//$("#trackingNumber").val(),
+				    success: function(response){
+				        //$('#result').html("");
+				        var obj = JSON.parse(JSON.stringify(response));
+				        myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
+				        $("#status_table").bootstrapTable('refresh');
+				        console.log(obj[0]);
+				        console.log(obj);
+				    },
+				    error: function(){      
+				        alert('Error while request..');
+				    }
+				});*/
+			}
+
+			var tkn = {
+				headers : {
+					"X-CSRF-TOKEN" : token
+				}
+			};
+
+			$(document)
+					.ready(
+							function() {
+
+								$("#trackingNumber").keyup(
+										function() {
+
+											$("#status_table").bootstrapTable(
+													'refresh');
+										});
+
+								$("#status_table")
+										.bootstrapTable(
+												{
+													idField : 'id',
+													ajaxOptions : tkn,
+													//url: 'http://localhost:8080/rest/shippingstatus',
+													url : 'http://localhost:8080/rest/shipping/'
+															+ '773044700377098', // 1 record
+													url : 'http://localhost:8080/rest/shipping/'
+															+ '4306661536782', // 2 records
+													//data: myData,
+													dataType : 'json',
+													method : 'get',
+													cache : false,
+													striped : true,
+													pagination : true,
+													showFooter : true,
+													pageSize : 50,
+													pageList : [ 50, 100, 200 ],
+													search : true,
+													showColumns : true,
+													//rowStyle: rowStyle,
+													/*queryParams: function (p) {
+													    return {
+													    	trackingnumber: '773044700377098'//$("#trackingNumber").val()
+													    };
+													},*/
+
+													columns : [
+															{
+																field : 'id',
+																title : 'ID',
+																align : 'center',
+																visible : true
+															},
+															{
+																field : 'packageStatus',
+																title : 'Status',
+																align : 'center'
+															},
+															{
+																field : 'createDate',
+																title : 'Create Date',
+																align : 'center'
+															} ]
+												});
+
+							}); // end document.ready()
+		</script>
 </body>
 
 </html>

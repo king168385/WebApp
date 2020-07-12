@@ -67,7 +67,7 @@ public class ShipmentController {
 			UpdatePackageStatus updatePackageStatus = new UpdatePackageStatus();
 			theModel.addAttribute("updatePackageStatus", updatePackageStatus);
 			
-			List<ShipDate> shipDateList = shipDateService.findAllActive();
+			List<ShipDate> shipDateList = shipDateService.findAll();
 			theModel.addAttribute("shipDateList", shipDateList);
 			
 			theModel.addAttribute("shippingDateSearch", shipDate_Id);
@@ -87,9 +87,16 @@ public class ShipmentController {
 	public String showFormForAdd(Model theModel) {
 		User user = userService.getCurrentUser();
 		
+		Customer customer = user.getCustomer();
+
 		// create model attribute to bind form data
 		Shipment theshipment = new Shipment();
-		theshipment.setCustomer(user.getCustomer());
+		
+		if (customer == null && user.hasRole(Role.MEMBER)) {
+			customer = new Customer();
+			customer.setEmail(user.getUsername());
+		}
+		theshipment.setCustomer(customer);
 				
 		// get shipdate from db
 		List<ShipDate> shipDateList = shipDateService.findAllActive();
@@ -104,10 +111,17 @@ public class ShipmentController {
 	public String showFormForAdd(@RequestParam("shipDate_Id") Integer shipDate_Id, Model theModel) {
 		User user = userService.getCurrentUser();
 		
+		Customer customer = user.getCustomer();
+
 		// create model attribute to bind form data
 		Shipment theshipment = new Shipment();
-		theshipment.setCustomer(user.getCustomer());
-				
+		
+		if (customer == null && user.hasRole(Role.MEMBER)) {
+			customer = new Customer();
+			customer.setEmail(user.getUsername());
+		}
+		theshipment.setCustomer(customer);
+
 		if(shipDate_Id != null) {
 			ShipDate shipDate = shipDateService.findById(shipDate_Id);
 			theshipment.setShipDate(shipDate);

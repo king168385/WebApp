@@ -12,6 +12,8 @@ public interface ShipDateRepository extends JpaRepository<ShipDate, Integer> {
 	
 	public List<ShipDate> findByCutOffDateGreaterThanEqualAndActiveTrue(String date);
 	
+	public List<ShipDate> findByActiveTrueOrderByShippingDateDesc();
+	
 	public ShipDate findByShippingDateAndActiveTrue(String date);
 	
 }

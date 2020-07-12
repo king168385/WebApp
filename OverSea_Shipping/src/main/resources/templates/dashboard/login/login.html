@@ -22,6 +22,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
+                  <div th:insert="site/fragment/general :: message"></div>
                   <form class="user" action="#" th:action="@{/perform_login}" method="POST">
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user" name="username" aria-describedby="emailHelp" placeholder="Enter Email Address...">

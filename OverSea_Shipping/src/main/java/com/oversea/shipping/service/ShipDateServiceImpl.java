@@ -29,7 +29,7 @@ public class ShipDateServiceImpl implements ShipDateService {
 	}
 	
 	public List<ShipDate> findAll() {
-		return shipDateRepository.findAllByOrderByShippingDateAsc();
+		return shipDateRepository.findByActiveTrueOrderByShippingDateDesc();
 	}
 
 	public ShipDate findById(int theId) {
