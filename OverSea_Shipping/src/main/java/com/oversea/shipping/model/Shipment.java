@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +40,7 @@ public class Shipment {
 	@Column(name="trackingNumber", unique=true, nullable = false)
 	private String trackingNumber;
 	
+	@NotEmpty
 	@Column(name="shipingCompany")
 	private String shipingCompany;
 	
@@ -54,9 +56,11 @@ public class Shipment {
 	@Column(name="width")
 	private double width;
 	
+	@Min(value = (long) 0.01)
 	@Column(name="package_value")
 	private double packageValue;
 	
+	@Min(value = 1)
 	@Column(name="numOfItem")
 	private int numOfItem;
 	
@@ -69,10 +73,11 @@ public class Shipment {
 	@Column(name="unit")
 	private int unit;
 	
+	@NotEmpty
 	@Column(name="description")
 	private String description;
 	
-	@NotEmpty(message = "必须填写")
+	@NotEmpty
 	@Column(name="deliveryMethod")
 	private String deliveryMethod;
 	

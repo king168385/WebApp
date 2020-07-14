@@ -46,7 +46,7 @@ public class Customer {
 	@Column(name="postCode")
 	private String postCode;
 	
-	@NotEmpty(message = "必须填写")
+	@NotEmpty
 	@Column(name="wechatId", unique=true, nullable = false)
 	private String wechatId;
 		

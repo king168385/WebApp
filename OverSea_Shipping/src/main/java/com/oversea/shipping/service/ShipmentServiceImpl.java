@@ -56,14 +56,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	}
 
 	public Shipment findByTrackingNumber(String trackingNumber) {
-		Shipment theShipment = ShipmentRepository.findByTrackingNumber(trackingNumber);
-
-		if (theShipment == null) {
-			// we didn't find the Shipment
-			throw new RuntimeException("Did not find tracking Number - " + trackingNumber);
-		}
-
-		return theShipment;
+		return ShipmentRepository.findByTrackingNumber(trackingNumber);
 	}
 
 	@Transactional

@@ -157,12 +157,26 @@ public class ShipmentController {
 	
 	@PostMapping("/save")
 	public String saveshipment( Model theModel, @Valid Shipment shipment, BindingResult bindingResult) {
-		
+
 		if (bindingResult.hasErrors()) {
 			List<ShipDate> shipDateList = shipDateService.findAllActive();
 			theModel.addAttribute("shipDateList", shipDateList);
+			theModel.addAttribute("alertMessage", "请填写必要信息");
+			theModel.addAttribute("alertType", "danger");
             return "dashboard/shipments/shipment-form";
         }
+		
+		if(shipment.getStatus() == null) {
+			Shipment theshipment = shipmentService.findByTrackingNumber(shipment.getTrackingNumber());
+			if(theshipment != null) {
+				List<ShipDate> shipDateList = shipDateService.findAllActive();
+				theModel.addAttribute("shipDateList", shipDateList);
+				theModel.addAttribute("alertMessage", "订单号已存在");
+				theModel.addAttribute("alertType", "danger");
+				return "dashboard/shipments/shipment-form";
+			}
+		}
+		
 		
 		if(shipment.getCustomer().getId() == 0) {
 			Customer customer = customerService.findByEmail(shipment.getCustomer().getEmail());
@@ -174,7 +188,7 @@ public class ShipmentController {
 			}
 		}
 
-		// save the shipment
+		// save the shipment 
 		shipmentService.save(shipment);
 		
 		// use a redirect to prevent duplicate submissions
