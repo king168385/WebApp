@@ -52,20 +52,67 @@
 										</div>
 									</div>
 									<div class="row d-flex justify-content-between px-3 top">
-										<div class="panel panel-primary">
+<style>
+/*.bootstrap-table{
+  border: 1px solid #4e73df;
+}*/
+.panel-primary {
+    border-color: #4e73df;
+}
 
-											<div class="panel panel-success">
-												<div class="panel-heading">Test</div>
-												<div class="panel-body">body content</div>
-											</div>
+.paneltitle {
+    font-weight: normal;
+    color: #fff;
+    padding-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+.h4, h4 {
+    font-size: 18px;
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    /*border: 1px solid transparent;*/
+    border: 1px solid #4e73df;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.panel-primary .fixed-table-toolbar {
+    font-size: 18px;
+    color: #FFFFFF;
+    background-color: #4e73df;
+}
+
+.fixed-table-toolbar{
+  height: 54px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  padding-right: 10px;
+}
+
+.fixed-table-pagination .pagination-info {
+    line-height: 34px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+/*.btn-secondary {
+    color: #858796;
+    background-color: #FFFFFF;
+    border-color: #858796;
+}*/
+</style>										
 											<div class="panel panel-primary">
 												<div id="toolbar1">
 													<h4 class="paneltitle">Shipping Status</h4>
 												</div>
 												<table id="status_table" data-toolbar="#toolbar1"></table>
 											</div>
-										</div>
-
+										
 										<div class="d-flex">
 											<h5>
 												ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span>
@@ -215,8 +262,8 @@
 													idField : 'id',
 													ajaxOptions : tkn,
 													//url: 'http://localhost:8080/rest/shippingstatus',
-													url : 'http://localhost:8080/rest/shipping/'
-															+ '773044700377098', // 1 record
+													//url : 'http://localhost:8080/rest/shipping/'
+														//	+ '773044700377098', // 1 record
 													url : 'http://localhost:8080/rest/shipping/'
 															+ '4306661536782', // 2 records
 													//data: myData,
@@ -225,10 +272,10 @@
 													cache : false,
 													striped : true,
 													pagination : true,
-													showFooter : true,
+													//showFooter : true,
 													pageSize : 50,
 													pageList : [ 50, 100, 200 ],
-													search : true,
+													//search : true,
 													showColumns : true,
 													//rowStyle: rowStyle,
 													/*queryParams: function (p) {
