@@ -33,7 +33,6 @@
 					<!-- Content Row -->
 
 					<div class="row">
-
 						<!-- Area Chart -->
 						<div class="col-xl-12 col-lg-12">
 							<div class="card shadow mb-4">
@@ -44,75 +43,28 @@
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
-									<div class="form-group row">
-										<label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label>
+									<div class="row">
+										<!-- label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label-->
 										<div class="col-sm-11">
-											<input type="text" class="form-control  mb-2 col-2"
-												id="trackingNumber" onkeyup="madeAjaxCall()">
+											<!--input type="text" class="form-control  mb-2 col-2"
+												id="trackingNumber">
+											<button id="searchBtn" type="button" class="btn btn-info mb-2">搜索</button-->
+											<div class="input-group mb-3 col-3">
+											  <input id="trackingNumber" type="text" class="form-control" placeholder="快递单号">
+											  <div class="input-group-append">
+											    <button id="searchBtn" class="btn btn-info" type="button">搜索</button>
+											  </div>
+											</div>
 										</div>
+										
 									</div>
 									<div class="row d-flex justify-content-between px-3 top">
-<style>
-/*.bootstrap-table{
-  border: 1px solid #4e73df;
-}*/
-.panel-primary {
-    border-color: #4e73df;
-}
-
-.paneltitle {
-    font-weight: normal;
-    color: #fff;
-    padding-left: 20px;
-    margin-top: 8px;
-    margin-bottom: 0px;
-}
-
-.h4, h4 {
-    font-size: 18px;
-}
-
-.panel {
-    margin-bottom: 20px;
-    background-color: #fff;
-    /*border: 1px solid transparent;*/
-    border: 1px solid #A9BCF5;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-.panel-primary .fixed-table-toolbar {
-    font-size: 18px;
-    color: #FFFFFF;
-    background-color: #4e73df;
-}
-
-.fixed-table-toolbar{
-  height: 58px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  padding-right: 10px;
-}
-
-.fixed-table-pagination .pagination-info {
-    line-height: 34px;
-    margin-left: 15px;
-    margin-right: 5px;
-}
-
-/*.btn-secondary {
-    color: #858796;
-    background-color: #FFFFFF;
-    border-color: #858796;
-}*/
-</style>										
-											<div class="panel panel-primary">
-												<div id="toolbar1">
-													<h4 class="paneltitle">Shipping Status</h4>
-												</div>
-												<table id="status_table" data-toolbar="#toolbar1"></table>
+										<div class="panel panel-primary">
+											<div id="toolbar1">
+												<h4 class="paneltitle">Shipping Status</h4>
 											</div>
-										
+											<table id="shipping_table" data-toolbar="#toolbar1"></table>
+										</div>
 										<div class="d-flex">
 											<h5>
 												ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span>
@@ -229,7 +181,7 @@
 				        //$('#result').html("");
 				        var obj = JSON.parse(JSON.stringify(response));
 				        myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
-				        $("#status_table").bootstrapTable('refresh');
+				        $("#shipping_table").bootstrapTable('refresh');
 				        console.log(obj[0]);
 				        console.log(obj);
 				    },
@@ -245,66 +197,111 @@
 				}
 			};
 
-			$(document)
-					.ready(
-							function() {
+			var trackingNumber;
+			$(document).ready(function(){
 
-								$("#trackingNumber").keyup(
-										function() {
+				$("#searchBtn").click(
+					function() {
+						trackingNumber = $("#trackingNumber").val();
+						$("#shipping_table").bootstrapTable('refresh');
+					});
 
-											$("#status_table").bootstrapTable(
-													'refresh');
-										});
+				$("#shipping_table").bootstrapTable(
+					{
+						idField : 'id',
+						ajaxOptions : tkn,
+						//url: 'http://localhost:8080/rest/shippingstatus',
+						//url : 'http://localhost:8080/rest/shipping/'
+							//	+ '773044700377098', // 1 record
+						//url : 'http://localhost:8080/rest/shipping/'
+							//	+ '4306661536782', // 2 records
+						//url : 'http://localhost:8080/rest/shipping/'+trackingNumber, 
+						url : 'http://localhost:8080/rest/shipping', 
+						//data: myData,
+						dataType : 'json',
+						method : 'get',
+						cache : false,
+						striped : true,
+						pagination : true,
+						//showFooter : true,
+						pageSize : 50,
+						pageList : [ 50, 100, 200 ],
+						//search : true,
+						showColumns : true,
+						//rowStyle: rowStyle,
+						queryParams: function (p) {
+						    return {
+						    	trackingnumber: $("#trackingNumber").val()
+						    };
+						},
 
-								$("#status_table")
-										.bootstrapTable(
-												{
-													idField : 'id',
-													ajaxOptions : tkn,
-													//url: 'http://localhost:8080/rest/shippingstatus',
-													//url : 'http://localhost:8080/rest/shipping/'
-														//	+ '773044700377098', // 1 record
-													url : 'http://localhost:8080/rest/shipping/'
-															+ '4306661536782', // 2 records
-													//data: myData,
-													dataType : 'json',
-													method : 'get',
-													cache : false,
-													striped : true,
-													pagination : true,
-													//showFooter : true,
-													pageSize : 50,
-													pageList : [ 50, 100, 200 ],
-													//search : true,
-													showColumns : true,
-													//rowStyle: rowStyle,
-													/*queryParams: function (p) {
-													    return {
-													    	trackingnumber: '773044700377098'//$("#trackingNumber").val()
-													    };
-													},*/
+						columns : [
+							{
+								field : 'id',
+								title : 'ID',
+								align : 'center',
+								visible : true
+							},
+							{
+								field : 'packageStatus',
+								title : 'Status',
+								align : 'center'
+							},
+							{
+								field : 'createDate',
+								title : 'Create Date',
+								align : 'center'
+							} ]
+					});
 
-													columns : [
-															{
-																field : 'id',
-																title : 'ID',
-																align : 'center',
-																visible : true
-															},
-															{
-																field : 'packageStatus',
-																title : 'Status',
-																align : 'center'
-															},
-															{
-																field : 'createDate',
-																title : 'Create Date',
-																align : 'center'
-															} ]
-												});
-
-							}); // end document.ready()
+			}); // end document.ready()
 		</script>
 </body>
+
+<style>
+.panel-primary {
+    border-color: #4e73df;
+}
+
+.paneltitle {
+    font-weight: normal;
+    color: #fff;
+    padding-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+.h4, h4 {
+    font-size: 18px;
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    /*border: 1px solid transparent;*/
+    border: 1px solid #A9BCF5;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.panel-primary .fixed-table-toolbar {
+    font-size: 18px;
+    color: #FFFFFF;
+    background-color: #4e73df;
+}
+
+.fixed-table-toolbar{
+    height: 58px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding-right: 10px;
+}
+
+.fixed-table-pagination .pagination-info {
+    line-height: 34px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+</style>    
 
 </html>

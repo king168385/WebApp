@@ -75,14 +75,14 @@ public class RestController {
     }
     
     //@GetMapping("/shipping/{trackingnumber}")
-    @RequestMapping(value = "/shipping/{trackingnumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/shipping", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ShipmentPackageStatus> getShippingList(@PathVariable(value = "trackingnumber") String trackingNumber) {
+    public List<ShipmentPackageStatus> getShippingList(@RequestParam("trackingnumber") String trackingNumber) {
         
-        Shipment shipment = shipmentService.findByTrackingNumber(trackingNumber);
-        List<ShipmentPackageStatus> packageStatusList= shipment.getPackageStatusList();
+        //Shipment shipment = shipmentService.findByTrackingNumber(trackingNumber);
+        //List<ShipmentPackageStatus> packageStatusList= shipment.getPackageStatusList();
         
-        /*User user = userService.getCurrentUser();
+        User user = userService.getCurrentUser();
 
         Collection<Role> roles = user.getRoles();
         boolean isAdmin = roles.contains(roleRepository.findByName(Role.ADMIN));
@@ -102,7 +102,40 @@ public class RestController {
             // search tracking number: 773044700377098
             // only return 1 records, it's expecting 2 records (2 records in hipment_package_status table)
             packageStatusList = shipment.getPackageStatusList();
-        }*/
+        }
+        
+        return packageStatusList;
+    }
+    
+    //@GetMapping("/shipping/{trackingnumber}")
+    @RequestMapping(value = "/shipping/{trackingnumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<ShipmentPackageStatus> getShipping(@PathVariable(value = "trackingnumber") String trackingNumber) {
+        
+        //Shipment shipment = shipmentService.findByTrackingNumber(trackingNumber);
+        //List<ShipmentPackageStatus> packageStatusList= shipment.getPackageStatusList();
+        
+        User user = userService.getCurrentUser();
+
+        Collection<Role> roles = user.getRoles();
+        boolean isAdmin = roles.contains(roleRepository.findByName(Role.ADMIN));
+
+        Shipment shipment = null;
+        if (isAdmin) {
+            shipment = shipmentService.findByTrackingNumber(trackingNumber);
+        } else {
+            Customer customer = user.getCustomer();
+            shipment = shipmentRepository.findByCustomerAndTrackingNumber(customer, trackingNumber);
+        }
+
+        List<ShipmentPackageStatus> packageStatusList = null;
+        if (shipment != null) {
+            // TODO
+            // login with: member@test.com
+            // search tracking number: 773044700377098
+            // only return 1 records, it's expecting 2 records (2 records in hipment_package_status table)
+            packageStatusList = shipment.getPackageStatusList();
+        }
         
         return packageStatusList;
     }
