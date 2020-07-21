@@ -46,9 +46,6 @@
 									<div class="row">
 										<!-- label for="trackingNumber" class="col-sm-1 col-form-label">快递单号</label-->
 										<div class="col-sm-11">
-											<!--input type="text" class="form-control  mb-2 col-2"
-												id="trackingNumber">
-											<button id="searchBtn" type="button" class="btn btn-info mb-2">搜索</button-->
 											<div class="input-group mb-3 col-3">
 											  <input id="trackingNumber" type="text" class="form-control" placeholder="快递单号">
 											  <div class="input-group-append">
@@ -56,7 +53,6 @@
 											  </div>
 											</div>
 										</div>
-										
 									</div>
 									<div class="row d-flex justify-content-between px-3 top">
 										<div class="panel panel-primary">
@@ -167,37 +163,15 @@
 				"packageStatus" : "RECEIVED",
 				"createDate" : "2020-07-07T16:43:05.000+0000"
 			} ];
-			//var myData;
 
-			function madeAjaxCall() {
 
-				/*$.ajax({
-				    type: "post",
-				    url: "http://localhost:8080/rest/shippingstatus",
-				    headers: {"X-CSRF-TOKEN": token},
-				    cache: false,    
-				    data:'trackingnumber=' + '773044700377098',//$("#trackingNumber").val(),
-				    success: function(response){
-				        //$('#result').html("");
-				        var obj = JSON.parse(JSON.stringify(response));
-				        myData = [{"id":1,"packageStatus":"NEW","createDate":"2020-07-07T18:09:16.000+0000"},{"id":301,"packageStatus":"RECEIVED","createDate":"2020-07-07T16:43:05.000+0000"}];
-				        $("#shipping_table").bootstrapTable('refresh');
-				        console.log(obj[0]);
-				        console.log(obj);
-				    },
-				    error: function(){      
-				        alert('Error while request..');
-				    }
-				});*/
-			}
-
+			
 			var tkn = {
 				headers : {
 					"X-CSRF-TOKEN" : token
 				}
 			};
 
-			var trackingNumber;
 			$(document).ready(function(){
 
 				$("#searchBtn").click(
@@ -210,12 +184,6 @@
 					{
 						idField : 'id',
 						ajaxOptions : tkn,
-						//url: 'http://localhost:8080/rest/shippingstatus',
-						//url : 'http://localhost:8080/rest/shipping/'
-							//	+ '773044700377098', // 1 record
-						//url : 'http://localhost:8080/rest/shipping/'
-							//	+ '4306661536782', // 2 records
-						//url : 'http://localhost:8080/rest/shipping/'+trackingNumber, 
 						url : 'http://localhost:8080/rest/shipping', 
 						//data: myData,
 						dataType : 'json',
@@ -301,6 +269,10 @@
     line-height: 34px;
     margin-left: 15px;
     margin-right: 5px;
+}
+
+.loading-text{
+    font-size: 16px !important;
 }
 </style>    
 
