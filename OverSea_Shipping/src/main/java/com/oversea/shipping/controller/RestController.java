@@ -46,9 +46,6 @@ public class RestController {
     @ResponseBody
     public List<ShipmentPackageStatus> getShippingList(@RequestParam("trackingnumber") String trackingNumber) {
         
-        //Shipment shipment = shipmentService.findByTrackingNumber(trackingNumber);
-        //List<ShipmentPackageStatus> packageStatusList= shipment.getPackageStatusList();
-        
         User user = userService.getCurrentUser();
 
         Collection<Role> roles = user.getRoles();

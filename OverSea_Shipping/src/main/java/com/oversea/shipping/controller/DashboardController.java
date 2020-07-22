@@ -21,25 +21,26 @@ public class DashboardController {
 	
 	@GetMapping()
 	public String loadupDashboard(Model theModel) {
-		List<String> roles = userService.getCurrentRole();
-
-		if(roles.contains(Role.ADMIN)) {
-			return "dashboard/dashboard";
-		}else {
-			return "dashboard/dashboard-welcome";
-		}
-		
+//		List<String> roles = userService.getCurrentRole();
+//
+//		if(roles.contains(Role.ADMIN)) {
+//			return "dashboard/dashboard";
+//		}else {
+//			return "dashboard/dashboard-welcome";
+//		}
+	    return "dashboard/dashboard";
 	}
 	
 	@PostMapping()
 	public String login(Model theModel) {
-		List<String> roles = userService.getCurrentRole();
-
-		if(roles.contains(Role.ADMIN)) {
-			return "dashboard/dashboard";
-		}else {
-			return "dashboard/dashboard-welcome";
-		}
+//		List<String> roles = userService.getCurrentRole();
+//
+//		if(roles.contains(Role.ADMIN)) {
+//			return "dashboard/dashboard";
+//		}else {
+//			return "dashboard/dashboard-welcome";
+//		}
+	    return "dashboard/dashboard";
 	}
 }
 

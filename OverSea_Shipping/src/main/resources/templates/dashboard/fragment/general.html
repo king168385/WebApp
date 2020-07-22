@@ -52,7 +52,7 @@
 					<div class="sidebar-brand-text mx-3">加嘉集运</div>
 				</a>
 
-				<div sec:authorize="hasRole('ADMIN')">
+				
 				<!-- Divider-->
 				<hr class="sidebar-divider my-0">
 
@@ -61,7 +61,7 @@
 					th:href="@{/dashboard}"> <i class="fas fa-fw fa-tachometer-alt"></i>
 						<span>控制面板</span></a></li>
 
-				
+				<div sec:authorize="hasRole('ADMIN')">
 					<!-- Divider -->
 					<hr class="sidebar-divider">
 
